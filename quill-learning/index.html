@@ -490,6 +490,18 @@ body.dark .profile-banner{background:transparent}
 body.dark .profile-large-avatar{border-color:rgba(24,28,34,.9)}
 body.dark .profile-close{background:rgba(255,255,255,.1);color:#f2f3f5}
 @media(max-width:560px){.profile-backdrop{padding:14px}.profile-card{max-height:calc(100vh - 28px);width:min(420px,100%)}}
+
+/* Full-screen settings workspace */
+.settings-wrap.settings-open .settings-panel{position:fixed!important;inset:0!important;right:auto!important;bottom:auto!important;width:100vw!important;height:100vh!important;height:100dvh!important;max-width:none!important;max-height:none!important;overflow-y:auto!important;overflow-x:hidden!important;border:0!important;border-radius:0!important;padding:clamp(22px,4vw,56px)!important;z-index:60;box-shadow:none!important}
+.settings-wrap.settings-open .settings-button{display:none}
+.settings-wrap.settings-open .settings-panel>*{width:min(860px,100%);margin-left:auto;margin-right:auto}
+.settings-wrap.settings-open .settings-heading{position:sticky;top:calc(-1 * clamp(22px,4vw,56px));z-index:3;background:var(--paper);padding:10px 0 18px;margin-bottom:10px}
+.settings-wrap.settings-open .settings-x{width:40px;height:40px;font-size:25px;flex-shrink:0}
+.banner-preview{width:100%;height:180px;margin:12px 0 18px;border:1px solid var(--line);border-radius:13px;background-color:rgba(128,145,132,.12);background-repeat:no-repeat;background-size:cover;background-position:center;display:grid;place-items:center;overflow:hidden;color:var(--muted);font-size:13px}
+.banner-preview.has-image{display:block}
+html.settings-open,body.settings-open{overflow:hidden!important;height:100%;overscroll-behavior:none}
+@media(max-width:560px){.settings-wrap.settings-open .settings-panel{padding:18px!important}.settings-wrap.settings-open .settings-heading{top:-18px}.banner-preview{height:145px}}
+
 </style>
 </head>
 <body>
@@ -525,7 +537,7 @@ body.dark .profile-close{background:rgba(255,255,255,.1);color:#f2f3f5}
       <div class="avatar-editor"><div class="profile large" id="avatarPreview">S</div><div><label class="upload-avatar" for="avatarUpload">Change profile picture</label><input id="avatarUpload" type="file" accept="image/*" hidden><p class="setting-hint">Choose an image from your device.</p></div></div>
     </section>
 
-<div class="setting-section"><h4>Profile details</h4><label class="setting-label" for="profileAboutInput">About me</label><textarea class="setting-input" id="profileAboutInput" maxlength="300" rows="3" placeholder="Tell people a little about yourself..."></textarea><label class="setting-label" for="profileStatusInput">Custom status</label><input class="setting-input" id="profileStatusInput" maxlength="60" placeholder="What are you up to?"><label class="setting-label" for="profileBannerUpload">Profile banner</label><label class="upload-avatar" for="profileBannerUpload">Choose banner image</label><input id="profileBannerUpload" type="file" accept="image/*" hidden><p class="setting-hint">Upload an image, then adjust its zoom and position.</p><label class="setting-label" for="bannerZoom">Banner zoom</label><input class="banner-adjust" id="bannerZoom" type="range" min="100" max="220" value="100"><label class="setting-label" for="bannerX">Horizontal position</label><input class="banner-adjust" id="bannerX" type="range" min="0" max="100" value="50"><label class="setting-label" for="bannerY">Vertical position</label><input class="banner-adjust" id="bannerY" type="range" min="0" max="100" value="50"></div>
+<div class="setting-section"><h4>Profile details</h4><label class="setting-label" for="profileAboutInput">About me</label><textarea class="setting-input" id="profileAboutInput" maxlength="300" rows="3" placeholder="Tell people a little about yourself..."></textarea><label class="setting-label" for="profileStatusInput">Custom status</label><input class="setting-input" id="profileStatusInput" maxlength="60" placeholder="What are you up to?"><label class="setting-label" for="profileBannerUpload">Profile banner</label><label class="upload-avatar" for="profileBannerUpload">Choose banner image</label><input id="profileBannerUpload" type="file" accept="image/*" hidden><p class="setting-hint">Upload an image, then adjust its zoom and position.</p><div class="banner-preview" id="bannerPreview">Your banner preview will appear here</div><label class="setting-label" for="bannerZoom">Banner zoom</label><input class="banner-adjust" id="bannerZoom" type="range" min="100" max="220" value="100"><label class="setting-label" for="bannerX">Horizontal position</label><input class="banner-adjust" id="bannerX" type="range" min="0" max="100" value="50"><label class="setting-label" for="bannerY">Vertical position</label><input class="banner-adjust" id="bannerY" type="range" min="0" max="100" value="50"></div>
     <section class="setting-section">
       <h4>Appearance</h4>
       <div class="setting-label">Theme</div>
@@ -571,10 +583,12 @@ function applyTheme(theme){
 }
 /* Initial theme application runs after palette initialization. */
 const settingsPanel=document.getElementById("settingsPanel"),settingsButton=document.getElementById("settingsButton");
-settingsButton.addEventListener("click",()=>{const open=settingsPanel.classList.toggle("open");settingsButton.setAttribute("aria-expanded",String(open));});
+const settingsWrap=document.querySelector(".settings-wrap");
+ function setSettingsOpen(open){settingsPanel.classList.toggle("open",open);settingsWrap.classList.toggle("settings-open",open);document.documentElement.classList.toggle("settings-open",open);document.body.classList.toggle("settings-open",open);settingsButton.setAttribute("aria-expanded",String(open));}
+ settingsButton.addEventListener("click",()=>setSettingsOpen(!settingsPanel.classList.contains("open")));
 document.getElementById("lightTheme").addEventListener("click",()=>{safeStorage.setItem(themeKey,"light");applyTheme("light");});
 document.getElementById("darkTheme").addEventListener("click",()=>{safeStorage.setItem(themeKey,"dark");applyTheme("dark");});
-document.addEventListener("click",e=>{if(!e.target.closest(".settings-wrap")){settingsPanel.classList.remove("open");settingsButton.setAttribute("aria-expanded","false");}});
+document.addEventListener("click",e=>{if(!e.target.closest(".settings-wrap")&&settingsPanel.classList.contains("open"))setSettingsOpen(false);});
 
 const profileKeys={name:"quill-account-name",avatar:"quill-account-avatar",color:"quill-accent",about:"quill-profile-about",status:"quill-profile-status",banner:"quill-profile-banner"};
 const palettes={
@@ -620,12 +634,19 @@ function renderProfile(){
  document.getElementById("profileModalName").textContent=name;document.getElementById("profileModalStatus").textContent=status||"No status set";document.getElementById("profileModalAbout").textContent=about||"This learner hasn't written an about me yet.";
  const node=document.getElementById("profileModalAvatar");node.innerHTML="";if(avatar){const img=document.createElement("img");img.src=avatar;img.alt="Profile picture";node.appendChild(img);}else node.textContent=(name[0]||"L").toUpperCase();
  document.getElementById("profileBanner").style.backgroundImage=banner?'url("'+banner+'")':"";
+  const preview=document.getElementById("bannerPreview");
+  const previewImage=banner ? 'url("' + banner + '")' : "none";
+  preview.style.backgroundImage=previewImage;
+  preview.style.backgroundSize=(safeStorage.getItem("quill-banner-zoom")||"100")+"% auto";
+  preview.style.backgroundPosition=(safeStorage.getItem("quill-banner-x")||"50")+"% "+(safeStorage.getItem("quill-banner-y")||"50")+"%";
+  preview.classList.toggle("has-image",!!banner);
+  preview.textContent=banner ? "" : "Your banner preview will appear here";
  const bannerNode=document.getElementById("profileBanner");bannerNode.style.backgroundSize=(safeStorage.getItem("quill-banner-zoom")||"100")+"% auto";bannerNode.style.backgroundPosition=(safeStorage.getItem("quill-banner-x")||"50")+"% "+(safeStorage.getItem("quill-banner-y")||"50")+"%";
 }
 function openProfile(){renderProfile();document.getElementById("profileModal").classList.add("open");document.documentElement.classList.add("profile-open");document.body.classList.add("profile-open");document.getElementById("profileAvatar").setAttribute("aria-expanded","true");}
 function closeProfile(){document.getElementById("profileModal").classList.remove("open");document.documentElement.classList.remove("profile-open");document.body.classList.remove("profile-open");document.getElementById("profileAvatar").setAttribute("aria-expanded","false");}
 document.getElementById("profileAvatar").addEventListener("click",openProfile);document.getElementById("profileModalClose").addEventListener("click",closeProfile);document.getElementById("profileModal").addEventListener("click",e=>{if(e.target.id==="profileModal")closeProfile();});
-document.getElementById("editProfileButton").addEventListener("click",()=>{closeProfile();settingsPanel.classList.add("open");settingsButton.setAttribute("aria-expanded","true");document.getElementById("accountName").focus();});
+document.getElementById("editProfileButton").addEventListener("click",()=>{closeProfile();setSettingsOpen(true);document.getElementById("accountName").focus();});
 function setAvatar(data){
  const nodes=[document.getElementById("profileAvatar"),document.getElementById("avatarPreview")];
  nodes.forEach(node=>{node.innerHTML="";if(data){const img=document.createElement("img");img.src=data;img.alt="Profile picture";node.appendChild(img);}else{node.textContent=(document.getElementById("accountName").value.trim()[0]||"L").toUpperCase();}});
@@ -661,7 +682,7 @@ document.querySelectorAll(".color-swatch").forEach(button=>button.addEventListen
  const color=palettes[button.dataset.color].deep;safeStorage.setItem(profileKeys.color,color);applyAccent(color);
 }));
 document.getElementById("customAccent").addEventListener("input",e=>{safeStorage.setItem(profileKeys.color,e.target.value);applyAccent(e.target.value);});
-document.getElementById("settingsClose").addEventListener("click",()=>{settingsPanel.classList.remove("open");settingsButton.setAttribute("aria-expanded","false");});
+document.getElementById("settingsClose").addEventListener("click",()=>setSettingsOpen(false));
 document.getElementById("resetSettings").addEventListener("click",()=>{
  safeStorage.removeItem(profileKeys.name);safeStorage.removeItem(profileKeys.avatar);safeStorage.removeItem(profileKeys.color);safeStorage.removeItem(profileKeys.about);safeStorage.removeItem(profileKeys.status);safeStorage.removeItem(profileKeys.banner);
  document.getElementById("accountName").value="Learner";document.getElementById("accountDisplayName").textContent="Learner";
