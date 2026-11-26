@@ -857,17 +857,8 @@ body.dark #lessons .card .level{
 }
 
 
-/* High-contrast reading mode: white text throughout the entire site. */
+/* High-contrast reading mode: keep text white without overriding saved palettes. */
 body{
- --bg:#121714!important;
- --paper:#202923!important;
- --ink:#ffffff!important;
- --muted:#ffffff!important;
- --line:#46534a!important;
- --sage:#293c31!important;
- --blue:#263943!important;
- --lav:#393044!important;
- --sand:#3d3528!important;
  color:#fff!important;
  background:var(--bg)!important;
 }
@@ -878,17 +869,19 @@ body .modal,body .settings-panel,body .answer,body .example,
 body .quiz,body .progress-panel,body .empty,body .grade-section,
 body .category-panel,body .lesson-body,body .profile-card,
 body .settings-button,body .theme-choice{
- background-color:#202923!important;
+ background-color:var(--paper)!important;
 }
-body .topbar{background:rgba(25,33,28,.96)!important}
+body .topbar{background:color-mix(in srgb,var(--paper) 92%,var(--bg))!important}
 body .card,body .modal,body .settings-panel,body .grade-section,
-body .category-panel{border-color:#46534a!important}
-body input,body textarea,body select{background:#202923!important;color:#fff!important}
+body .category-panel{border-color:var(--line)!important}
+body input,body textarea,body select{background:var(--paper)!important;color:#fff!important}
 body input::placeholder,body textarea::placeholder{color:#d0d8d2!important;opacity:1!important}
-body .hero-art{background:linear-gradient(135deg,#263b30,#293943 58%,#393044)!important}
+body .hero-art{background:linear-gradient(135deg,var(--accent-soft),var(--accent-tint),var(--paper))!important}
 body .hero-art:before{opacity:.9}
 body .open,body .primary,body .hero-cta,body button.active{
  color:#fff!important;
+ background:var(--accent)!important;
+ border-color:var(--accent)!important;
 }
 
 </style>
