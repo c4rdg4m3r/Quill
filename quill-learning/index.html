@@ -286,7 +286,7 @@ body.dark .answer.correct,body.dark .test-option.selected{background:var(--accen
   <section id="learn" class="learning-library">
     <div class="section-head"><div><div class="eyebrow">LEARNING LIBRARY</div><h2>Find something to learn</h2><p>Choose a subject, narrow your grade, or search for a topic.</p></div></div>
     <div class="lesson-controls">
-      <div class="filters" aria-label="Choose a subject"><button class="pill active" data-subject="Math">Mathematics</button><button class="pill" data-subject="Science">Science</button></div>
+      <div class="filters" aria-label="Choose a subject"><button class="pill active" data-subject="all">All subjects</button><button class="pill" data-subject="Math">Mathematics</button><button class="pill" data-subject="Science">Science</button></div>
       <div class="toolbar"><div class="grade-filter"><label for="grade">SELECT A GRADE</label><select class="select" id="grade" aria-label="Select the grade you want to view"><option value="all">All grades</option><option value="1">1st Grade</option><option value="2">2nd Grade</option><option value="3">3rd Grade</option><option value="4">4th Grade</option><option value="5">5th Grade</option><option value="6">6th Grade</option><option value="7">7th Grade</option><option value="8">8th Grade</option><option value="9">9th Grade</option><option value="10">10th Grade</option><option value="11">11th Grade</option><option value="12">12th Grade</option></select></div><input class="search" id="search" placeholder="Search lessons..." aria-label="Search lessons"></div>
     </div>
     <div class="grid" id="lessons"></div>
@@ -690,7 +690,7 @@ const lessons = [
  {id:258,title:"Evolutionary mechanisms",subject:"Science",grade:"12",level:"12th Grade",time:"8 min",desc:"Compare mutation, gene flow, genetic drift, and natural selection.",body:"<p><strong>Evolutionary mechanisms</strong>: Compare mutation, gene flow, genetic drift, and natural selection.</p><h3>Key idea</h3><p>Compare mutation, gene flow, genetic drift, and natural selection. Look for the important terms, notice how the parts connect, and use a clear example to check your understanding.</p><div class=\"example\"><strong>Example:</strong> Genetic drift changes allele frequencies through chance, especially in small populations.</div><h3>Check your understanding</h3><p>Explain the main idea in your own words. Then create a new example or apply the idea to a different situation.</p>"}
 
 ];
-let subject="Math",active=null,testAnswers={};
+let subject="all",active=null,testAnswers={};
 function generatedTest(lesson){const topic=lesson.title;return [[`What is the best first step when learning about ${topic}?`,[`Identify its key ideas and terms`,"Skip examples and memorize random facts","Ignore how the ideas connect"],0],[`Which approach best checks your understanding of ${topic}?`,["Repeat the title without explaining it","Explain the idea in your own words and use an example","Avoid trying a new example"],1],[`If a part of ${topic} is confusing, what should you do?`,["Give up on the whole topic","Choose an answer at random","Review the key idea and work through another example"],2]];}
 
 const $=s=>document.querySelector(s);
@@ -698,7 +698,7 @@ let savedDone=[];try{const parsedDone=JSON.parse(safeStorage.getItem("stillroom-
 function render(){
  const grade=$("#grade").value,term=$("#search").value.toLowerCase();
  const grades=Array.from({length:12},(_,i)=>{const n=String(i+1),suffix=n==="1"?"st":n==="2"?"nd":n==="3"?"rd":"th";return [n,`${n}${suffix} Grade`,`Grade ${n}`]});
- const matching=lessons.filter(l=>l.subject===subject&&(grade==="all"||l.grade===grade)&&(`${l.title} ${l.desc} ${l.subject} ${l.level}`).toLowerCase().includes(term));
+ const matching=lessons.filter(l=>(subject==="all"||l.subject===subject)&&(grade==="all"||l.grade===grade)&&(`${l.title} ${l.desc} ${l.subject} ${l.level}`).toLowerCase().includes(term));
  const card=l=>`<article class="card">${done.has(l.id)?'<span class="card-complete" aria-label="Completed" title="Completed">✓</span>':""}<div class="card-top"><div class="subject-icon ${l.subject.toLowerCase()}">${l.subject==="Math"?"∑":"☘"}</div><span class="level">${l.level}</span></div><h3>${l.title}</h3><p>${l.desc}</p><div class="card-foot"><span>${l.subject} · ${l.time}</span><button class="open" data-id="${l.id}">${done.has(l.id)?"Review":"Start lesson"} →</button></div></article>`;
  const sections=grades.map(([key,label,range])=>{const items=matching.filter(l=>l.grade===key);return items.length?`<section class="grade-section"><div class="grade-section-head"><div><h3>${label}</h3><p>${range}</p></div><span class="grade-total">${items.length} lessons</span></div><div class="grid">${items.map(card).join("")}</div></section>`:""}).join("");
  $("#lessons").innerHTML=sections||`<div class="empty">No lessons match those filters. Try another grade or search term.</div>`;
