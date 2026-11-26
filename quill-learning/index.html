@@ -525,6 +525,35 @@ body.dark #profileModal .profile-card{
   border-color:transparent!important;
   box-shadow:none!important;
 }
+
+/* Final full-screen settings alignment and edge coverage */
+html,body{min-height:100%;margin:0}
+.settings-wrap.settings-open .settings-panel{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  min-width:100vw!important;
+  height:100vh!important;
+  height:100dvh!important;
+  min-height:100vh!important;
+  max-height:none!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+  overflow-x:hidden!important;
+  background:var(--paper)!important;
+  border:0!important;
+  border-radius:0!important;
+}
+.settings-wrap.settings-open .reset-settings{
+  display:block!important;
+  width:min(320px,100%)!important;
+  margin:24px auto 0!important;
+  text-align:center!important;
+}
+.settings-wrap.settings-open .settings-footnote{
+  width:100%!important;
+  text-align:center!important;
+}
 </style>
 </head>
 <body>
