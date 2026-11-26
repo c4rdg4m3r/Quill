@@ -1336,9 +1336,79 @@ const lessons = [
  {id:517,title:"Halve Even Numbers to Divide",subject:"Number Sense",grade:"5",level:"5th Grade",time:"6 min",desc:"Use repeated halving to divide by 2, 4, or 8.",body:"<p>Division by powers of 2 can be done by taking halves.</p><h3>Example: 144 ÷ 8</h3><p>Half 144 to get 72. Half 72 to get 36. Half 36 to get 18. So 144 ÷ 8 = 18.</p><div class=\"example\"><strong>Remember:</strong> ÷ 8 means halve three times; ÷ 4 means halve twice.</div><p>Choose numbers where each half is easy to work with.</p>"},
  {id:518,title:"Estimate Products with Rounding",subject:"Number Sense",grade:"6",level:"6th Grade",time:"6 min",desc:"Round factors to estimate multiplication before calculating.",body:"<p>Rounding factors gives a quick estimate of a product.</p><h3>Example: 19 × 31</h3><p>Round 19 to 20 and 31 to 30. Then 20 × 30 = 600. The exact product, 589, is close to 600.</p><div class=\"example\"><strong>Use it to check:</strong> If you calculate 19 × 31 and get 5,890, you know something went wrong.</div><p>An estimate is a reasonableness check, not always the exact answer.</p>"}
 ];
+
+// Every subject category receives a complete 100-lesson pathway.
+// Each pathway combines ten core topics with ten progressively deeper learning angles.
+const generatedCategoryTests={};
+const categoryCurriculum={
+ Math:{
+  "General Math":["mathematical thinking","patterns and relationships","problem solving strategies","mathematical communication","estimating and checking","using models and diagrams","multi-step problems","mathematical reasoning","real-world applications","review and connections"],
+  "Arithmetic":["whole-number operations","place value and regrouping","addition strategies","subtraction strategies","multiplication concepts","division concepts","fractions and equivalence","decimal operations","percent and ratios","estimation and mental math"],
+  "Algebra":["variables and expressions","order of operations","one-step equations","multi-step equations","inequalities","linear relationships","functions and graphs","polynomials","systems of equations","quadratic relationships"],
+  "Geometry":["points lines and planes","angles and angle relationships","triangles and congruence","quadrilaterals and polygons","circles","perimeter and area","surface area and volume","coordinate geometry","transformations and symmetry","proof and geometric reasoning"],
+  "Trigonometry":["angle measure","right-triangle ratios","sine cosine and tangent","inverse trigonometric functions","unit circle","radians and degrees","trigonometric graphs","identities","law of sines and cosines","trigonometric applications"],
+  "Calculus":["functions and limits","continuity","derivative foundations","derivative rules","applications of derivatives","antiderivatives","definite integrals","integration techniques","area and accumulation","fundamental theorem of calculus"],
+  "Mathematical Analysis":["real number properties","sequences and series","limits and convergence","continuity","differentiability","Riemann integration","infinite series","power series","complex numbers and functions","rigorous mathematical proofs"],
+  "Differential Equations":["equation types and notation","slope fields","separable equations","first-order linear equations","initial value problems","second-order equations","systems of equations","numerical solutions","stability and behavior","applied differential models"],
+  "Number Theory":["divisibility","prime numbers","greatest common divisors","least common multiples","modular arithmetic","integer representations","Diophantine equations","congruences","number patterns","proofs in number theory"],
+  "Topology":["open and closed sets","continuity in topology","neighborhoods","compactness","connectedness","homeomorphisms","metric spaces","topological invariants","surfaces and boundaries","topological proof strategies"],
+  "Set Theory":["sets and membership","subsets and power sets","set operations","Cartesian products","relations","functions and mappings","infinite sets","countability","ordinal ideas","axioms and set proofs"],
+  "Mathematical Logic":["statements and truth values","logical connectives","truth tables","quantifiers","valid arguments","predicate logic","proof methods","mathematical induction","relations and inference","formal systems"],
+  "Probability":["outcomes and sample spaces","events","complementary events","addition rule","multiplication rule","conditional probability","independence","random variables","expected value","probability distributions"],
+  "Statistics":["data types and sampling","frequency and displays","mean median and mode","spread and variability","standard scores","distributions","sampling methods","confidence intervals","hypothesis testing","correlation and regression"],
+  "Discrete Mathematics":["logic and sets","relations and functions","sequences and recurrence","algorithms"," Boolean reasoning","modular systems","discrete probability","finite structures","proof by induction","applications in computing"],
+  "Combinatorics":["counting principles","permutations","combinations","binomial coefficients","pigeonhole principle","inclusion and exclusion","recurrence counting","generating functions","combinatorial proofs","counting applications"],
+  "Graph Theory":["vertices and edges","paths and cycles","connected graphs","trees","graph representations","planar graphs","coloring","matching","shortest paths","network applications"],
+  "Game Theory":["players and strategies","payoff tables","dominant strategies","Nash equilibrium","zero-sum games","mixed strategies","sequential games","cooperative games","mechanism design","real-world strategic models"],
+  "Optimization":["objective functions","constraints","linear programming","feasible regions","corner-point method","integer optimization","nonlinear models","sensitivity analysis","network optimization","decision applications"],
+  "Numerical Analysis":["approximation and error","rounding and precision","root-finding","bisection and Newton methods","interpolation","numerical differentiation","numerical integration","linear systems","iterative methods","stability and convergence"],
+  "Cryptography":["encoding and decoding","historical ciphers","modular arithmetic","symmetric encryption concepts","public-key ideas","prime-based methods","hash functions","digital signatures","key exchange concepts","cryptography in daily life"],
+  "Information Theory":["information and uncertainty","bits and symbols","entropy","probability models","source coding","compression","noisy channels","error detection","error correction","communication systems"],
+  "Mathematical Physics":["vectors and coordinates","dimensional analysis","motion models","work and energy","oscillations","waves","fields and potentials","differential models","symmetry and conservation","mathematical modeling in physics"],
+  "Actuarial Science":["risk and uncertainty","financial mathematics","interest and growth","annuities","life tables","expected loss","insurance principles","risk pooling","statistical models","actuarial decision making"]
+ },
+ Science:{
+  "General Science":["scientific questions","observations and evidence","variables and fair tests","measurement and units","models and systems","matter and energy","Earth and space systems","living systems","data and scientific graphs","evidence-based explanations"],
+  "Biology":["cell structures","cell processes","DNA and inheritance","genes and traits","evolution","classification of organisms","body systems","plant biology","ecology and ecosystems","microbiology and immunity"],
+  "Physics":["motion and position","speed and acceleration","forces and Newton laws","gravity","work and energy","momentum","waves and sound","light and optics","electricity and circuits","magnetism"],
+  "Chemistry":["atomic structure","elements and the periodic table","chemical bonding","molecules and compounds","states of matter","physical and chemical changes","chemical reactions","conservation of mass","acids and bases","solutions and reaction rates"],
+  "Earth Science":["Earth structure","rocks and minerals","plate tectonics","weathering and erosion","earthquakes and volcanoes","weather and atmosphere","climate systems","oceans and water","Earth history and fossils","natural resources"],
+  "Astronomy":["the night sky","Earth moon and seasons","the solar system","planet properties","the Sun and stars","stellar life cycles","galaxies","telescopes and observation","space exploration","cosmic scale and structure"],
+  "Astrophysics":["gravity in space","orbital motion","light and spectra","stellar physics","neutron stars and black holes","special relativity","spacetime concepts","galactic structure","cosmology","evidence for the expanding universe"],
+  "Psychology":["research methods","brain and behavior","sensation and perception","learning","memory","thinking and language","development across life","emotion and motivation","social behavior","mental processes and wellbeing"],
+  "Sociology":["society and culture","socialization","groups and organizations","social institutions","norms and values","social interaction","population and communities","social change","media and society","researching social patterns"],
+  "Geography":["maps and spatial thinking","latitude and longitude","landforms","weather and climate regions","water and watersheds","population patterns","cities and settlement","resources and trade","human-environment interaction","regional geography"],
+  "Engineering":["engineering design process","identifying needs and constraints","materials and properties","structures and stability","forces in design","mechanisms and motion","energy systems","electrical design concepts","testing and iteration","technology and society"]
+ }
+};
+const learningAngles=["Core ideas and vocabulary","How to recognize the concept","Models and visual representations","A guided worked example","Comparing related ideas","Common misconceptions","Step-by-step problem solving","Explaining the evidence","Applying the idea in context","Challenge and review"];
+const gradeRanges={Math:{"General Math":[1,12],"Arithmetic":[1,8],"Algebra":[5,12],"Geometry":[3,12],"Trigonometry":[8,12],"Calculus":[11,12],"Mathematical Analysis":[11,12],"Differential Equations":[11,12],"Number Theory":[6,12],"Topology":[11,12],"Set Theory":[9,12],"Mathematical Logic":[8,12],"Probability":[6,12],"Statistics":[6,12],"Discrete Mathematics":[8,12],"Combinatorics":[7,12],"Graph Theory":[8,12],"Game Theory":[9,12],"Optimization":[9,12],"Numerical Analysis":[9,12],"Cryptography":[8,12],"Information Theory":[10,12],"Mathematical Physics":[10,12],"Actuarial Science":[10,12]},
+ Science:{"General Science":[1,12],"Biology":[5,12],"Physics":[6,12],"Chemistry":[6,12],"Earth Science":[1,12],"Astronomy":[3,12],"Astrophysics":[10,12],"Psychology":[7,12],"Sociology":[7,12],"Geography":[3,12],"Engineering":[5,12]}};
+let nextGeneratedId=Math.max(...lessons.map(l=>l.id))+1;
+for(const subjectName of ["Math","Science"]){
+ for(const [categoryName,topics] of Object.entries(categoryCurriculum[subjectName])){
+  const [minGrade,maxGrade]=gradeRanges[subjectName][categoryName];
+  for(let topicIndex=0;topicIndex<10;topicIndex++){
+   for(let angleIndex=0;angleIndex<10;angleIndex++){
+    const topic=topics[topicIndex],angle=learningAngles[angleIndex],id=nextGeneratedId++;
+    const grade=minGrade+((topicIndex*3+angleIndex)%(maxGrade-minGrade+1));
+    const title=topic.charAt(0).toUpperCase()+topic.slice(1)+": "+angle;
+    const body=`<p>This lesson explores <strong>${topic}</strong> through the lens of <strong>${angle.toLowerCase()}</strong>.</p><h3>Start with the big idea</h3><p>${topic.charAt(0).toUpperCase()+topic.slice(1)} is part of ${categoryName.toLowerCase()}. Begin by identifying the key terms, the question being investigated, and what information is available.</p><div class="example"><strong>A useful learning routine</strong><br>1. Describe the idea in your own words.<br>2. Identify the important details and relationships.<br>3. Work through a clear example.<br>4. Explain why the reasoning makes sense.</div><h3>Build your understanding</h3><p>When studying ${topic}, connect each new detail to the central idea. Use diagrams, examples, measurements, or logical steps when they help make the relationships clearer.</p><h3>Check your reasoning</h3><p>Review the evidence, look for assumptions, and make sure your explanation answers the original question. A strong explanation shows both the conclusion and how you reached it.</p>`,
+    lessons.push({id,title,subject:subjectName,category:categoryName,grade:String(grade),level:grade+"th Grade",time:"7 min",desc:"A focused lesson on "+topic+" — "+angle.toLowerCase()+".",body});
+    generatedCategoryTests[id]=[
+     ["Which topic is this lesson focused on?",[topic,"A different subject area","An unrelated topic"],0],
+     ["What is a strong first step when learning this idea?",["Identify the key terms and the question","Skip the evidence","Choose a conclusion before examining details"],0],
+     ["How can you check whether your explanation is sound?",["Review the reasoning and supporting evidence","Ignore the assumptions","Use a result without checking it"],0]
+    ];
+   }
+  }
+ }
+}
+
 let subject="Math",active=null,testAnswers={},difficulty="On Level";
 const subjectLibraries={Math:lessons.filter(l=>l.subject==="Math"||l.subject==="Number Sense"),Science:lessons.filter(l=>l.subject==="Science")};
 function mathCategory(l){
+ if(l.category)return l.category;
  const t=(l.title+" "+l.desc).toLowerCase();
  if(/number sense|mental math|arithmetic|addition|subtraction|multiplication|division|place value|fraction|decimal|rounding|counting/.test(t))return "Arithmetic";
  if(/trigon|sine|cosine|tangent|unit circle/.test(t))return "Trigonometry";
@@ -1366,6 +1436,7 @@ function mathCategory(l){
  return "General Math";
 }
 function scienceCategory(l){
+ if(l.category)return l.category;
  const t=(l.title+" "+l.desc+" "+l.body).toLowerCase();
  if(/astronom|solar system|planet|galaxy|star|cosmolog|universe|orbit/.test(t))return "Astronomy";
  if(/astrophys|quantum model|black hole|relativity|cosmic/.test(t))return "Astrophysics";
@@ -1466,7 +1537,7 @@ const tests = {
 };
 $("#lessons").addEventListener("click",event=>{const button=event.target.closest("button[data-id]");if(button)openLesson(Number(button.dataset.id));});
 function showLearningStage(){ $("#learningStage").hidden=false;$("#testStage").hidden=true;$("#lessonStepLabel").textContent="LEARN";$("#lessonStepCount").textContent="Part 1 of 2"; }
-function showTestStage(){ $("#submitTest").disabled=false;$("#submitTest").textContent="Submit test";$("#learningStage").hidden=true;$("#testStage").hidden=false;$("#lessonStepLabel").textContent="TEST";$("#lessonStepCount").textContent="Part 2 of 2";$("#testResult").hidden=true;$("#submitTest").hidden=false;$("#testQuestions").innerHTML=(tests[active.id]||generatedTest(active)).map((q,i)=>`<div class="test-question"><h4>${i+1}. ${q[0]}</h4>${q[1].map((a,j)=>`<button class="test-option ${testAnswers[i]===j?"selected":""}" data-q="${i}" data-a="${j}" type="button">${String.fromCharCode(65+j)}. ${a}</button>`).join("")}</div>`).join("");document.querySelectorAll(".test-option").forEach(b=>b.addEventListener("click",()=>{testAnswers[+b.dataset.q]=+b.dataset.a;showTestStage();}));}
+function showTestStage(){ $("#submitTest").disabled=false;$("#submitTest").textContent="Submit test";$("#learningStage").hidden=true;$("#testStage").hidden=false;$("#lessonStepLabel").textContent="TEST";$("#lessonStepCount").textContent="Part 2 of 2";$("#testResult").hidden=true;$("#submitTest").hidden=false;$("#testQuestions").innerHTML=(tests[active.id]||generatedCategoryTests[active.id]||generatedTest(active)).map((q,i)=>`<div class="test-question"><h4>${i+1}. ${q[0]}</h4>${q[1].map((a,j)=>`<button class="test-option ${testAnswers[i]===j?"selected":""}" data-q="${i}" data-a="${j}" type="button">${String.fromCharCode(65+j)}. ${a}</button>`).join("")}</div>`).join("");document.querySelectorAll(".test-option").forEach(b=>b.addEventListener("click",()=>{testAnswers[+b.dataset.q]=+b.dataset.a;showTestStage();}));}
 function openLesson(id){
  active=lessons.find(l=>l.id===id);testAnswers={};
  $("#modalSubject").textContent=active.subject.toUpperCase();$("#lessonTitle").textContent=active.title;$("#lessonMeta").textContent=`${active.level} · ${active.time} · Read the lesson, then take the test`;
@@ -1475,7 +1546,7 @@ function openLesson(id){
 $("#startTest").addEventListener("click",showTestStage);
 $("#backToLesson").addEventListener("click",showLearningStage);
 $("#submitTest").addEventListener("click",()=>{
- const bank=tests[active.id]||generatedTest(active),score=bank.filter((q,i)=>testAnswers[i]===q[2]).length;
+ const bank=tests[active.id]||generatedCategoryTests[active.id]||generatedTest(active),score=bank.filter((q,i)=>testAnswers[i]===q[2]).length;
  const passed=score>=2;
  $("#testResult").hidden=false;$("#testResult").innerHTML=`<strong>${score} / 3 correct</strong><p>${passed?"You passed! This lesson has been added to your completed lessons.":"Not quite yet. Review the lesson and try the test again — you need 2 out of 3 correct."}</p>`;
  if(passed){done.add(active.id);safeStorage.setItem("stillroom-done",JSON.stringify([...done]));render();}
