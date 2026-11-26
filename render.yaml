@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: quill
+    runtime: static
+    buildCommand: unzip -o quill-learning-website.zip -d .
+    staticPublishPath: ./quill-learning
