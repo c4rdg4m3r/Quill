@@ -573,6 +573,15 @@ body.dark .library-sidebar,body.dark .difficulty-switch{background:var(--paper)}
 @media(max-width:900px){.library-layout{grid-template-columns:230px minmax(0,1fr);gap:16px}.library-sidebar{padding:15px}.lesson-results .grade-section .grid{grid-template-columns:1fr}.library-top{align-items:flex-start;flex-direction:column}.difficulty-switch{width:100%}.difficulty-button{flex:1}}
 @media(max-width:650px){.library-layout{grid-template-columns:1fr}.library-sidebar{position:static}.lesson-results .grade-section .grid{grid-template-columns:1fr}.results-heading{align-items:flex-start;flex-direction:column}.difficulty-switch{overflow:auto}.difficulty-button{padding:10px 9px}.library-top h2{font-size:23px}}
 
+/* Keep the learning workspace full-width so its navigation sits at the far left of the screen. */
+.learning-library{width:100vw;margin-left:calc(50% - 50vw);padding:0 clamp(18px,3.2vw,52px);margin-top:10px;}
+.library-top{max-width:100%;}
+.library-layout{width:100%;grid-template-columns:260px minmax(0,1fr);gap:28px;}
+.library-sidebar{position:sticky;top:92px;align-self:start;max-height:calc(100vh - 112px);overflow-y:auto;overscroll-behavior:contain;}
+.lesson-results{min-width:0;width:100%;}
+.category-list{max-height:none;overflow:visible;padding:0;}
+@media(max-width:900px){.library-layout{grid-template-columns:235px minmax(0,1fr);gap:18px;}}
+@media(max-width:650px){.learning-library{width:100%;margin-left:0;padding:0;}.library-layout{grid-template-columns:1fr;}.library-sidebar{position:static;max-height:none;overflow:visible;}.category-list{max-height:300px;overflow-y:auto;}}
 </style>
 </head>
 <body>
@@ -1475,7 +1484,7 @@ $("#close").addEventListener("click",close);
 $("#modal").addEventListener("click",e=>{if(e.target.id==="modal")close()});
 
 $("#grade").addEventListener("change",render);$("#search").addEventListener("input",render);
-$("#subjectFilters").addEventListener("click",event=>{const button=event.target.closest("button[data-subject]");if(!button)return;subject=["Math","Science","Number Sense"].includes(button.dataset.subject)?button.dataset.subject:"Math";$("#subjectFilters").querySelectorAll("button[data-subject]").forEach(item=>{const selected=item.dataset.subject===subject;item.classList.toggle("active",selected);item.setAttribute("aria-pressed",String(selected));});render();});
+// Subject selection is handled by the dedicated left sidebar buttons.
 $("#sidebarMath").addEventListener("click",()=>{subject="Math";$("#mathCategoryPanel").hidden=false;$("#scienceCategoryPanel").hidden=true;$("#sidebarMath").classList.add("active");$("#sidebarScience").classList.remove("active");render();});
 $("#sidebarScience").addEventListener("click",()=>{subject="Science";$("#mathCategoryPanel").hidden=true;$("#scienceCategoryPanel").hidden=false;$("#sidebarScience").classList.add("active");$("#sidebarMath").classList.remove("active");render();});
 function buildCategoryList(selectId,listId){
