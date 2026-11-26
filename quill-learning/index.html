@@ -262,6 +262,14 @@ body.dark .answer.correct,body.dark .test-option.selected{background:var(--accen
 .card{position:relative}.card-complete{position:absolute;top:14px;right:14px;width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:var(--sage);color:var(--deep);font-size:15px;font-weight:900}.card-foot{display:flex;gap:8px;align-items:center}
 
 #lessons{display:flex!important;flex-direction:column!important;align-items:stretch;width:100%;min-width:0;gap:0}.grade-section{display:block;width:100%;min-width:0;margin:26px 0 38px}.grade-section .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:16px}.grade-section .card{min-width:0;min-height:220px}.grade-section-head{display:flex;align-items:center;justify-content:space-between;margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid var(--line)}.grade-section-head h3{font:700 21px Manrope;margin:0 0 4px;color:var(--ink)}.grade-section-head p{margin:0;color:var(--muted);font-size:13px}.grade-total{font-size:12px;color:var(--muted);background:var(--paper);border:1px solid var(--line);border-radius:99px;padding:7px 11px}
+
+/* Make the grade picker unmistakable and easy to find. */
+.lesson-controls .toolbar{display:flex;align-items:end;gap:12px;margin-left:auto}
+.grade-filter{display:flex;flex-direction:column;gap:6px;min-width:170px}
+.grade-filter label{font-size:10px;font-weight:800;letter-spacing:1.2px;color:var(--green)}
+.grade-filter .select{width:100%;min-height:44px;font-weight:700;border:1.5px solid var(--green);background:var(--paper);box-shadow:0 2px 8px rgba(40,70,50,.07)}
+.grade-filter .select:focus{outline:2px solid var(--green);outline-offset:2px}
+@media(max-width:560px){.lesson-controls .toolbar{display:grid;grid-template-columns:minmax(135px,.8fr) minmax(120px,1fr);align-items:end}.grade-filter{min-width:0}.grade-filter .select{min-width:0}}
 </style>
 </head>
 <body>
@@ -279,7 +287,7 @@ body.dark .answer.correct,body.dark .test-option.selected{background:var(--accen
     <div class="section-head"><div><div class="eyebrow">LEARNING LIBRARY</div><h2>Find something to learn</h2><p>Choose a subject, narrow your grade, or search for a topic.</p></div></div>
     <div class="lesson-controls">
       <div class="filters" aria-label="Choose a subject"><button class="pill active" data-subject="Math">Mathematics</button><button class="pill" data-subject="Science">Science</button></div>
-      <div class="toolbar"><select class="select" id="grade" aria-label="Filter by grade"><option value="all">All grades</option><option value="1">1st Grade</option><option value="2">2nd Grade</option><option value="3">3rd Grade</option><option value="4">4th Grade</option><option value="5">5th Grade</option><option value="6">6th Grade</option><option value="7">7th Grade</option><option value="8">8th Grade</option><option value="9">9th Grade</option><option value="10">10th Grade</option><option value="11">11th Grade</option><option value="12">12th Grade</option></select><input class="search" id="search" placeholder="Search lessons..." aria-label="Search lessons"></div>
+      <div class="toolbar"><div class="grade-filter"><label for="grade">SELECT A GRADE</label><select class="select" id="grade" aria-label="Select the grade you want to view"><option value="all">All grades</option><option value="1">1st Grade</option><option value="2">2nd Grade</option><option value="3">3rd Grade</option><option value="4">4th Grade</option><option value="5">5th Grade</option><option value="6">6th Grade</option><option value="7">7th Grade</option><option value="8">8th Grade</option><option value="9">9th Grade</option><option value="10">10th Grade</option><option value="11">11th Grade</option><option value="12">12th Grade</option></select></div><input class="search" id="search" placeholder="Search lessons..." aria-label="Search lessons"></div>
     </div>
     <div class="grid" id="lessons"></div>
   </section>
