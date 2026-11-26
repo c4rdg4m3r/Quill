@@ -635,6 +635,16 @@ body.dark .home-overview{background:var(--paper)}body.dark .home-subject-card,bo
  .grade-section .grid,#lessons>.grid{grid-template-columns:minmax(0,1fr);justify-items:center;}
  .grade-section .card,#lessons>.grid>.card{width:100%;max-width:390px;}
 }
+
+/* Give lesson cards more horizontal room while keeping the grid responsive. */
+@media(min-width:651px){
+ .lesson-results{max-width:1500px!important;}
+ .grade-section .grid,#lessons>.grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))!important;}
+ .grade-section .card,#lessons>.grid>.card{max-width:640px!important;width:100%!important;}
+}
+@media(max-width:650px){
+ .grade-section .card,#lessons>.grid>.card{max-width:none!important;width:100%!important;}
+}
 </style>
 </head>
 <body>
