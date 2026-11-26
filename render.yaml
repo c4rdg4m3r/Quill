@@ -2,5 +2,5 @@ services:
   - type: web
     name: quill
     runtime: static
-    buildCommand: unzip -o quill-learning-website.zip -d .
+    buildCommand: echo "Quill static files are ready"
     staticPublishPath: ./quill-learning
