@@ -247,7 +247,7 @@ function applyTheme(theme){
  document.getElementById("lightCheck").textContent=theme!=="dark"?"✓":"";
  document.getElementById("darkCheck").textContent=theme==="dark"?"✓":"";
 }
-applyTheme(safeStorage.getItem(themeKey)||"light");
+/* Initial theme application runs after palette initialization. */
 const settingsPanel=document.getElementById("settingsPanel"),settingsButton=document.getElementById("settingsButton");
 settingsButton.addEventListener("click",()=>{const open=settingsPanel.classList.toggle("open");settingsButton.setAttribute("aria-expanded",String(open));});
 document.getElementById("lightTheme").addEventListener("click",()=>{safeStorage.setItem(themeKey,"light");applyTheme("light");});
@@ -276,6 +276,7 @@ function applyAccent(color){
  document.getElementById("customAccent").value=color;
  document.querySelectorAll(".color-swatch").forEach(b=>b.classList.toggle("active",palettes[b.dataset.color]?.deep.toLowerCase()===color.toLowerCase()));
 }
+applyTheme(safeStorage.getItem(themeKey)||"light");
 function setAvatar(data){
  const nodes=[document.getElementById("profileAvatar"),document.getElementById("avatarPreview")];
  nodes.forEach(node=>{node.innerHTML="";if(data){const img=document.createElement("img");img.src=data;img.alt="Profile picture";node.appendChild(img);}else{node.textContent=(document.getElementById("accountName").value.trim()[0]||"L").toUpperCase();}});
