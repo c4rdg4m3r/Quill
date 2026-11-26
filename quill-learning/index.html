@@ -512,18 +512,21 @@ html.settings-open,body.settings-open{overflow:hidden!important;height:100%;over
   box-shadow:none!important;
 }
 #profileModal .profile-card{
-  background:transparent!important;
-  background-color:transparent!important;
+  background:var(--paper)!important;
+  background-color:var(--paper)!important;
   backdrop-filter:none!important;
   -webkit-backdrop-filter:none!important;
-  border-color:transparent!important;
-  box-shadow:none!important;
+  border:1px solid var(--line)!important;
+  box-shadow:0 18px 55px rgba(20,35,27,.22)!important;
 }
 body.dark #profileModal .profile-card{
-  background:transparent!important;
-  background-color:transparent!important;
-  border-color:transparent!important;
-  box-shadow:none!important;
+  background:var(--paper)!important;
+  background-color:var(--paper)!important;
+  border-color:var(--line)!important;
+  box-shadow:0 18px 55px rgba(0,0,0,.42)!important;
+}
+#profileModal .profile-banner{
+  background-color:var(--sage)!important;
 }
 
 /* Final full-screen settings alignment and edge coverage */
