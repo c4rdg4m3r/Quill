@@ -212,6 +212,51 @@ body.dark .answer.correct,body.dark .test-option.selected{background:color-mix(i
 body.dark .lesson-screen .close,body.dark .close{background:color-mix(in srgb,var(--accent) 22%,var(--paper));color:var(--accent-tint)}
 body.dark *{scrollbar-color:color-mix(in srgb,var(--accent) 55%,#202724) transparent}
 
+
+
+/* Full palette regeneration: the selected hue recolors the complete interface. */
+body{background:var(--bg)!important;color:var(--ink)!important}
+.app,.wrap{background:transparent}
+.topbar,.card,.modal,.lesson-screen,.settings-panel,.settings-button,.empty,
+.search,.select,.pill,.answer,.test-option,.setting-input,.color-picker,
+.theme-choice,.reset-settings{background-color:var(--paper)}
+.topbar{border-color:var(--line)}
+.card,.progress-panel,.empty,.quiz,.test-question,.answer,.test-option,
+.search,.select,.pill,.setting-input,.theme-choice,.reset-settings,
+.settings-panel,.settings-button{border-color:var(--line)}
+.card,.modal,.settings-panel,.settings-button{box-shadow:var(--shadow)}
+.hero h1,.section-head h2,.card h3,.progress-panel h3,.modal h2,
+.lesson-body h3,.test-intro h3,.test-question h4,.settings-heading h3{color:var(--ink)}
+.hero p,.section-head p,.card p,.card-foot,.lesson-body,.lesson-meta,
+.lesson-note,.test-intro p,.setting-label,.setting-hint,.nav,.progress-panel p{color:var(--muted)}
+.logo,.subject-icon,.level,.progress-panel,.quiz,.example,.test-result,
+.lesson-progress,.theme-choice.active,.color-swatch.active{background:var(--accent-tint)!important}
+.hero-art{background:linear-gradient(135deg,var(--accent-soft),var(--accent-tint),var(--paper))!important}
+.sun{background:color-mix(in srgb,var(--accent) 14%,#fff4d7)!important}
+.hill{background:color-mix(in srgb,var(--accent) 38%,var(--paper))!important}
+.hill.two{background:color-mix(in srgb,var(--accent) 58%,var(--paper))!important}
+.math{background:var(--blue)!important}.science{background:var(--accent-tint)!important}
+.level{color:var(--accent)!important}
+.pill{color:var(--muted)}.pill.active,.primary{background:var(--accent)!important;color:#fff!important}
+.open{background:var(--accent-tint)!important;color:var(--accent)!important}
+.answer,.test-option{color:var(--ink)}
+.answer.correct,.test-option.selected{background:var(--accent-tint)!important;border-color:var(--accent)!important}
+.example{color:var(--ink)!important;border-left-color:var(--accent)!important}
+.close,.settings-x{background:var(--accent-soft)!important;color:var(--accent)!important}
+.profile{background:var(--accent-tint)!important;color:var(--accent)!important}
+.upload-avatar,.color-swatch{border-color:var(--line)}
+.settings-panel{background:var(--paper)!important}
+.settings-heading,.setting-section{border-color:var(--line)}
+body.dark .hero-art{background:linear-gradient(135deg,var(--accent-soft),var(--accent-tint),var(--paper))!important}
+body.dark .sun{background:color-mix(in srgb,var(--accent) 28%,#d8d1b7)!important}
+body.dark .hill{background:color-mix(in srgb,var(--accent) 38%,var(--paper))!important}
+body.dark .hill.two{background:color-mix(in srgb,var(--accent) 52%,var(--paper))!important}
+body.dark .logo,body.dark .subject-icon,body.dark .level,body.dark .progress-panel,
+body.dark .quiz,body.dark .example,body.dark .test-result{background:var(--accent-tint)!important;color:var(--ink)!important}
+body.dark .open{background:var(--accent-tint)!important;color:var(--accent)!important}
+body.dark .pill.active,body.dark .primary{background:var(--accent)!important;color:#fff!important}
+body.dark .answer.correct,body.dark .test-option.selected{background:var(--accent-tint)!important}
+
 </style>
 </head>
 <body>
@@ -307,8 +352,20 @@ function applyAccent(color){
  const tint=hexMix(color,dark?"#202724":"#ffffff",dark?.76:.88);
  const soft=hexMix(color,dark?"#151a18":"#ffffff",dark?.86:.94);
  const mid=hexMix(color,dark?"#ffffff":"#17251d",dark?.22:.12);
- const contrast=dark?"#ffffff":"#ffffff";
+ const contrast="#ffffff";
+ const mix=(base,amount)=>hexMix(base,color,amount);
  const set=(name,value)=>document.documentElement.style.setProperty(name,value);
+ const bodySet=(name,value)=>document.body.style.setProperty(name,value);
+ /* Rebuild the actual page palette, not just its accent tokens. */
+ bodySet("--bg",dark?mix("#151a18",.22):mix("#f5f7f4",.055));
+ bodySet("--paper",dark?mix("#202724",.28):mix("#ffffff",.025));
+ bodySet("--ink",dark?mix("#e8eee9",.10):mix("#25332f",.10));
+ bodySet("--muted",dark?mix("#a2afa7",.16):mix("#75827c",.12));
+ bodySet("--line",dark?mix("#303b35",.48):mix("#e7ece7",.42));
+ bodySet("--blue",dark?mix("#293944",.34):mix("#e4edf1",.28));
+ bodySet("--lav",dark?mix("#373044",.34):mix("#eeebf5",.28));
+ bodySet("--sand",dark?mix("#3c3528",.34):mix("#f3eee3",.28));
+ bodySet("--shadow",dark?"0 12px 34px rgba(0,0,0,.30)":"0 12px 34px "+mix("#2c4236",.18)+"18");
  set("--user-green",color);set("--user-deep",color);
  set("--user-sage",tint);set("--user-sage-dark",hexMix(color,"#202724",.72));
  set("--accent",color);set("--accent-mid",mid);set("--accent-tint",tint);
