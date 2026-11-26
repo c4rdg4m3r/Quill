@@ -236,7 +236,7 @@ body.dark .settings-button{border-color:var(--line)}
   </article>
 </div>
 <script>
-const safeStorage={getItem(key){try{return window.safeStorage.getItem(key)}catch(error){return null}},setItem(key,value){try{window.safeStorage.setItem(key,value);return true}catch(error){return false}},removeItem(key){try{window.safeStorage.removeItem(key)}catch(error){}}};
+const safeStorage={getItem(key){try{return window.localStorage.getItem(key)}catch(error){return null}},setItem(key,value){try{window.localStorage.setItem(key,value);return true}catch(error){return false}},removeItem(key){try{window.localStorage.removeItem(key)}catch(error){}}};
 const themeKey="quill-theme";
 function applyTheme(theme){
  document.body.classList.toggle("dark",theme==="dark");
