@@ -729,6 +729,56 @@ body.dark .secondary,body.dark .test-option,body.dark .answer{
 }
 .settings-button:hover{border-color:var(--accent)!important;color:var(--accent)!important}
 
+
+/* Make the selected appearance color visible on lesson tiles and the complete hero illustration. */
+.card{
+ background:color-mix(in srgb,var(--accent) 10%,var(--paper))!important;
+ border-color:color-mix(in srgb,var(--accent) 24%,var(--line))!important;
+}
+.card:hover{
+ background:color-mix(in srgb,var(--accent) 15%,var(--paper))!important;
+ border-color:color-mix(in srgb,var(--accent) 48%,var(--line))!important;
+}
+.card .subject-icon,.card .level{
+ background:color-mix(in srgb,var(--accent) 18%,var(--paper))!important;
+ color:var(--accent)!important;
+}
+.hero-cta{
+ background:var(--accent)!important;
+ color:var(--accent-contrast)!important;
+ box-shadow:0 8px 20px color-mix(in srgb,var(--accent) 25%,transparent)!important;
+}
+.hero-cta:hover{background:var(--accent-hover)!important}
+.hero-cta span{color:color-mix(in srgb,var(--accent-contrast) 78%,var(--accent-tint))!important}
+.hero h1 em{color:var(--accent)!important}
+.hero-art{
+ background:linear-gradient(135deg,
+   color-mix(in srgb,var(--accent) 24%,var(--paper)),
+   color-mix(in srgb,var(--accent) 16%,var(--accent-tint)),
+   color-mix(in srgb,var(--accent) 9%,var(--paper)))!important;
+}
+.hero-art:before{
+ background:linear-gradient(135deg,
+   color-mix(in srgb,var(--accent) 25%,var(--paper)),
+   color-mix(in srgb,var(--accent) 42%,var(--accent-tint)),
+   color-mix(in srgb,var(--accent) 18%,var(--paper)))!important;
+}
+.art-disc{background:var(--accent)!important;color:var(--accent-contrast)!important}
+.art-orbit{border-color:color-mix(in srgb,var(--accent) 62%,transparent)!important}
+.art-orbit.orbit-two{border-color:color-mix(in srgb,var(--accent-contrast) 65%,transparent)!important}
+.sun{background:color-mix(in srgb,var(--accent) 25%,var(--paper))!important}
+.hill{background:color-mix(in srgb,var(--accent) 42%,var(--paper))!important}
+.hill.two{background:color-mix(in srgb,var(--accent) 58%,var(--paper))!important}
+body.dark .card{
+ background:color-mix(in srgb,var(--accent) 17%,var(--paper))!important;
+ border-color:color-mix(in srgb,var(--accent) 38%,var(--line))!important;
+}
+body.dark .card:hover{background:color-mix(in srgb,var(--accent) 24%,var(--paper))!important}
+body.dark .card .subject-icon,body.dark .card .level{
+ background:color-mix(in srgb,var(--accent) 30%,var(--paper))!important;
+ color:var(--accent-tint)!important;
+}
+
 </style>
 </head>
 <body>
