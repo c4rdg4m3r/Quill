@@ -471,6 +471,12 @@ body.dark .lesson-screen{background:#263129}
 .profile-trigger:focus-visible{outline:3px solid var(--green);outline-offset:3px}
 .profile-backdrop{position:fixed;inset:0;z-index:30;background:rgba(12,18,15,.28);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;padding:24px}
 .profile-backdrop.open{display:flex}
+html.profile-open,body.profile-open{overflow:hidden!important;height:100%;overscroll-behavior:none}
+.profile-backdrop{width:100%;height:100vh;height:100dvh;box-sizing:border-box;overflow:hidden}
+.profile-card{overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none}
+.profile-card::-webkit-scrollbar{display:none}
+.profile-banner{background-repeat:no-repeat}
+.banner-adjust{display:block;width:100%;accent-color:var(--green);margin:8px 0 14px;cursor:pointer}
 .profile-card{width:min(420px,100%);max-height:calc(100vh - 48px);overflow:auto;background:rgba(255,255,255,.72);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);color:var(--ink);border:1px solid rgba(255,255,255,.42);border-radius:18px;box-shadow:0 24px 80px rgba(20,35,27,.24)}
 .profile-banner{height:138px;position:relative;background:transparent;background-size:cover;background-position:center;border-radius:17px 17px 0 0}
 .profile-card-head{display:flex;align-items:flex-end;justify-content:space-between;padding:0 18px;margin-top:-34px;position:relative;z-index:1;gap:12px}
@@ -519,7 +525,7 @@ body.dark .profile-close{background:rgba(255,255,255,.1);color:#f2f3f5}
       <div class="avatar-editor"><div class="profile large" id="avatarPreview">S</div><div><label class="upload-avatar" for="avatarUpload">Change profile picture</label><input id="avatarUpload" type="file" accept="image/*" hidden><p class="setting-hint">Choose an image from your device.</p></div></div>
     </section>
 
-<div class="setting-section"><h4>Profile details</h4><label class="setting-label" for="profileAboutInput">About me</label><textarea class="setting-input" id="profileAboutInput" maxlength="300" rows="3" placeholder="Tell people a little about yourself..."></textarea><label class="setting-label" for="profileStatusInput">Custom status</label><input class="setting-input" id="profileStatusInput" maxlength="60" placeholder="What are you up to?"><label class="setting-label" for="profileBannerUpload">Profile banner</label><label class="upload-avatar" for="profileBannerUpload">Choose banner image</label><input id="profileBannerUpload" type="file" accept="image/*" hidden><p class="setting-hint">Use a wide image. Maximum 2 MB.</p></div>
+<div class="setting-section"><h4>Profile details</h4><label class="setting-label" for="profileAboutInput">About me</label><textarea class="setting-input" id="profileAboutInput" maxlength="300" rows="3" placeholder="Tell people a little about yourself..."></textarea><label class="setting-label" for="profileStatusInput">Custom status</label><input class="setting-input" id="profileStatusInput" maxlength="60" placeholder="What are you up to?"><label class="setting-label" for="profileBannerUpload">Profile banner</label><label class="upload-avatar" for="profileBannerUpload">Choose banner image</label><input id="profileBannerUpload" type="file" accept="image/*" hidden><p class="setting-hint">Upload an image, then adjust its zoom and position.</p><label class="setting-label" for="bannerZoom">Banner zoom</label><input class="banner-adjust" id="bannerZoom" type="range" min="100" max="220" value="100"><label class="setting-label" for="bannerX">Horizontal position</label><input class="banner-adjust" id="bannerX" type="range" min="0" max="100" value="50"><label class="setting-label" for="bannerY">Vertical position</label><input class="banner-adjust" id="bannerY" type="range" min="0" max="100" value="50"></div>
     <section class="setting-section">
       <h4>Appearance</h4>
       <div class="setting-label">Theme</div>
@@ -615,8 +621,8 @@ function renderProfile(){
  const node=document.getElementById("profileModalAvatar");node.innerHTML="";if(avatar){const img=document.createElement("img");img.src=avatar;img.alt="Profile picture";node.appendChild(img);}else node.textContent=(name[0]||"L").toUpperCase();
  document.getElementById("profileBanner").style.backgroundImage=banner?'url("'+banner+'")':"";
 }
-function openProfile(){renderProfile();document.getElementById("profileModal").classList.add("open");document.getElementById("profileAvatar").setAttribute("aria-expanded","true");}
-function closeProfile(){document.getElementById("profileModal").classList.remove("open");document.getElementById("profileAvatar").setAttribute("aria-expanded","false");}
+function openProfile(){renderProfile();document.getElementById("profileModal").classList.add("open");document.documentElement.classList.add("profile-open");document.body.classList.add("profile-open");document.getElementById("profileAvatar").setAttribute("aria-expanded","true");}
+function closeProfile(){document.getElementById("profileModal").classList.remove("open");document.documentElement.classList.remove("profile-open");document.body.classList.remove("profile-open");document.getElementById("profileAvatar").setAttribute("aria-expanded","false");}
 document.getElementById("profileAvatar").addEventListener("click",openProfile);document.getElementById("profileModalClose").addEventListener("click",closeProfile);document.getElementById("profileModal").addEventListener("click",e=>{if(e.target.id==="profileModal")closeProfile();});
 document.getElementById("editProfileButton").addEventListener("click",()=>{closeProfile();settingsPanel.classList.add("open");settingsButton.setAttribute("aria-expanded","true");document.getElementById("accountName").focus();});
 function setAvatar(data){
