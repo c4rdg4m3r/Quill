@@ -620,6 +620,7 @@ function renderProfile(){
  document.getElementById("profileModalName").textContent=name;document.getElementById("profileModalStatus").textContent=status||"No status set";document.getElementById("profileModalAbout").textContent=about||"This learner hasn't written an about me yet.";
  const node=document.getElementById("profileModalAvatar");node.innerHTML="";if(avatar){const img=document.createElement("img");img.src=avatar;img.alt="Profile picture";node.appendChild(img);}else node.textContent=(name[0]||"L").toUpperCase();
  document.getElementById("profileBanner").style.backgroundImage=banner?'url("'+banner+'")':"";
+ const bannerNode=document.getElementById("profileBanner");bannerNode.style.backgroundSize=(safeStorage.getItem("quill-banner-zoom")||"100")+"% auto";bannerNode.style.backgroundPosition=(safeStorage.getItem("quill-banner-x")||"50")+"% "+(safeStorage.getItem("quill-banner-y")||"50")+"%";
 }
 function openProfile(){renderProfile();document.getElementById("profileModal").classList.add("open");document.documentElement.classList.add("profile-open");document.body.classList.add("profile-open");document.getElementById("profileAvatar").setAttribute("aria-expanded","true");}
 function closeProfile(){document.getElementById("profileModal").classList.remove("open");document.documentElement.classList.remove("profile-open");document.body.classList.remove("profile-open");document.getElementById("profileAvatar").setAttribute("aria-expanded","false");}
@@ -655,6 +656,7 @@ document.getElementById("avatarUpload").addEventListener("change",e=>{
 document.getElementById("profileAboutInput").value=safeStorage.getItem(profileKeys.about)||"";document.getElementById("profileStatusInput").value=safeStorage.getItem(profileKeys.status)||"";
 document.getElementById("profileAboutInput").addEventListener("input",e=>{safeStorage.setItem(profileKeys.about,e.target.value);renderProfile();});document.getElementById("profileStatusInput").addEventListener("input",e=>{safeStorage.setItem(profileKeys.status,e.target.value);renderProfile();});
 document.getElementById("profileBannerUpload").addEventListener("change",e=>{const file=e.target.files?.[0];if(!file)return;if(!file.type.startsWith("image/")){alert("Please choose an image file.");e.target.value="";return;}if(file.size>2*1024*1024){alert("Please choose a banner image smaller than 2 MB.");e.target.value="";return;}const reader=new FileReader();reader.onload=()=>{safeStorage.setItem(profileKeys.banner,reader.result);renderProfile();};reader.readAsDataURL(file);});
+ const bannerAdjustments=[["bannerZoom","quill-banner-zoom"],["bannerX","quill-banner-x"],["bannerY","quill-banner-y"]];bannerAdjustments.forEach(function(pair){const control=document.getElementById(pair[0]);control.value=safeStorage.getItem(pair[1])||control.value;control.addEventListener("input",function(){safeStorage.setItem(pair[1],control.value);renderProfile();});});
 document.querySelectorAll(".color-swatch").forEach(button=>button.addEventListener("click",()=>{
  const color=palettes[button.dataset.color].deep;safeStorage.setItem(profileKeys.color,color);applyAccent(color);
 }));
