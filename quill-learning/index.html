@@ -19,6 +19,19 @@ body.dark .topbar{background:rgba(27,34,30,.88)}body.dark .logo{background:#2d40
 
 .lesson-screen{width:min(920px,100%);height:min(92vh,900px);max-height:92vh;display:flex;flex-direction:column;padding:clamp(22px,4vw,42px)}.lesson-screen .modal-head{flex-shrink:0}.lesson-screen .lesson-body{overflow:auto;flex:1;padding:10px 8px 22px 0;font-size:16px;line-height:1.9}.lesson-screen .lesson-body p{max-width:760px}.lesson-screen .lesson-body h3{margin-top:32px}.lesson-progress{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:20px 0 12px;margin-bottom:12px;color:var(--green);font-size:11px;letter-spacing:1.3px;font-weight:800}.lesson-progress span:last-child{color:var(--muted);letter-spacing:0;font-weight:600}.lesson-actions{display:flex;align-items:center;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding-top:16px;flex-shrink:0}.lesson-note{font-size:12px;color:var(--muted)}.secondary{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:11px;padding:11px 15px;font-weight:700;margin-top:15px}.test-intro h3{font:800 24px Manrope;margin:12px 0 6px}.test-intro p{color:var(--muted);margin:0 0 16px}.test-question{border:1px solid var(--line);background:var(--paper);padding:16px 18px;border-radius:14px;margin:12px 0}.test-question h4{font:700 15px Manrope;margin:0 0 10px}.test-option{display:block;width:100%;text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:10px 12px;margin:7px 0}.test-option.selected{border-color:var(--green);background:var(--sage)}.test-result{margin-top:14px;border-radius:13px;padding:15px;background:var(--sage);color:var(--ink)}.test-result strong{font:800 20px Manrope}.test-result p{margin:6px 0 0}.lesson-screen #testStage{overflow:auto;min-height:0;flex:1}.lesson-screen #learningStage{display:flex;flex-direction:column;flex:1;min-height:0}.lesson-screen #testStage .lesson-actions{position:sticky;bottom:0;background:var(--paper);padding-bottom:4px}.lesson-screen #learningStage .lesson-actions{margin-top:auto}@media(max-width:600px){.lesson-screen{height:94vh;max-height:94vh;padding:19px}.lesson-actions{align-items:stretch;flex-direction:column}.lesson-actions button{width:100%}.lesson-note{text-align:center}}
 
+
+/* Full-screen lesson and test experience */
+.modal-backdrop.show{position:fixed;inset:0;padding:0;align-items:stretch;justify-content:stretch;background:var(--bg)}
+.lesson-screen{position:relative;width:100%;height:100vh;height:100dvh;max-height:none;min-height:0;margin:0;border:0;border-radius:0;padding:clamp(22px,4vw,52px);display:flex;flex-direction:column}
+.lesson-screen .modal-head{position:relative;flex-shrink:0;padding-right:54px;min-height:48px}
+.lesson-screen .modal-head>div{min-width:0}
+.lesson-screen .close{position:absolute;right:0;top:0;width:44px;height:44px;border-radius:13px;font-size:26px;display:grid;place-items:center;z-index:2}
+.lesson-screen .lesson-progress{flex-shrink:0}
+.lesson-screen #learningStage,.lesson-screen #testStage{width:min(900px,100%);margin:0 auto;flex:1;min-height:0}
+.lesson-screen .lesson-body{max-width:900px;margin:0 auto;width:100%}
+.lesson-screen .lesson-actions{width:100%;max-width:900px;margin-left:auto;margin-right:auto}
+@media(max-width:600px){.lesson-screen{height:100dvh;max-height:none;padding:18px}.lesson-screen .modal-head{padding-right:50px}.lesson-screen .close{width:42px;height:42px}.lesson-screen .lesson-progress{padding-top:14px}.lesson-screen .lesson-body{font-size:15px}}
+
 </style>
 </head>
 <body>
