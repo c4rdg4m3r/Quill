@@ -134,7 +134,7 @@ body.dark *::-webkit-scrollbar-thumb:hover{
 
 /* Account and personalization settings */
 :root{--green:#547b68;--deep:#365b4a;--sage:#dce9df}
-body{--green:var(--user-green,#547b68);--deep:var(--user-deep,#365b4a);--sage:var(--user-sage,#dce9df)}
+body{--green:var(--user-green,#547b68);--deep:var(--user-deep,#365b4a);--sage:var(--user-sage,#dce9df)}body.dark{--green:var(--user-green,#9bbda5);--deep:var(--user-deep,#8db69a);--sage:var(--user-sage-dark,#293c31)}
 .account-chip{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;font-weight:600}
 .profile{overflow:hidden;flex-shrink:0}.profile img,.profile-image{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block}
 .settings-panel{width:min(340px,calc(100vw - 32px));max-height:min(78vh,680px);overflow:auto;padding:18px}
@@ -256,6 +256,7 @@ function applyAccent(color){
  document.documentElement.style.setProperty("--user-green",green);
  document.documentElement.style.setProperty("--user-deep",deep);
  document.documentElement.style.setProperty("--user-sage",sage);
+ document.documentElement.style.setProperty("--user-sage-dark",hexMix(color,"#202724",.72));
  document.getElementById("customAccent").value=color;
  document.querySelectorAll(".color-swatch").forEach(b=>b.classList.toggle("active",palettes[b.dataset.color]?.deep.toLowerCase()===color.toLowerCase()));
 }
