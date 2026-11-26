@@ -502,6 +502,29 @@ body.dark .profile-close{background:rgba(255,255,255,.1);color:#f2f3f5}
 html.settings-open,body.settings-open{overflow:hidden!important;height:100%;overscroll-behavior:none}
 @media(max-width:560px){.settings-wrap.settings-open .settings-panel{padding:18px!important}.settings-wrap.settings-open .settings-heading{top:-18px}.banner-preview{height:145px}}
 
+/* Keep the page artwork fully visible while the profile is open. */
+#profileModal.profile-backdrop,
+#profileModal.profile-backdrop.open{
+  background:transparent!important;
+  background-color:transparent!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  box-shadow:none!important;
+}
+#profileModal .profile-card{
+  background:transparent!important;
+  background-color:transparent!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+}
+body.dark #profileModal .profile-card{
+  background:transparent!important;
+  background-color:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+}
 </style>
 </head>
 <body>
