@@ -779,6 +779,44 @@ body.dark .card .subject-icon,body.dark .card .level{
  color:var(--accent-tint)!important;
 }
 
+
+/* Strong, unmistakable selected-color treatment for the requested home and lesson elements. */
+#lessons .card{
+ background:color-mix(in srgb,var(--accent) 24%,var(--paper))!important;
+ border:1px solid color-mix(in srgb,var(--accent) 58%,var(--line))!important;
+}
+#lessons .card:hover{
+ background:color-mix(in srgb,var(--accent) 31%,var(--paper))!important;
+ border-color:var(--accent)!important;
+}
+#lessons .card .subject-icon,
+#lessons .card .level{
+ background:color-mix(in srgb,var(--accent) 36%,var(--paper))!important;
+ color:var(--accent)!important;
+}
+#home .hero-cta{
+ background:var(--accent)!important;
+ border:1px solid var(--accent)!important;
+ color:#fff!important;
+}
+#home .hero-cta span{color:#fff!important}
+#home .hero-cta:hover{background:var(--accent-hover)!important;border-color:var(--accent-hover)!important}
+#home .hero-art{
+ background:linear-gradient(135deg,
+ color-mix(in srgb,var(--accent) 34%,var(--paper)),
+ color-mix(in srgb,var(--accent) 54%,var(--accent-tint)),
+ color-mix(in srgb,var(--accent) 26%,var(--paper)))!important;
+}
+#home .hero-art:before{
+ background:linear-gradient(135deg,
+ color-mix(in srgb,var(--accent) 34%,var(--paper)),
+ color-mix(in srgb,var(--accent) 54%,var(--accent-tint)),
+ color-mix(in srgb,var(--accent) 26%,var(--paper)))!important;
+}
+#home .hero-art .art-disc{background:var(--accent)!important;color:#fff!important}
+#home .hero-art .art-orbit{border-color:color-mix(in srgb,var(--accent) 70%,transparent)!important}
+#home .hero-art .art-orbit.orbit-two{border-color:color-mix(in srgb,#fff 70%,transparent)!important}
+
 </style>
 </head>
 <body>
