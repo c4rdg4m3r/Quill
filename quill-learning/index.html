@@ -693,7 +693,43 @@ footer{
   text-align:center!important;
   box-sizing:border-box!important;
 }
-.lesson-page-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;width:min(900px,100%);margin:18px auto 8px;padding:12px 0;border-top:1px solid var(--line)}.lesson-page-controls span{font-size:13px;color:var(--muted);font-weight:700}.lesson-review-card{padding:18px;margin:14px 0;border:1px solid var(--line);border-radius:14px;background:var(--paper)}.lesson-review-card h3{margin:0 0 8px!important;font-size:16px}.lesson-review-card p{margin:7px 0;line-height:1.7}.lesson-review-answer{display:inline-block;margin-top:5px;padding:7px 10px;border-radius:8px;background:var(--sage);font-weight:700}@media(max-width:600px){.lesson-page-controls{gap:7px}.lesson-page-controls button{min-width:0;padding:10px 12px}}\n</style>
+.lesson-page-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;width:min(900px,100%);margin:18px auto 8px;padding:12px 0;border-top:1px solid var(--line)}.lesson-page-controls span{font-size:13px;color:var(--muted);font-weight:700}.lesson-review-card{padding:18px;margin:14px 0;border:1px solid var(--line);border-radius:14px;background:var(--paper)}.lesson-review-card h3{margin:0 0 8px!important;font-size:16px}.lesson-review-card p{margin:7px 0;line-height:1.7}.lesson-review-answer{display:inline-block;margin-top:5px;padding:7px 10px;border-radius:8px;background:var(--sage);font-weight:700}@media(max-width:600px){.lesson-page-controls{gap:7px}.lesson-page-controls button{min-width:0;padding:10px 12px}}\n
+/* Global appearance coverage: every primary/action control follows the selected accent. */
+:root{--accent:#365b4a;--accent-hover:#294b3b;--accent-tint:#dce9df;--accent-soft:#f0f5f1;--accent-contrast:#fff}
+body.dark{--accent-tint:#293c31;--accent-soft:#25352b}
+button.open,button.primary,button.profile-edit,button.upload-avatar,
+button.category-link.active,button.subject-choice.active,button.difficulty-choice.active,
+button.sidebar-subject.active,button.home-cta,button.save-profile,button.apply-button,
+button.complete-button,button.continue-button{
+ background:var(--accent)!important;border-color:var(--accent)!important;color:var(--accent-contrast)!important;
+}
+button.open:hover,button.primary:hover,button.profile-edit:hover,button.upload-avatar:hover,
+button.category-link.active:hover,button.subject-choice.active:hover,button.home-cta:hover,
+button.save-profile:hover,button.apply-button:hover,button.complete-button:hover,button.continue-button:hover{
+ background:var(--accent-hover)!important;border-color:var(--accent-hover)!important;
+}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+ outline-color:var(--accent)!important;
+}
+.pill.active,.theme-choice.active,.test-option.selected,.category-link.active,
+.progress-count,.eyebrow,.subject-library-heading,.lesson-progress,
+.profile-status,.setting-section h4{color:var(--accent)!important}
+.pill.active,.theme-choice.active,.test-option.selected,.category-link.active,
+.progress-panel,.test-result,.example,.lesson-review-answer{
+ border-color:var(--accent)!important;background-color:var(--accent-tint)!important;
+}
+.subject-icon,.logo{border-color:var(--line)}
+.settings-button,.settings-x,.close,.profile-close,.secondary,.test-option,.answer,
+.setting-input,.color-picker,.banner-adjust{
+ color:var(--ink);
+}
+body.dark .settings-button,body.dark .settings-x,body.dark .close,body.dark .profile-close,
+body.dark .secondary,body.dark .test-option,body.dark .answer{
+ background:var(--paper);border-color:var(--line);color:var(--ink);
+}
+.settings-button:hover{border-color:var(--accent)!important;color:var(--accent)!important}
+
+</style>
 </head>
 <body>
 <div class="app">
@@ -889,6 +925,7 @@ function applyAccent(color){
  set("--user-sage",tint);set("--user-sage-dark",hexMix(color,"#202724",.72));
  set("--accent",color);set("--accent-mid",mid);set("--accent-tint",tint);
  set("--accent-soft",soft);set("--accent-contrast",contrast);
+ set("--accent-hover",hexMix(color,dark?"#000000":"#17251d",dark?.24:.18));
  document.body.style.setProperty("--green",color);
  document.body.style.setProperty("--deep",color);
  document.body.style.setProperty("--sage",tint);
