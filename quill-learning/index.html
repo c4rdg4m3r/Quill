@@ -173,6 +173,45 @@ body.dark .primary{background:var(--deep)!important}
 body.dark .open{background:var(--sage)!important;color:var(--green)!important}
 body.dark .settings-button{border-color:var(--line)}
 
+
+
+/* Dynamic whole-site accent theme: all major surfaces and details follow the chosen color. */
+:root{--accent:#365b4a;--accent-mid:#294b3b;--accent-tint:#dce9df;--accent-soft:#f3f7f4;--accent-contrast:#fff}
+body{--green:var(--accent);--deep:var(--accent);--sage:var(--accent-tint)}
+.topbar{background:color-mix(in srgb,var(--paper) 88%,var(--accent-tint))!important}
+.logo,.subject-icon.science,.progress-panel,.level,.quiz,.example{background:var(--accent-tint)!important;color:var(--ink)}
+.hero-art{background:linear-gradient(135deg,var(--accent-soft),var(--accent-tint) 58%,color-mix(in srgb,var(--accent-tint) 55%,var(--paper)))!important}
+.hill{background:color-mix(in srgb,var(--accent) 35%,var(--paper))!important}
+.hill.two{background:color-mix(in srgb,var(--accent) 52%,var(--paper))!important}
+.logo{color:var(--accent)!important}
+.eyebrow,.nav a:hover,.progress-count,.lesson-progress,.theme-choice span:last-child{color:var(--accent)!important}
+.pill.active,.primary,.open{background:var(--accent)!important;border-color:var(--accent)!important;color:var(--accent-contrast)!important}
+.open:hover,.primary:hover{filter:brightness(.92)}
+.open{background:var(--accent-tint)!important;color:var(--accent)!important}
+.search:focus,.select:focus,.setting-input:focus{border-color:var(--accent)!important;box-shadow:0 0 0 3px var(--accent-soft)!important}
+.card:hover{border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
+.subject-icon.math{background:var(--accent-soft)!important}
+.progress-panel{background:var(--accent-tint)!important}
+.example{border-left-color:var(--accent)!important}
+.answer:hover,.test-option:hover{border-color:var(--accent)!important}
+.answer.correct,.test-option.selected{background:var(--accent-tint)!important;border-color:var(--accent)!important}
+.lesson-screen .close,.close{background:var(--accent-soft);color:var(--accent)}
+.settings-button{border-color:var(--accent-tint)}
+.color-swatch.active,.theme-choice.active{border-color:var(--accent)!important;background:var(--accent-tint)!important}
+.color-swatch i{background:var(--swatch-color,var(--accent))}
+*{scrollbar-color:color-mix(in srgb,var(--accent) 48%,#ffffff) transparent}
+*::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--accent) 42%,#ffffff)!important;background-clip:padding-box}
+*::-webkit-scrollbar-thumb:hover{background:var(--accent)!important;background-clip:padding-box}
+body.dark .topbar{background:color-mix(in srgb,var(--paper) 90%,var(--accent))!important}
+body.dark .logo,body.dark .subject-icon.science,body.dark .level,body.dark .progress-panel,body.dark .quiz,body.dark .example{background:color-mix(in srgb,var(--accent) 25%,var(--paper))!important}
+body.dark .hero-art{background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 24%,#151a18),color-mix(in srgb,var(--accent) 16%,#202724))!important}
+body.dark .hill{background:color-mix(in srgb,var(--accent) 42%,#202724)!important}
+body.dark .hill.two{background:color-mix(in srgb,var(--accent) 55%,#202724)!important}
+body.dark .open{background:color-mix(in srgb,var(--accent) 24%,var(--paper))!important;color:var(--accent-tint)!important}
+body.dark .answer.correct,body.dark .test-option.selected{background:color-mix(in srgb,var(--accent) 25%,var(--paper))!important;border-color:var(--accent)!important}
+body.dark .lesson-screen .close,body.dark .close{background:color-mix(in srgb,var(--accent) 22%,var(--paper));color:var(--accent-tint)}
+body.dark *{scrollbar-color:color-mix(in srgb,var(--accent) 55%,#202724) transparent}
+
 </style>
 </head>
 <body>
@@ -264,18 +303,21 @@ const palettes={
 };
 function hexMix(hex1,hex2,amount){const a=[1,3,5].map(i=>parseInt(hex1.slice(i,i+2),16)),b=[1,3,5].map(i=>parseInt(hex2.slice(i,i+2),16));return "#"+a.map((v,i)=>Math.round(v+(b[i]-v)*amount).toString(16).padStart(2,"0")).join("");}
 function applyAccent(color){
- const deep=color,green=color,sage=hexMix(color,document.body.classList.contains("dark")?"#202724":"#ffffff",.84);
- document.documentElement.style.setProperty("--user-green",green);
- document.documentElement.style.setProperty("--user-deep",deep);
- document.documentElement.style.setProperty("--user-sage",sage);
- document.documentElement.style.setProperty("--user-sage-dark",hexMix(color,"#202724",.72));
- /* Set the active theme tokens directly on body so earlier dark-theme rules cannot override them. */
- document.body.style.setProperty("--green",green);
- document.body.style.setProperty("--deep",deep);
- document.body.style.setProperty("--sage",document.body.classList.contains("dark")?hexMix(color,"#202724",.72):sage);
+ const dark=document.body.classList.contains("dark");
+ const tint=hexMix(color,dark?"#202724":"#ffffff",dark?.76:.88);
+ const soft=hexMix(color,dark?"#151a18":"#ffffff",dark?.86:.94);
+ const mid=hexMix(color,dark?"#ffffff":"#17251d",dark?.22:.12);
+ const contrast=dark?"#ffffff":"#ffffff";
+ const set=(name,value)=>document.documentElement.style.setProperty(name,value);
+ set("--user-green",color);set("--user-deep",color);
+ set("--user-sage",tint);set("--user-sage-dark",hexMix(color,"#202724",.72));
+ set("--accent",color);set("--accent-mid",mid);set("--accent-tint",tint);
+ set("--accent-soft",soft);set("--accent-contrast",contrast);
+ document.body.style.setProperty("--green",color);
+ document.body.style.setProperty("--deep",color);
+ document.body.style.setProperty("--sage",tint);
  document.getElementById("customAccent").value=color;
- /* Swatch selection is decorative; avoid referencing the palette during early theme startup. */
- document.querySelectorAll(".color-swatch").forEach(b=>b.classList.remove("active"));
+ document.querySelectorAll(".color-swatch").forEach(b=>b.classList.toggle("active",palettes[b.dataset.color]?.deep.toLowerCase()===color.toLowerCase()));
 }
 applyTheme(safeStorage.getItem(themeKey)||"light");
 function setAvatar(data){
