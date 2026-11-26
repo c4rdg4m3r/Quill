@@ -32,6 +32,35 @@ body.dark .topbar{background:rgba(27,34,30,.88)}body.dark .logo{background:#2d40
 .lesson-screen .lesson-actions{width:100%;max-width:900px;margin-left:auto;margin-right:auto}
 @media(max-width:600px){.lesson-screen{height:100dvh;max-height:none;padding:18px}.lesson-screen .modal-head{padding-right:50px}.lesson-screen .close{width:42px;height:42px}.lesson-screen .lesson-progress{padding-top:14px}.lesson-screen .lesson-body{font-size:15px}}
 
+
+/* Hard override: lesson experience fills every pixel of the viewport */
+#modal.modal-backdrop.show{
+ position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;
+ max-width:none!important;max-height:none!important;margin:0!important;padding:0!important;
+ display:flex!important;align-items:stretch!important;justify-content:stretch!important;
+ overflow:hidden!important;border:0!important;border-radius:0!important;background:var(--bg)!important;z-index:99999!important;
+}
+#modal .lesson-screen{
+ position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+ min-width:100%!important;min-height:100%!important;max-width:none!important;max-height:none!important;
+ margin:0!important;padding:clamp(24px,4vw,56px)!important;overflow:hidden!important;
+ border:0!important;border-radius:0!important;box-shadow:none!important;box-sizing:border-box!important;
+ display:flex!important;flex-direction:column!important;background:var(--paper)!important;
+}
+#modal .lesson-screen #learningStage,#modal .lesson-screen #testStage{
+ width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;
+ flex:1 1 auto!important;min-height:0!important;
+}
+#modal .lesson-screen .lesson-body,#modal .lesson-screen .lesson-actions{
+ width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important;
+}
+#modal .lesson-screen .lesson-body{flex:1 1 auto!important;max-height:none!important}
+#modal .lesson-screen .modal-head{width:100%!important;flex:0 0 auto!important}
+#modal .lesson-screen .close{position:absolute!important;top:0!important;right:0!important;z-index:100000!important}
+@media(max-width:600px){
+ #modal .lesson-screen{padding:18px!important}
+}
+
 </style>
 </head>
 <body>
