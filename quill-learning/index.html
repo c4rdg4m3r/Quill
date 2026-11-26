@@ -1718,7 +1718,21 @@ function safeLessonText(value){return String(value??"").replace(/&/g,"&amp;").re
 function buildLearningPages(){
  const sections=(active.body||"<p>Review the lesson overview.</p>").split(/(?=<h[23][^>]*>)/i).filter(part=>part.trim());
  learningPages=sections.map((html,index)=>({label:index===0?"Lesson overview":(html.match(/<h[23][^>]*>([\s\S]*?)<\/h[23]>/i)?.[1]||"Lesson section").replace(/<[^>]+>/g,"").trim(),html}));
- const bank=tests[active.id]||generatedCategoryTests[active.id]||codingTests[active.id]||generatedTest(active);
+ function getLessonTestBank(lesson=active){
+ if(!lesson)return [];
+ const existing=tests[lesson.id]||generatedCategoryTests[lesson.id]||codingTests[lesson.id];
+ if(Array.isArray(existing)&&existing.length)return existing;
+ const choices=[lesson.title||"This lesson", "An unrelated topic", "A different subject"];
+ const description=String(lesson.desc||"").replace(/<[^>]*>/g,"").trim()||"the main idea";
+ const bodyText=String(lesson.body||"").replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim();
+ const firstConcept=(bodyText.match(/\b[A-Z][A-Za-z -]{2,35}\b/)||[])[0]||lesson.title||"the main idea";
+ const first=lesson.q?[lesson.q,lesson.answers||choices,Number.isInteger(lesson.correct)?lesson.correct:0]:["What is the main focus of this lesson?",choices,0];
+ return [first,
+  ["Which description best matches this lesson?",[description,"A topic unrelated to this lesson","A different subject area"],0],
+  ["What is a good way to show you understand the lesson?",["Explain "+firstConcept+" in your own words and apply it to an example","Memorize words without understanding them","Skip the examples and reasoning"],0]
+ ];
+}
+const bank=getLessonTestBank();
  const cards=bank.map((q,index)=>'<article class="lesson-review-card"><h3>Test skill '+(index+1)+': '+safeLessonText(q[0])+'</h3><p>Identify the concept being tested. Use the definitions, steps, and examples from the lesson to decide which idea fits and why the other choices do not.</p><div class="lesson-review-answer">Key idea: '+safeLessonText(q[1]?.[q[2]]||"Review the lesson")+'</div><p><strong>Study check:</strong> Explain this idea in your own words, then create a new example to prove you understand it.</p></article>').join("");
  learningPages.push({label:"Test review",html:'<h3>Prepare for the test</h3><p>This page reviews the actual skills and concepts asked about in this lesson test. Make sure you can explain each idea and apply it to a new example.</p>'+cards+'<div class="example"><strong>Ready check:</strong> Understand the reasoning, not only the answer.</div>'});
 }
@@ -1729,7 +1743,7 @@ function renderLearningPage(){
  $("#lessonNext").textContent=learningPageIndex===learningPages.length-1?"Last page":"Next page →";
  $("#startTest").textContent=learningPageIndex===learningPages.length-1?"Start the test →":"Continue to next page →";
 }
-function showLearningStage(){ $("#learningStage").hidden=false;$("#testStage").hidden=true;$("#lessonStepLabel").textContent="LEARN";$("#lessonStepCount").textContent="Part 1 of "+learningPages.length;renderLearningPage();}function showTestStage(){ $("#submitTest").disabled=false;$("#submitTest").textContent="Submit test";$("#learningStage").hidden=true;$("#testStage").hidden=false;$("#lessonStepLabel").textContent="TEST";$("#lessonStepCount").textContent="Part 2 of 2";$("#testResult").hidden=true;$("#submitTest").hidden=false;$("#testQuestions").innerHTML=(tests[active.id]||generatedCategoryTests[active.id]||codingTests[active.id]||generatedTest(active)).map((q,i)=>`<div class="test-question"><h4>${i+1}. ${q[0]}</h4>${q[1].map((a,j)=>`<button class="test-option ${testAnswers[i]===j?"selected":""}" data-q="${i}" data-a="${j}" type="button">${String.fromCharCode(65+j)}. ${a}</button>`).join("")}</div>`).join("");document.querySelectorAll(".test-option").forEach(b=>b.addEventListener("click",()=>{testAnswers[+b.dataset.q]=+b.dataset.a;showTestStage();}));}
+function showLearningStage(){ $("#learningStage").hidden=false;$("#testStage").hidden=true;$("#lessonStepLabel").textContent="LEARN";$("#lessonStepCount").textContent="Part 1 of "+learningPages.length;renderLearningPage();}function showTestStage(){ $("#submitTest").disabled=false;$("#submitTest").textContent="Submit test";$("#learningStage").hidden=true;$("#testStage").hidden=false;$("#lessonStepLabel").textContent="TEST";$("#lessonStepCount").textContent="Part 2 of 2";$("#testResult").hidden=true;$("#submitTest").hidden=false;$("#testQuestions").innerHTML=getLessonTestBank().map((q,i)=>`<div class="test-question"><h4>${i+1}. ${q[0]}</h4>${q[1].map((a,j)=>`<button class="test-option ${testAnswers[i]===j?"selected":""}" data-q="${i}" data-a="${j}" type="button">${String.fromCharCode(65+j)}. ${a}</button>`).join("")}</div>`).join("");document.querySelectorAll(".test-option").forEach(b=>b.addEventListener("click",()=>{testAnswers[+b.dataset.q]=+b.dataset.a;showTestStage();}));}
 function openLesson(id){
  active=lessons.find(l=>l.id===id);testAnswers={};
  $("#modalSubject").textContent=active.subject.toUpperCase();$("#lessonTitle").textContent=active.title;$("#lessonMeta").textContent=`${active.level} · ${active.time} · Read the lesson, then take the test`;
@@ -1740,9 +1754,9 @@ $("#lessonNext").addEventListener("click",()=>{if(learningPageIndex<learningPage
 $("#startTest").addEventListener("click",()=>{if(learningPageIndex<learningPages.length-1){learningPageIndex++;showLearningStage();}else showTestStage();});
 $("#backToLesson").addEventListener("click",showLearningStage);
 $("#submitTest").addEventListener("click",()=>{
- const bank=tests[active.id]||generatedCategoryTests[active.id]||codingTests[active.id]||generatedTest(active),score=bank.filter((q,i)=>testAnswers[i]===q[2]).length;
- const passed=score>=2;
- $("#testResult").hidden=false;$("#testResult").innerHTML=`<strong>${score} / 3 correct</strong><p>${passed?"You passed! This lesson has been added to your completed lessons.":"Not quite yet. Review the lesson and try the test again — you need 2 out of 3 correct."}</p>`;
+ const bank=getLessonTestBank(),score=bank.filter((q,i)=>testAnswers[i]===q[2]).length;
+ const passed=score>=Math.min(2,bank.length);
+ $("#testResult").hidden=false;$("#testResult").innerHTML=`<strong>${score} / ${bank.length} correct</strong><p>${passed?"You passed! This lesson has been added to your completed lessons.":"Not quite yet. Review the lesson and try the test again — you need 2 out of 3 correct."}</p>`;
  if(passed){done.add(active.id);safeStorage.setItem("stillroom-done",JSON.stringify([...done]));render();}
  $("#submitTest").textContent=passed?"Lesson completed ✓":"Try again";
  if(passed)$("#submitTest").disabled=true;
