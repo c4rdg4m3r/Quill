@@ -647,7 +647,7 @@ body.dark .library-sidebar,body.dark .difficulty-switch{background:var(--paper)}
           <p class="coding-hint">Choose a path to explore its specializations, languages, and lessons.</p>
         </div>
         <div class="sidebar-divider"></div>
-        <label class="sidebar-label" for="grade">GRADE LEVEL</label>
+        <label class="sidebar-label" id="gradeLabel" for="grade">GRADE LEVEL</label>
         <select class="sidebar-select" id="grade"><option value="all">All grades</option><option value="1">1st Grade</option><option value="2">2nd Grade</option><option value="3">3rd Grade</option><option value="4">4th Grade</option><option value="5">5th Grade</option><option value="6">6th Grade</option><option value="7">7th Grade</option><option value="8">8th Grade</option><option value="9">9th Grade</option><option value="10">10th Grade</option><option value="11">11th Grade</option><option value="12">12th Grade</option></select>
         <label class="sidebar-label search-label" for="search">SEARCH LESSONS</label><input class="search sidebar-search" id="search" placeholder="Search topics..." aria-label="Search lessons">
         <div class="sidebar-progress"><span>YOUR PROGRESS</span><strong id="sidebarProgressCount">0 / 0</strong><small>lessons completed</small></div>
@@ -1607,9 +1607,9 @@ $("#modal").addEventListener("click",e=>{if(e.target.id==="modal")close()});
 
 $("#grade").addEventListener("change",render);$("#search").addEventListener("input",render);
 // Subject selection is handled by the dedicated left sidebar buttons.
-$("#sidebarMath").addEventListener("click",()=>{subject="Math";$("#mathCategoryPanel").hidden=false;$("#scienceCategoryPanel").hidden=true;$("#codingCategoryPanel").hidden=true;$("#grade").parentElement;$("#sidebarMath").classList.add("active");$("#sidebarScience").classList.remove("active");$("#sidebarCoding").classList.remove("active");render();});
-$("#sidebarScience").addEventListener("click",()=>{subject="Science";$("#mathCategoryPanel").hidden=true;$("#scienceCategoryPanel").hidden=false;$("#codingCategoryPanel").hidden=true;$("#sidebarScience").classList.add("active");$("#sidebarMath").classList.remove("active");$("#sidebarCoding").classList.remove("active");render();});
-$("#sidebarCoding").addEventListener("click",()=>{subject="Coding";$("#mathCategoryPanel").hidden=true;$("#scienceCategoryPanel").hidden=true;$("#codingCategoryPanel").hidden=false;$("#sidebarCoding").classList.add("active");$("#sidebarMath").classList.remove("active");$("#sidebarScience").classList.remove("active");render();});
+$("#sidebarMath").addEventListener("click",()=>{subject="Math";$("#mathCategoryPanel").hidden=false;$("#scienceCategoryPanel").hidden=true;$("#codingCategoryPanel").hidden=true;$("#grade").parentElement;$("#sidebarMath").classList.add("active");$("#sidebarScience").classList.remove("active");$("#sidebarCoding").classList.remove("active");$("#grade").hidden=false;$("#gradeLabel").hidden=false;render();});
+$("#sidebarScience").addEventListener("click",()=>{subject="Science";$("#mathCategoryPanel").hidden=true;$("#scienceCategoryPanel").hidden=false;$("#codingCategoryPanel").hidden=true;$("#sidebarScience").classList.add("active");$("#sidebarMath").classList.remove("active");$("#sidebarCoding").classList.remove("active");$("#grade").hidden=false;$("#gradeLabel").hidden=false;render();});
+$("#sidebarCoding").addEventListener("click",()=>{subject="Coding";$("#mathCategoryPanel").hidden=true;$("#scienceCategoryPanel").hidden=true;$("#codingCategoryPanel").hidden=false;$("#sidebarCoding").classList.add("active");$("#sidebarMath").classList.remove("active");$("#sidebarScience").classList.remove("active");$("#grade").hidden=true;$("#gradeLabel").hidden=true;render();});
 function buildCategoryList(selectId,listId){
  const select=$(`#${selectId}`),list=$(`#${listId}`);
  const addButton=(option)=>{const button=document.createElement("button");button.type="button";button.className="category-link";button.dataset.value=option.value;button.textContent=option.textContent;button.addEventListener("click",()=>{select.value=option.value;render();});list.appendChild(button);};
