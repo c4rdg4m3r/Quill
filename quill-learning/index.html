@@ -84,6 +84,53 @@ body.dark .topbar{background:rgba(27,34,30,.88)}body.dark .logo{background:#2d40
   overflow:auto;
 }
 
+
+/* Quill custom scrollbar */
+:root{
+  scrollbar-color:#a9bcae #edf2ee;
+  scrollbar-width:thin;
+}
+*{
+  scrollbar-width:thin;
+  scrollbar-color:#a9bcae transparent;
+}
+*::-webkit-scrollbar{
+  width:10px;
+  height:10px;
+}
+*::-webkit-scrollbar-track{
+  background:transparent;
+  border-radius:999px;
+}
+*::-webkit-scrollbar-thumb{
+  background:#b7c9bc;
+  border:3px solid transparent;
+  background-clip:padding-box;
+  border-radius:999px;
+}
+*::-webkit-scrollbar-thumb:hover{
+  background:#829f8b;
+  border:2px solid transparent;
+  background-clip:padding-box;
+}
+*::-webkit-scrollbar-corner{background:transparent}
+body.dark{
+  scrollbar-color:#526b5a #202724;
+}
+body.dark *{
+  scrollbar-color:#526b5a transparent;
+}
+body.dark *::-webkit-scrollbar-thumb{
+  background:#526b5a;
+  border:3px solid transparent;
+  background-clip:padding-box;
+}
+body.dark *::-webkit-scrollbar-thumb:hover{
+  background:#789681;
+  border:2px solid transparent;
+  background-clip:padding-box;
+}
+
 </style>
 </head>
 <body>
