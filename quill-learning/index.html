@@ -131,13 +131,45 @@ body.dark *::-webkit-scrollbar-thumb:hover{
   background-clip:padding-box;
 }
 
+
+/* Account and personalization settings */
+:root{--green:#547b68;--deep:#365b4a;--sage:#dce9df}
+body{--green:var(--user-green,#547b68);--deep:var(--user-deep,#365b4a);--sage:var(--user-sage,#dce9df)}
+.account-chip{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;font-weight:600}
+.profile{overflow:hidden;flex-shrink:0}.profile img,.profile-image{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block}
+.settings-panel{width:min(340px,calc(100vw - 32px));max-height:min(78vh,680px);overflow:auto;padding:18px}
+.settings-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:13px}
+.settings-heading h3{margin:0 0 4px;font:800 17px Manrope}
+.settings-heading p{margin:0;color:var(--muted);font-size:12px}
+.settings-x{border:0;border-radius:9px;background:var(--bg);color:var(--muted);width:30px;height:30px;font-size:20px}
+.setting-section{border-top:1px solid var(--line);padding:14px 0 12px}
+.setting-section h4{font:700 13px Manrope;margin:0 0 10px}
+.setting-label{display:block;font-size:12px;color:var(--muted);font-weight:600;margin:10px 0 6px}
+.setting-input{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);outline:none}
+.setting-input:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--sage)}
+.avatar-editor{display:flex;align-items:center;gap:12px;margin-top:13px}
+.profile.large{width:54px;height:54px;font-size:20px}
+.upload-avatar{display:inline-block;padding:8px 10px;border:1px solid var(--line);border-radius:9px;color:var(--ink);font-size:12px;font-weight:700;cursor:pointer}
+.setting-hint{font-size:11px;color:var(--muted);margin:5px 0 0}
+.palette-label{margin-top:14px}
+.palette-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:7px 0 12px}
+.color-swatch{border:1px solid var(--line);border-radius:9px;background:var(--bg);padding:7px 2px;color:var(--muted);font-size:10px;display:flex;flex-direction:column;align-items:center;gap:5px}
+.color-swatch i{width:22px;height:22px;border-radius:50%;display:block}
+.color-swatch.active{border-color:var(--green);background:var(--sage);color:var(--ink)}
+.color-picker{width:100%;height:34px;padding:3px;border:1px solid var(--line);border-radius:9px;background:var(--bg);cursor:pointer}
+.reset-settings{width:100%;padding:9px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--muted);font-size:12px;font-weight:700}
+.reset-settings:hover{border-color:var(--green);color:var(--green)}
+.settings-footnote{text-align:center;margin-top:9px}
+body.dark .setting-input,body.dark .color-picker{background:#151a18;color:var(--ink)}
+@media(max-width:560px){.account-display-name{display:none}.settings-panel{right:0;bottom:64px}}
+
 </style>
 </head>
 <body>
 <div class="app">
 <header class="topbar">
   <div class="brand"><div class="logo">✳</div>Quill</div>
-  <nav class="nav"><a href="#learn">Explore lessons</a><a href="#progress">Your progress</a><div class="profile" title="Your learning space">S</div></nav>
+  <nav class="nav"><a href="#learn">Explore lessons</a><a href="#progress">Your progress</a><div class="account-chip"><span class="account-display-name" id="accountDisplayName">Learner</span><div class="profile" id="profileAvatar" title="Your profile picture">L</div></div></nav>
 </header>
 <main class="wrap">
   <section class="hero">
@@ -156,10 +188,32 @@ body.dark *::-webkit-scrollbar-thumb:hover{
 <footer>Quill · Take your time. Keep wondering.</footer>
 </div>
 <div class="settings-wrap">
-  <div class="settings-panel" id="settingsPanel" aria-label="Settings">
-    <h3>Appearance</h3>
-    <button class="theme-choice" id="lightTheme" type="button"><span>☀ Light mode</span><span id="lightCheck"></span></button>
-    <button class="theme-choice" id="darkTheme" type="button"><span>☾ Dark mode</span><span id="darkCheck"></span></button>
+  <div class="settings-panel" id="settingsPanel" aria-label="Account and appearance settings">
+    <div class="settings-heading"><div><h3>Personalize Quill</h3><p>Make your learning space yours.</p></div><button class="settings-x" id="settingsClose" type="button" aria-label="Close settings">×</button></div>
+    <section class="setting-section">
+      <h4>Account</h4>
+      <label class="setting-label" for="accountName">Display name</label>
+      <input class="setting-input" id="accountName" maxlength="32" placeholder="Your name">
+      <div class="avatar-editor"><div class="profile large" id="avatarPreview">S</div><div><label class="upload-avatar" for="avatarUpload">Change profile picture</label><input id="avatarUpload" type="file" accept="image/*" hidden><p class="setting-hint">Choose an image from your device.</p></div></div>
+    </section>
+    <section class="setting-section">
+      <h4>Appearance</h4>
+      <div class="setting-label">Theme</div>
+      <button class="theme-choice" id="lightTheme" type="button"><span>☀ Light mode</span><span id="lightCheck"></span></button>
+      <button class="theme-choice" id="darkTheme" type="button"><span>☾ Dark mode</span><span id="darkCheck"></span></button>
+      <div class="setting-label palette-label">Quill colors</div>
+      <div class="palette-grid" id="colorPalette">
+        <button type="button" class="color-swatch" data-color="sage" aria-label="Sage green" title="Sage"><i style="background:#547b68"></i><span>Sage</span></button>
+        <button type="button" class="color-swatch" data-color="ocean" aria-label="Ocean blue" title="Ocean"><i style="background:#477b9b"></i><span>Ocean</span></button>
+        <button type="button" class="color-swatch" data-color="lavender" aria-label="Lavender" title="Lavender"><i style="background:#8170a6"></i><span>Lavender</span></button>
+        <button type="button" class="color-swatch" data-color="rose" aria-label="Rose" title="Rose"><i style="background:#b56e79"></i><span>Rose</span></button>
+        <button type="button" class="color-swatch" data-color="amber" aria-label="Amber" title="Amber"><i style="background:#a8793f"></i><span>Amber</span></button>
+      </div>
+      <label class="setting-label" for="customAccent">Custom accent color</label>
+      <input id="customAccent" class="color-picker" type="color" value="#547b68">
+    </section>
+    <button class="reset-settings" id="resetSettings" type="button">Reset personalization</button>
+    <p class="setting-hint settings-footnote">Your settings are saved on this device.</p>
   </div>
   <button class="settings-button" id="settingsButton" type="button" aria-label="Open settings" aria-expanded="false" title="Settings">⚙</button>
 </div>
@@ -187,6 +241,60 @@ settingsButton.addEventListener("click",()=>{const open=settingsPanel.classList.
 document.getElementById("lightTheme").addEventListener("click",()=>{localStorage.setItem(themeKey,"light");applyTheme("light");});
 document.getElementById("darkTheme").addEventListener("click",()=>{localStorage.setItem(themeKey,"dark");applyTheme("dark");});
 document.addEventListener("click",e=>{if(!e.target.closest(".settings-wrap")){settingsPanel.classList.remove("open");settingsButton.setAttribute("aria-expanded","false");}});
+
+const profileKeys={name:"quill-account-name",avatar:"quill-account-avatar",color:"quill-accent"};
+const palettes={
+ sage:{green:"#547b68",deep:"#365b4a",sage:"#dce9df"},
+ ocean:{green:"#477b9b",deep:"#315e78",sage:"#dcebf3"},
+ lavender:{green:"#8170a6",deep:"#62517f",sage:"#e9e3f2"},
+ rose:{green:"#b56e79",deep:"#884e59",sage:"#f3e3e6"},
+ amber:{green:"#a8793f",deep:"#805b2d",sage:"#f2e9d9"}
+};
+function hexMix(hex1,hex2,amount){const a=[1,3,5].map(i=>parseInt(hex1.slice(i,i+2),16)),b=[1,3,5].map(i=>parseInt(hex2.slice(i,i+2),16));return "#"+a.map((v,i)=>Math.round(v+(b[i]-v)*amount).toString(16).padStart(2,"0")).join("");}
+function applyAccent(color){
+ const deep=color,green=color,sage=hexMix(color,document.body.classList.contains("dark")?"#202724":"#ffffff",.84);
+ document.documentElement.style.setProperty("--user-green",green);
+ document.documentElement.style.setProperty("--user-deep",deep);
+ document.documentElement.style.setProperty("--user-sage",sage);
+ document.getElementById("customAccent").value=color;
+ document.querySelectorAll(".color-swatch").forEach(b=>b.classList.toggle("active",palettes[b.dataset.color]?.deep.toLowerCase()===color.toLowerCase()));
+}
+function setAvatar(data){
+ const nodes=[document.getElementById("profileAvatar"),document.getElementById("avatarPreview")];
+ nodes.forEach(node=>{node.innerHTML="";if(data){const img=document.createElement("img");img.src=data;img.alt="Profile picture";node.appendChild(img);}else{node.textContent=(document.getElementById("accountName").value.trim()[0]||"L").toUpperCase();}});
+}
+const savedName=localStorage.getItem(profileKeys.name)||"Learner";
+document.getElementById("accountName").value=savedName;
+document.getElementById("accountDisplayName").textContent=savedName;
+const savedAvatar=localStorage.getItem(profileKeys.avatar);
+if(savedAvatar)setAvatar(savedAvatar);else setAvatar("");
+const savedColor=localStorage.getItem(profileKeys.color)||palettes.sage.deep;
+applyAccent(savedColor);
+document.getElementById("accountName").addEventListener("input",e=>{
+ const name=e.target.value.trim()||"Learner";
+ localStorage.setItem(profileKeys.name,name);
+ document.getElementById("accountDisplayName").textContent=name;
+ if(!localStorage.getItem(profileKeys.avatar))setAvatar("");
+});
+document.getElementById("avatarUpload").addEventListener("change",e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ if(!file.type.startsWith("image/")){alert("Please choose an image file.");e.target.value="";return;}
+ if(file.size>3*1024*1024){alert("Please choose an image smaller than 3 MB.");e.target.value="";return;}
+ const reader=new FileReader();
+ reader.onload=()=>{try{localStorage.setItem(profileKeys.avatar,reader.result);setAvatar(reader.result);}catch(err){alert("This image could not be saved. Try a smaller image.");}};
+ reader.readAsDataURL(file);
+});
+document.querySelectorAll(".color-swatch").forEach(button=>button.addEventListener("click",()=>{
+ const color=palettes[button.dataset.color].deep;localStorage.setItem(profileKeys.color,color);applyAccent(color);
+}));
+document.getElementById("customAccent").addEventListener("input",e=>{localStorage.setItem(profileKeys.color,e.target.value);applyAccent(e.target.value);});
+document.getElementById("settingsClose").addEventListener("click",()=>{settingsPanel.classList.remove("open");settingsButton.setAttribute("aria-expanded","false");});
+document.getElementById("resetSettings").addEventListener("click",()=>{
+ localStorage.removeItem(profileKeys.name);localStorage.removeItem(profileKeys.avatar);localStorage.removeItem(profileKeys.color);
+ document.getElementById("accountName").value="Learner";document.getElementById("accountDisplayName").textContent="Learner";
+ document.getElementById("avatarUpload").value="";setAvatar("");applyAccent(palettes.sage.deep);
+});
+
 const lessons = [
 {id:1,title:"Fractions: parts of a whole",subject:"Math",grade:"Elementary",level:"Grades 3–5",time:"8 min",desc:"Understand fractions using familiar examples and visual thinking.",body:`<p>A <strong>fraction</strong> describes part of a whole. Imagine cutting one equally sized pizza into four slices. If you take one slice, you have one fourth of the pizza.</p><div class="example"><strong>1 / 4</strong><br>The top number (1) is the numerator: how many parts we have. The bottom number (4) is the denominator: how many equal parts make the whole.</div><h3>Fractions can be equivalent</h3><p>One half is the same amount as two fourths. The pieces are different sizes, but they cover the same portion of the whole.</p>`,q:"Which fraction means 2 parts out of 5 equal parts?",answers:["2/5","5/2","2/3"],correct:0,explain:"Exactly! The numerator is 2 and the denominator is 5."},
 {id:2,title:"Multiplication patterns",subject:"Math",grade:"Elementary",level:"Grades 2–5",time:"6 min",desc:"See multiplication as equal groups and repeated addition.",body:`<p>Multiplication is a quick way to add equal groups. Instead of writing 3 + 3 + 3 + 3, we can write <strong>4 × 3</strong>.</p><div class="example">4 groups × 3 in each group = 12 total<br>So, 4 × 3 = 12.</div><h3>Order can change</h3><p>3 × 4 also equals 12. This is called the commutative property: switching the factors does not change the product.</p>`,q:"What is 5 × 3?",answers:["8","15","20"],correct:1,explain:"Yes! Five groups of three make fifteen."},
