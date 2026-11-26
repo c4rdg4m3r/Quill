@@ -270,18 +270,111 @@ body.dark .answer.correct,body.dark .test-option.selected{background:var(--accen
 .grade-filter .select{width:100%;min-height:44px;font-weight:700;border:1.5px solid var(--green);background:var(--paper);box-shadow:0 2px 8px rgba(40,70,50,.07)}
 .grade-filter .select:focus{outline:2px solid var(--green);outline-offset:2px}
 @media(max-width:560px){.lesson-controls .toolbar{display:grid;grid-template-columns:minmax(135px,.8fr) minmax(120px,1fr);align-items:end}.grade-filter{min-width:0}.grade-filter .select{min-width:0}}
+
+/* 2026 visual refresh: a bold editorial learning studio, not the old book-and-hills artwork. */
+:root{--bg:#f4f2ec;--paper:#fffefa;--ink:#202321;--muted:#73776f;--line:#dedfd6;--sage:#e8f1bd;--green:#526d37;--deep:#283c27;--blue:#e0e9f3;--lav:#eee8f6;--sand:#f5ead7;--shadow:0 14px 38px rgba(30,37,28,.07)}
+body{background:var(--bg);font-family:'DM Sans',sans-serif}
+.topbar{height:82px;padding:0 clamp(22px,6vw,92px);background:rgba(244,242,236,.94);border-bottom:1px solid #dfe0d7}
+.brand{gap:13px;font:800 17px Manrope,sans-serif;letter-spacing:2px;color:#202321}
+.logo{width:39px;height:39px;border-radius:13px;background:#d9ed79;color:#253321;font:800 23px Manrope;transform:rotate(-7deg)}
+.logo span{transform:rotate(7deg)}
+.brand-dot{color:#a5c84a}
+.nav{gap:30px;color:#555c52;font-weight:600}
+.account-chip{display:flex;align-items:center;gap:10px}
+.profile{background:#d9ed79;color:#283c27}
+.wrap{max-width:1320px;padding:58px clamp(20px,5vw,70px) 90px}
+.hero{grid-template-columns:1.05fr .95fr;gap:clamp(25px,5vw,76px);margin:6px 0 70px;min-height:360px}
+.hero-copy{padding:18px 0}
+.eyebrow{display:flex;align-items:center;gap:10px;color:#627b36;font-size:11px;letter-spacing:2px;font-weight:800}
+.eyebrow-mark{width:9px;height:9px;background:#b6d64f;border-radius:2px;transform:rotate(45deg)}
+.hero h1{font:800 clamp(48px,6.5vw,82px)/.99 Manrope,sans-serif;letter-spacing:-4px;margin:23px 0 20px;max-width:700px;color:#202321}
+.hero h1 em{font-style:normal;color:#78953e}
+.hero p{font-size:16px;line-height:1.8;color:#6e746a;max-width:490px}
+.hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:29px}
+.hero-cta{display:inline-flex;align-items:center;gap:24px;padding:14px 19px;background:#263b27;color:#fffefa;text-decoration:none;border-radius:8px;font-weight:700;font-size:13px;box-shadow:0 8px 20px #263b2722}
+.hero-cta span{font-size:18px;color:#c7e66d}
+.hero-caption{font-size:11px;color:#777d72;letter-spacing:.3px}
+.hero-art{height:360px;border-radius:8px;background:#dce9b1;position:relative;overflow:hidden;display:block;isolation:isolate}
+.hero-art:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,#dce9b1 0%,#c9dc83 52%,#9bb765 100%);z-index:-2}
+.art-grid{position:absolute;inset:0;background-image:linear-gradient(#ffffff35 1px,transparent 1px),linear-gradient(90deg,#ffffff35 1px,transparent 1px);background-size:34px 34px;opacity:.65}
+.art-orbit{position:absolute;border:1px solid #405a2b77;border-radius:50%;z-index:1}
+.orbit-one{width:330px;height:330px;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-28deg)}
+.orbit-two{width:245px;height:390px;left:50%;top:50%;transform:translate(-50%,-50%) rotate(47deg);border-color:#fff9}
+.art-disc{position:absolute;width:205px;height:205px;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;background:#263b27;color:#e7f3bd;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:18px 18px 0 #76934855;z-index:2}
+.art-disc span,.art-disc small{font:800 9px Manrope;letter-spacing:3px}
+.art-disc strong{font:500 94px/1 Manrope;color:#d7ed80}
+.art-disc small{color:#c4d5a1}
+.art-sticker{position:absolute;right:9%;top:12%;z-index:3;background:#f3f0e7;color:#263b27;width:76px;height:76px;border-radius:50%;display:grid;place-content:center;text-align:center;font:800 11px/1.2 Manrope;letter-spacing:1px;transform:rotate(12deg);box-shadow:0 8px 20px #263b2720}
+.art-spark{position:absolute;color:#f9f5e9;z-index:3;font-weight:800}
+.spark-one{font-size:39px;left:12%;top:18%}.spark-two{font-size:32px;right:14%;bottom:18%;color:#405b2c}
+.sun,.hill,.book{display:none!important}
+.learning-library{margin-top:10px}
+.section-head{margin:0 0 22px}
+.section-head h2{font:800 29px Manrope;letter-spacing:-1px;color:#202321}
+.section-head p{color:#777d72}
+.lesson-controls{background:transparent;border:0;border-bottom:1px solid #d9dbd1;border-radius:0;padding:0 0 17px;margin-bottom:22px}
+.pill{border:1px solid #d8dbd0;background:#fffefa;color:#687063;border-radius:7px;padding:11px 17px;font-weight:700}
+.pill.active{background:#263b27;border-color:#263b27;color:#fff}
+.grade-filter label{color:#687e3e}
+.grade-filter .select,.search{border-radius:7px;background:#fffefa;border-color:#d8dbd0;min-height:43px}
+.subject-library-heading{color:#778e40;letter-spacing:2px}
+.grade-section{margin:24px 0 40px}
+.grade-section-head{border-color:#dedfd6}
+.grade-section-head h3{font:800 21px Manrope;color:#242923}
+.grade-total{border-radius:7px;background:#fffefa}
+.card{border:1px solid #e0e1d9;border-radius:9px;box-shadow:0 5px 18px #24292308;padding:21px;background:#fffefa;min-height:218px}
+.card:hover{transform:translateY(-4px);border-color:#c3d39b;box-shadow:0 15px 28px #24292312}
+.subject-icon{border-radius:9px}
+.level{border-radius:5px;background:#f1f2eb}
+.card h3{font-size:17px;letter-spacing:-.3px;color:#252a24}
+.card p{color:#777d72}
+.open{border-radius:6px;background:#e8f1bd;color:#334527}
+.open:hover{background:#d9e99b}
+.progress-panel{background:#263b27;border-radius:9px;color:#fff;padding:27px 30px}
+.progress-panel h3{color:#fff;font-size:19px}
+.progress-panel p{color:#c5d0bd}
+.progress-count{color:#d7ed80}
+footer{color:#8b8f83}
+.settings-button{border-radius:12px;background:#263b27;color:#f6f5ed;border:0}
+.settings-panel{border-radius:12px}
+.modal-backdrop.show{background:var(--bg)}
+.modal{border-radius:0}
+.lesson-screen{background:#fffefa}
+.primary{background:#263b27;border-radius:7px}
+.primary:hover{background:#405d31}
+.secondary,.close{border-radius:7px}
+body.dark{--bg:#151b17;--paper:#202a22;--ink:#edf1e8;--muted:#a7b09f;--line:#354235;--sage:#354629;--green:#b7d56b;--deep:#d2e89b;--blue:#293a49;--lav:#3b3348;--sand:#443927}
+body.dark .topbar{background:rgba(21,27,23,.94);border-color:#354235}
+body.dark .brand,body.dark .hero h1,body.dark .section-head h2,body.dark .grade-section-head h3{color:#edf1e8}
+body.dark .hero h1 em,body.dark .eyebrow,body.dark .subject-library-heading{color:#c5e47c}
+body.dark .hero p,body.dark .section-head p,body.dark .card p{color:#a7b09f}
+body.dark .hero-art:before{background:linear-gradient(135deg,#35482d,#536d37 52%,#758e46)}
+body.dark .art-disc{background:#18231b;color:#e7f3bd}
+body.dark .art-sticker{background:#f3f0e7;color:#263b27}
+body.dark .pill{background:#202a22;color:#bdc8b4;border-color:#354235}
+body.dark .pill.active{background:#d2e89b;color:#243221;border-color:#d2e89b}
+body.dark .lesson-controls{border-color:#354235}
+body.dark .card,body.dark .grade-total,body.dark .select,body.dark .search{background:#202a22;border-color:#354235}
+body.dark .level{background:#303c31}
+body.dark .open{background:#3b4c2e;color:#e0efb8}
+body.dark .progress-panel{background:#263b27}
+body.dark .settings-button{background:#d2e89b;color:#243221}
+body.dark .lesson-screen{background:#202a22}
+@media(max-width:800px){.hero{grid-template-columns:1fr;gap:24px}.hero-art{height:280px}.hero h1{font-size:clamp(48px,10vw,70px)}}
+@media(max-width:560px){.topbar{padding:0 17px}.wrap{padding:32px 17px 60px}.hero{margin-bottom:48px}.hero h1{letter-spacing:-2.5px}.hero-art{height:245px}.art-disc{width:160px;height:160px}.art-disc strong{font-size:74px}.art-sticker{width:65px;height:65px;font-size:9px}.lesson-controls{gap:12px}.lesson-controls .toolbar{width:100%}}
+
 </style>
 </head>
 <body>
 <div class="app">
 <header class="topbar">
-  <div class="brand"><div class="logo">✳</div>Quill</div>
+  <div class="brand"><div class="logo"><span>Q</span></div><span>QUILL<span class="brand-dot">.</span></span></div>
   <nav class="nav"><a href="#learn">Explore lessons</a><a href="#progress">Your progress</a><div class="account-chip"><span class="account-display-name" id="accountDisplayName">Learner</span><div class="profile" id="profileAvatar" title="Your profile picture">L</div></div></nav>
 </header>
 <main class="wrap">
   <section class="hero">
-    <div><div class="eyebrow">A quieter way to learn</div><h1>Curiosity grows at its own pace.</h1><p>Explore math and science, one small idea at a time. Choose your grade, find a topic, and learn without the pressure.</p></div>
-    <div class="hero-art" aria-hidden="true"><div class="sun"></div><div class="book">📖</div><div class="hill"></div><div class="hill two"></div></div>
+    <div class="hero-copy"><div class="eyebrow"><span class="eyebrow-mark"></span> YOUR NEXT BIG IDEA STARTS HERE</div><h1>Think bigger.<br><em>Learn anything.</em></h1><p>Build your understanding one lesson at a time. Explore mathematics and science, find your level, and keep moving forward.</p><div class="hero-actions"><a href="#learn" class="hero-cta">Explore lessons <span>↗</span></a><span class="hero-caption">12 grades · 2 subjects · hundreds of ideas</span></div></div>
+    <div class="hero-art" aria-hidden="true"><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-spark spark-one">✳</div><div class="art-spark spark-two">+</div><div class="art-disc"><span>IDEAS</span><strong>∞</strong><small>IN MOTION</small></div><div class="art-sticker">STAY<br>CURIOUS</div><div class="art-grid"></div></div>
   </section>
   <section id="learn" class="learning-library">
     <div class="section-head"><div><div class="eyebrow">LEARNING LIBRARY</div><h2>Find something to learn</h2><p>Choose a subject, narrow your grade, or search for a topic.</p></div></div>
