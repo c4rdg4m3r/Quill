@@ -465,13 +465,28 @@ body.dark .settings-button{background:#8da88e;color:#17251b}
 body.dark .lesson-screen{background:#263129}
 @media(prefers-reduced-motion:no-preference){.card,.hero-cta,.settings-button{transition:all .22s ease}}
 
+
+/* Profile popover */
+.profile-trigger{appearance:none;border:0;padding:0;cursor:pointer;display:grid;place-items:center}
+.profile-trigger:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+.profile-backdrop{position:fixed;inset:0;z-index:30;background:rgba(20,31,25,.35);display:none;align-items:flex-start;justify-content:flex-end;padding:88px clamp(14px,4vw,56px) 20px}
+.profile-backdrop.open{display:flex}.profile-card{width:min(390px,100%);max-height:calc(100vh - 110px);overflow:auto;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:20px;box-shadow:0 22px 70px rgba(20,35,27,.22)}
+.profile-banner{height:118px;position:relative;background:linear-gradient(125deg,#dce9df,#c9dce0 55%,#e9e3f2);background-size:cover;background-position:center;border-radius:19px 19px 0 0}
+.profile-card-head{display:flex;align-items:flex-end;justify-content:space-between;padding:0 18px;margin-top:-34px;position:relative;z-index:1;gap:12px}
+.profile-large-avatar{width:76px;height:76px;border-radius:23px;background:var(--sage);border:4px solid var(--paper);display:grid;place-items:center;overflow:hidden;font:800 27px Manrope;color:var(--deep);flex-shrink:0}.profile-large-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.profile-close{border:0;background:var(--bg);color:var(--muted);border-radius:10px;width:34px;height:34px;font-size:21px;margin-bottom:4px}
+.profile-main{padding:12px 20px 20px}.profile-name{font:800 21px Manrope;margin:0;overflow-wrap:anywhere}.profile-status{font-size:13px;color:var(--muted);margin:5px 0 0;overflow-wrap:anywhere}
+.profile-about{margin:18px 0 0;padding-top:15px;border-top:1px solid var(--line)}.profile-about h4{font:700 11px Manrope;letter-spacing:1.2px;color:var(--green);margin:0 0 7px}.profile-about p{font-size:13px;line-height:1.6;color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere;margin:0}
+.profile-edit{margin-top:18px;width:100%;border:0;border-radius:11px;background:var(--deep);color:#fff;padding:11px 14px;font-weight:800}.profile-edit:hover{filter:brightness(.94)}
+body.dark .profile-banner{background:linear-gradient(125deg,#344b3b,#344650 55%,#463b53)}
+@media(max-width:560px){.profile-backdrop{padding:74px 12px 12px;justify-content:center}.profile-card{max-height:calc(100vh - 86px)}}
 </style>
 </head>
 <body>
 <div class="app">
 <header class="topbar">
   <div class="brand"><div class="logo"><span>Q</span></div><span>QUILL<span class="brand-dot">.</span></span></div>
-  <nav class="nav"><a href="#learn">Explore lessons</a><a href="#progress">Your progress</a><div class="account-chip"><span class="account-display-name" id="accountDisplayName">Learner</span><div class="profile" id="profileAvatar" title="Your profile picture">L</div></div></nav>
+  <nav class="nav"><a href="#learn">Explore lessons</a><a href="#progress">Your progress</a><div class="account-chip"><span class="account-display-name" id="accountDisplayName">Learner</span><button class="profile profile-trigger" id="profileAvatar" type="button" title="Open your profile" aria-label="Open your profile" aria-haspopup="dialog" aria-controls="profileModal">L</button></div></nav>
 </header>
 <main class="wrap">
   <section class="hero">
@@ -499,6 +514,8 @@ body.dark .lesson-screen{background:#263129}
       <input class="setting-input" id="accountName" maxlength="32" placeholder="Your name">
       <div class="avatar-editor"><div class="profile large" id="avatarPreview">S</div><div><label class="upload-avatar" for="avatarUpload">Change profile picture</label><input id="avatarUpload" type="file" accept="image/*" hidden><p class="setting-hint">Choose an image from your device.</p></div></div>
     </section>
+
+<div class="setting-section"><h4>Profile details</h4><label class="setting-label" for="profileAboutInput">About me</label><textarea class="setting-input" id="profileAboutInput" maxlength="300" rows="3" placeholder="Tell people a little about yourself..."></textarea><label class="setting-label" for="profileStatusInput">Custom status</label><input class="setting-input" id="profileStatusInput" maxlength="60" placeholder="What are you up to?"><label class="setting-label" for="profileBannerUpload">Profile banner</label><label class="upload-avatar" for="profileBannerUpload">Choose banner image</label><input id="profileBannerUpload" type="file" accept="image/*" hidden><p class="setting-hint">Use a wide image. Maximum 2 MB.</p></div>
     <section class="setting-section">
       <h4>Appearance</h4>
       <div class="setting-label">Theme</div>
@@ -520,6 +537,8 @@ body.dark .lesson-screen{background:#263129}
   </div>
   <button class="settings-button" id="settingsButton" type="button" aria-label="Open settings" aria-expanded="false" title="Settings">⚙</button>
 </div>
+
+<div class="profile-backdrop" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileModalName"><article class="profile-card"><div class="profile-banner" id="profileBanner"></div><div class="profile-card-head"><div class="profile-large-avatar" id="profileModalAvatar">L</div><button class="profile-close" id="profileModalClose" type="button" aria-label="Close profile">×</button></div><div class="profile-main"><h2 class="profile-name" id="profileModalName">Learner</h2><p class="profile-status" id="profileModalStatus">No status set</p><section class="profile-about"><h4>ABOUT ME</h4><p id="profileModalAbout">This learner hasn't written an about me yet.</p></section><button class="profile-edit" id="editProfileButton" type="button">Edit profile in settings</button></div></article></div>
 <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-labelledby="lessonTitle">
   <article class="modal lesson-screen">
     <div class="modal-head"><div><div class="eyebrow" id="modalSubject">LESSON</div><h2 id="lessonTitle"></h2><div class="lesson-meta" id="lessonMeta"></div></div><button class="close" id="close" aria-label="Close lesson">×</button></div>
@@ -547,7 +566,7 @@ document.getElementById("lightTheme").addEventListener("click",()=>{safeStorage.
 document.getElementById("darkTheme").addEventListener("click",()=>{safeStorage.setItem(themeKey,"dark");applyTheme("dark");});
 document.addEventListener("click",e=>{if(!e.target.closest(".settings-wrap")){settingsPanel.classList.remove("open");settingsButton.setAttribute("aria-expanded","false");}});
 
-const profileKeys={name:"quill-account-name",avatar:"quill-account-avatar",color:"quill-accent"};
+const profileKeys={name:"quill-account-name",avatar:"quill-account-avatar",color:"quill-accent",about:"quill-profile-about",status:"quill-profile-status",banner:"quill-profile-banner"};
 const palettes={
  sage:{green:"#547b68",deep:"#365b4a",sage:"#dce9df"},
  ocean:{green:"#477b9b",deep:"#315e78",sage:"#dcebf3"},
@@ -586,6 +605,16 @@ function applyAccent(color){
  document.querySelectorAll(".color-swatch").forEach(b=>b.classList.toggle("active",palettes[b.dataset.color]?.deep.toLowerCase()===color.toLowerCase()));
 }
 applyTheme(safeStorage.getItem(themeKey)||"light");
+function renderProfile(){
+ const name=safeStorage.getItem(profileKeys.name)||"Learner",avatar=safeStorage.getItem(profileKeys.avatar),about=safeStorage.getItem(profileKeys.about)||"",status=safeStorage.getItem(profileKeys.status)||"",banner=safeStorage.getItem(profileKeys.banner)||"";
+ document.getElementById("profileModalName").textContent=name;document.getElementById("profileModalStatus").textContent=status||"No status set";document.getElementById("profileModalAbout").textContent=about||"This learner hasn't written an about me yet.";
+ const node=document.getElementById("profileModalAvatar");node.innerHTML="";if(avatar){const img=document.createElement("img");img.src=avatar;img.alt="Profile picture";node.appendChild(img);}else node.textContent=(name[0]||"L").toUpperCase();
+ document.getElementById("profileBanner").style.backgroundImage=banner?'url("'+banner+'")':"";
+}
+function openProfile(){renderProfile();document.getElementById("profileModal").classList.add("open");document.getElementById("profileAvatar").setAttribute("aria-expanded","true");}
+function closeProfile(){document.getElementById("profileModal").classList.remove("open");document.getElementById("profileAvatar").setAttribute("aria-expanded","false");}
+document.getElementById("profileAvatar").addEventListener("click",openProfile);document.getElementById("profileModalClose").addEventListener("click",closeProfile);document.getElementById("profileModal").addEventListener("click",e=>{if(e.target.id==="profileModal")closeProfile();});
+document.getElementById("editProfileButton").addEventListener("click",()=>{closeProfile();settingsPanel.classList.add("open");settingsButton.setAttribute("aria-expanded","true");document.getElementById("accountName").focus();});
 function setAvatar(data){
  const nodes=[document.getElementById("profileAvatar"),document.getElementById("avatarPreview")];
  nodes.forEach(node=>{node.innerHTML="";if(data){const img=document.createElement("img");img.src=data;img.alt="Profile picture";node.appendChild(img);}else{node.textContent=(document.getElementById("accountName").value.trim()[0]||"L").toUpperCase();}});
@@ -595,12 +624,13 @@ document.getElementById("accountName").value=savedName;
 document.getElementById("accountDisplayName").textContent=savedName;
 const savedAvatar=safeStorage.getItem(profileKeys.avatar);
 if(savedAvatar)setAvatar(savedAvatar);else setAvatar("");
+renderProfile();
 const savedColor=safeStorage.getItem(profileKeys.color)||palettes.sage.deep;
 applyAccent(savedColor);
 document.getElementById("accountName").addEventListener("input",e=>{
  const name=e.target.value.trim()||"Learner";
  safeStorage.setItem(profileKeys.name,name);
- document.getElementById("accountDisplayName").textContent=name;
+ document.getElementById("accountDisplayName").textContent=name;renderProfile();
  if(!safeStorage.getItem(profileKeys.avatar))setAvatar("");
 });
 document.getElementById("avatarUpload").addEventListener("change",e=>{
@@ -608,18 +638,22 @@ document.getElementById("avatarUpload").addEventListener("change",e=>{
  if(!file.type.startsWith("image/")){alert("Please choose an image file.");e.target.value="";return;}
  if(file.size>3*1024*1024){alert("Please choose an image smaller than 3 MB.");e.target.value="";return;}
  const reader=new FileReader();
- reader.onload=()=>{try{safeStorage.setItem(profileKeys.avatar,reader.result);setAvatar(reader.result);}catch(err){alert("This image could not be saved. Try a smaller image.");}};
+ reader.onload=()=>{try{safeStorage.setItem(profileKeys.avatar,reader.result);setAvatar(reader.result);renderProfile();}catch(err){alert("This image could not be saved. Try a smaller image.");}};
  reader.readAsDataURL(file);
 });
+
+document.getElementById("profileAboutInput").value=safeStorage.getItem(profileKeys.about)||"";document.getElementById("profileStatusInput").value=safeStorage.getItem(profileKeys.status)||"";
+document.getElementById("profileAboutInput").addEventListener("input",e=>{safeStorage.setItem(profileKeys.about,e.target.value);renderProfile();});document.getElementById("profileStatusInput").addEventListener("input",e=>{safeStorage.setItem(profileKeys.status,e.target.value);renderProfile();});
+document.getElementById("profileBannerUpload").addEventListener("change",e=>{const file=e.target.files?.[0];if(!file)return;if(!file.type.startsWith("image/")){alert("Please choose an image file.");e.target.value="";return;}if(file.size>2*1024*1024){alert("Please choose a banner image smaller than 2 MB.");e.target.value="";return;}const reader=new FileReader();reader.onload=()=>{safeStorage.setItem(profileKeys.banner,reader.result);renderProfile();};reader.readAsDataURL(file);});
 document.querySelectorAll(".color-swatch").forEach(button=>button.addEventListener("click",()=>{
  const color=palettes[button.dataset.color].deep;safeStorage.setItem(profileKeys.color,color);applyAccent(color);
 }));
 document.getElementById("customAccent").addEventListener("input",e=>{safeStorage.setItem(profileKeys.color,e.target.value);applyAccent(e.target.value);});
 document.getElementById("settingsClose").addEventListener("click",()=>{settingsPanel.classList.remove("open");settingsButton.setAttribute("aria-expanded","false");});
 document.getElementById("resetSettings").addEventListener("click",()=>{
- safeStorage.removeItem(profileKeys.name);safeStorage.removeItem(profileKeys.avatar);safeStorage.removeItem(profileKeys.color);
+ safeStorage.removeItem(profileKeys.name);safeStorage.removeItem(profileKeys.avatar);safeStorage.removeItem(profileKeys.color);safeStorage.removeItem(profileKeys.about);safeStorage.removeItem(profileKeys.status);safeStorage.removeItem(profileKeys.banner);
  document.getElementById("accountName").value="Learner";document.getElementById("accountDisplayName").textContent="Learner";
- document.getElementById("avatarUpload").value="";setAvatar("");applyAccent(palettes.sage.deep);
+ document.getElementById("avatarUpload").value="";setAvatar("");applyAccent(palettes.sage.deep);renderProfile();
 });
 
 const lessons = [
@@ -1215,7 +1249,7 @@ $("#modal").addEventListener("click",e=>{if(e.target.id==="modal")close()});
 
 $("#grade").addEventListener("change",render);$("#search").addEventListener("input",render);
 $("#subjectFilters").addEventListener("click",event=>{const button=event.target.closest("button[data-subject]");if(!button)return;subject=button.dataset.subject==="Science"?"Science":"Math";$("#subjectFilters").querySelectorAll("button[data-subject]").forEach(item=>{const selected=item.dataset.subject===subject;item.classList.toggle("active",selected);item.setAttribute("aria-pressed",String(selected));});render();});
-document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){close();closeProfile();}});
 render();
 </script>
 </body>
