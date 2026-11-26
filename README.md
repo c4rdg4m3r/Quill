@@ -2,29 +2,19 @@
 
 A calm, responsive learning website for mathematics and science across elementary, middle, and high school grades.
 
-## Deploy on Render
+## Deployment
 
-This repository stores the site in `quill-learning-website.zip`. The included `render.yaml` tells Render to extract that archive and publish the `quill-learning/` folder.
+The website source is stored directly in the `quill-learning/` directory. Render publishes that directory as a static site; no ZIP extraction or build step is needed.
 
-### Recommended: deploy using the Blueprint
-
-1. Open https://dashboard.render.com/blueprints.
-2. Choose **New Blueprint Instance**.
-3. Connect the GitHub repository `c4rdg4m3r/Quill`.
-4. Render will read `render.yaml` and configure the static site.
-5. Review the settings and deploy.
-
-### Or create a Static Site manually
-
-Use these settings:
+### Render settings
 
 - **Repository:** `c4rdg4m3r/Quill`
 - **Branch:** `main`
 - **Root Directory:** leave blank
-- **Build Command:** `unzip -o quill-learning-website.zip -d .`
+- **Build Command:** `echo "Quill static files are ready"`
 - **Publish Directory:** `quill-learning`
 
-Do not leave the build command blank: the site files are inside the ZIP archive.
+The included `render.yaml` contains these settings for Render Blueprint deployments.
 
 ## Features
 
@@ -33,5 +23,6 @@ Do not leave the build command blank: the site files are inside the ZIP archive.
 - Lesson search
 - Short explanations and quick-check quizzes
 - Progress saved in the visitor's browser using local storage
+- A settings control for switching between light and dark themes
 
-No environment variables or backend services are required. Progress is stored separately in each browser and is not synchronized between devices.
+No environment variables or backend services are required. Progress and theme preference are stored separately in each visitor's browser.
