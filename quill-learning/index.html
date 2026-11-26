@@ -61,6 +61,29 @@ body.dark .topbar{background:rgba(27,34,30,.88)}body.dark .logo{background:#2d40
  #modal .lesson-screen{padding:18px!important}
 }
 
+
+/* Stage visibility: never allow flex layout to override the hidden attribute */
+#modal #learningStage[hidden],
+#modal #testStage[hidden]{
+  display:none!important;
+}
+#modal #testStage:not([hidden]){
+  display:flex!important;
+  flex-direction:column!important;
+  min-height:0!important;
+}
+#modal #testStage:not([hidden]) .test-intro,
+#modal #testStage:not([hidden]) #testQuestions,
+#modal #testStage:not([hidden]) .lesson-actions,
+#modal #testStage:not([hidden]) .test-result{
+  flex-shrink:0;
+}
+#modal #testStage:not([hidden]) #testQuestions{
+  flex:1 1 auto;
+  min-height:0;
+  overflow:auto;
+}
+
 </style>
 </head>
 <body>
