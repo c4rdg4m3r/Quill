@@ -1724,7 +1724,7 @@ function buildLearningPages(){
 }
 function renderLearningPage(){
  const page=learningPages[learningPageIndex];$("#lessonBody").innerHTML=page?.html||"";
- $("#lessonPageStatus").textContent="Page "+(learningPageIndex+1)+" of "+learningPages.length+" · "+(page?.label||"Lesson");
+ $("#lessonPageStatus").textContent="Page "+(learningPageIndex+1)+" of "+learningPages.length+" · "+(page?.label||"Lesson");$("#lessonStepCount").textContent="Page "+(learningPageIndex+1)+" of "+learningPages.length;
  $("#lessonPrev").disabled=learningPageIndex===0;$("#lessonNext").disabled=learningPageIndex===learningPages.length-1;
  $("#lessonNext").textContent=learningPageIndex===learningPages.length-1?"Last page":"Next page →";
  $("#startTest").textContent=learningPageIndex===learningPages.length-1?"Start the test →":"Continue to next page →";
@@ -1735,7 +1735,9 @@ function openLesson(id){
  $("#modalSubject").textContent=active.subject.toUpperCase();$("#lessonTitle").textContent=active.title;$("#lessonMeta").textContent=`${active.level} · ${active.time} · Read the lesson, then take the test`;
  buildLearningPages();learningPageIndex=0;showLearningStage();$("#modal").classList.add("show");document.body.style.overflow="hidden";
 }
-$("#lessonPrev").addEventListener("click",()=>{if(learningPageIndex>0){learningPageIndex--;showLearningStage();}});\n$("#lessonNext").addEventListener("click",()=>{if(learningPageIndex<learningPages.length-1){learningPageIndex++;showLearningStage();}});\n$("#startTest").addEventListener("click",()=>{if(learningPageIndex<learningPages.length-1){learningPageIndex=learningPages.length-1;showLearningStage();}else showTestStage();});
+$("#lessonPrev").addEventListener("click",()=>{if(learningPageIndex>0){learningPageIndex--;showLearningStage();}});
+$("#lessonNext").addEventListener("click",()=>{if(learningPageIndex<learningPages.length-1){learningPageIndex++;showLearningStage();}});
+$("#startTest").addEventListener("click",()=>{if(learningPageIndex<learningPages.length-1){learningPageIndex=learningPages.length-1;showLearningStage();}else showTestStage();});
 $("#backToLesson").addEventListener("click",showLearningStage);
 $("#submitTest").addEventListener("click",()=>{
  const bank=tests[active.id]||generatedCategoryTests[active.id]||codingTests[active.id]||generatedTest(active),score=bank.filter((q,i)=>testAnswers[i]===q[2]).length;
