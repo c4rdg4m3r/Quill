@@ -363,6 +363,14 @@ body.dark .lesson-screen{background:#202a22}
 @media(max-width:800px){.hero{grid-template-columns:1fr;gap:24px}.hero-art{height:280px}.hero h1{font-size:clamp(48px,10vw,70px)}}
 @media(max-width:560px){.topbar{padding:0 17px}.wrap{padding:32px 17px 60px}.hero{margin-bottom:48px}.hero h1{letter-spacing:-2.5px}.hero-art{height:245px}.art-disc{width:160px;height:160px}.art-disc strong{font-size:74px}.art-sticker{width:65px;height:65px;font-size:9px}.lesson-controls{gap:12px}.lesson-controls .toolbar{width:100%}}
 
+
+/* Topic-specific lesson marks */
+.subject-icon{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-family:"DM Sans",sans-serif;font-size:24px;font-weight:800;line-height:1;flex:0 0 46px;background:#edf0e4;color:#30432b}
+.subject-icon.math{background:#e9edcf;color:#344a2c}
+.subject-icon.science{background:#dcebe7;color:#28594d}
+body.dark .subject-icon.math{background:#3b472e;color:#e3efbd}
+body.dark .subject-icon.science{background:#29483f;color:#c4e8d8}
+
 </style>
 </head>
 <body>
@@ -1026,7 +1034,40 @@ function render(){
  const activeLibrary=subjectLibraries[subject]||subjectLibraries.Math;
  const matching=activeLibrary.filter(l=>(grade==="all"||l.grade===grade)&&(`${l.title} ${l.desc} ${l.subject} ${l.level}`).toLowerCase().includes(term));
  $("#subjectLibraryHeading").textContent=subject==="Math"?"MATHEMATICS LESSONS":"SCIENCE LESSONS";
- const card=l=>`<article class="card">${done.has(l.id)?'<span class="card-complete" aria-label="Completed" title="Completed">✓</span>':""}<div class="card-top"><div class="subject-icon ${l.subject.toLowerCase()}">${l.subject==="Math"?"∑":"☘"}</div><span class="level">${l.level}</span></div><h3>${l.title}</h3><p>${l.desc}</p><div class="card-foot"><span>${l.subject} · ${l.time}</span><button class="open" data-id="${l.id}">${done.has(l.id)?"Review":"Start lesson"} →</button></div></article>`;
+ const lessonIcon=l=>{
+  const t=(l.title+" "+l.desc).toLowerCase();
+  const rules=[
+   [/fraction|numerator|denominator|mixed number/,"½","Fractions"],
+   [/decimal|tenths|hundredths|thousandths/,"🔟","Decimals"],
+   [/percent|percentage/,"%","Percentages"],
+   [/geometry|shape|polygon|triangle|quadrilateral|circle|angle|perimeter|area|volume|surface area/,"📐","Geometry"],
+   [/time|clock|minute|hour|calendar/,"🕒","Time"],
+   [/money|coin|dollar|change|budget/,"🪙","Money"],
+   [/measurement|length|weight|mass|capacity|unit|convert/,"📏","Measurement"],
+   [/graph|coordinate|plot|data|statistic|probability/,"📊","Data and graphs"],
+   [/equation|algebra|variable|expression|inequalit|function|polynomial/,"𝒙","Algebra"],
+   [/multiply|multiplication|product|times table/,"✖","Multiplication"],
+   [/divid|quotient/,"➗","Division"],
+   [/subtract|difference/,"➖","Subtraction"],
+   [/add|addition|sum|plus/,"➕","Addition"],
+   [/fraction|number line|place value|round|compare number|count|skip count|pattern/,"🔢","Numbers"],
+   [/planet|solar system|space|star|moon|galaxy|orbit|universe/,"🪐","Space"],
+   [/weather|climate|season|cloud|storm|precipitation|temperature/,"🌦️","Weather"],
+   [/plant|flower|seed|photosynthesis|root|leaf|forest/,"🌱","Plants"],
+   [/animal|habitat|ecosystem|food chain|adaptation|organism/,"🦋","Life science"],
+   [/human body|body system|heart|brain|skeleton|digest|circulat|respirat/,"🫀","Human body"],
+   [/cell|dna|genetic|heredit/,"🧬","Cells and genetics"],
+   [/water cycle|water|ocean|river|ice|matter|solid|liquid|gas/,"💧","Water and matter"],
+   [/rock|mineral|earth|volcano|earthquake|erosion|weathering|soil|fossil/,"🌋","Earth science"],
+   [/force|motion|energy|electric|magnet|light|sound|gravity|wave|circuit/,"⚡","Physics"],
+   [/chemical|atom|molecule|element|compound|reaction|periodic|acid|base/,"⚗️","Chemistry"],
+   [/experiment|scientific method|observation|hypothesis|investigat/,"🔬","Experiments"]
+  ];
+  const found=rules.find(([pattern])=>pattern.test(t));
+  if(found)return {symbol:found[1],label:found[2]};
+  return l.subject==="Math"?{symbol:"🧮",label:"Mathematics"}:{symbol:"🔬",label:"Science"};
+ };
+ const card=l=>{const icon=lessonIcon(l);return `<article class="card">${done.has(l.id)?'<span class="card-complete" aria-label="Completed" title="Completed">✓</span>':""}<div class="card-top"><div class="subject-icon ${l.subject.toLowerCase()}" role="img" aria-label="${icon.label}" title="${icon.label}">${icon.symbol}</div><span class="level">${l.level}</span></div><h3>${l.title}</h3><p>${l.desc}</p><div class="card-foot"><span>${l.subject} · ${l.time}</span><button class="open" data-id="${l.id}">${done.has(l.id)?"Review":"Start lesson"} →</button></div></article>`;};
  const sections=grades.map(([key,label,range])=>{const items=matching.filter(l=>l.grade===key);return items.length?`<section class="grade-section"><div class="grade-section-head"><div><h3>${label}</h3><p>${range}</p></div><span class="grade-total">${items.length} lessons</span></div><div class="grid">${items.map(card).join("")}</div></section>`:""}).join("");
  $("#lessons").innerHTML=sections||`<div class="empty">No lessons match those filters. Try another grade or search term.</div>`;
  $("#progressCount").textContent=`${done.size} / ${lessons.length}`;
