@@ -274,7 +274,8 @@ function applyAccent(color){
  document.body.style.setProperty("--deep",deep);
  document.body.style.setProperty("--sage",document.body.classList.contains("dark")?hexMix(color,"#202724",.72):sage);
  document.getElementById("customAccent").value=color;
- document.querySelectorAll(".color-swatch").forEach(b=>b.classList.toggle("active",palettes[b.dataset.color]?.deep.toLowerCase()===color.toLowerCase()));
+ /* Swatch selection is decorative; avoid referencing the palette during early theme startup. */
+ document.querySelectorAll(".color-swatch").forEach(b=>b.classList.remove("active"));
 }
 applyTheme(safeStorage.getItem(themeKey)||"light");
 function setAvatar(data){
