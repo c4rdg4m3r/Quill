@@ -693,7 +693,7 @@ footer{
   text-align:center!important;
   box-sizing:border-box!important;
 }
-</style>
+.lesson-page-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;width:min(900px,100%);margin:18px auto 8px;padding:12px 0;border-top:1px solid var(--line)}.lesson-page-controls span{font-size:13px;color:var(--muted);font-weight:700}.lesson-review-card{padding:18px;margin:14px 0;border:1px solid var(--line);border-radius:14px;background:var(--paper)}.lesson-review-card h3{margin:0 0 8px!important;font-size:16px}.lesson-review-card p{margin:7px 0;line-height:1.7}.lesson-review-answer{display:inline-block;margin-top:5px;padding:7px 10px;border-radius:8px;background:var(--sage);font-weight:700}@media(max-width:600px){.lesson-page-controls{gap:7px}.lesson-page-controls button{min-width:0;padding:10px 12px}}\n</style>
 </head>
 <body>
 <div class="app">
@@ -829,7 +829,7 @@ footer{
   <article class="modal lesson-screen">
     <div class="modal-head"><div><div class="eyebrow" id="modalSubject">LESSON</div><h2 id="lessonTitle"></h2><div class="lesson-meta" id="lessonMeta"></div></div><button class="close" id="close" aria-label="Close lesson">×</button></div>
     <div class="lesson-progress"><span id="lessonStepLabel">LEARN</span><span id="lessonStepCount">Part 1 of 2</span></div>
-    <section id="learningStage"><div class="lesson-body" id="lessonBody"></div><div class="lesson-actions"><span class="lesson-note">Take your time. You can review this page before the test.</span><button class="primary" id="startTest">I'm ready — start the test →</button></div></section>
+    <section id="learningStage"><div class="lesson-body" id="lessonBody"></div><div class="lesson-page-controls"><button class="secondary" id="lessonPrev" type="button" disabled>← Previous</button><span id="lessonPageStatus">Page 1</span><button class="secondary" id="lessonNext" type="button">Next page →</button></div><div class="lesson-actions"><span class="lesson-note">Read every page, including the test review, before starting.</span><button class="primary" id="startTest">Continue to test review →</button></div></section>
     <section id="testStage" hidden><div class="test-intro"><h3>Check what you learned</h3><p>Answer these three questions. You’ll see your results at the end.</p></div><div id="testQuestions"></div><div class="lesson-actions"><button class="secondary" id="backToLesson">← Review lesson</button><button class="primary" id="submitTest">Submit test</button></div><div class="test-result" id="testResult" hidden></div></section>
   </article>
 </div>
@@ -1713,14 +1713,29 @@ const tests = {
 518:[["Round 19 to...",["10","20","30"],1],["Round 31 to...",["20","30","40"],1],["What is 20 × 30?",["500","600","700"],1]],
 };
 $("#lessons").addEventListener("click",event=>{const button=event.target.closest("button[data-id]");if(button)openLesson(Number(button.dataset.id));});
-function showLearningStage(){ $("#learningStage").hidden=false;$("#testStage").hidden=true;$("#lessonStepLabel").textContent="LEARN";$("#lessonStepCount").textContent="Part 1 of 2"; }
-function showTestStage(){ $("#submitTest").disabled=false;$("#submitTest").textContent="Submit test";$("#learningStage").hidden=true;$("#testStage").hidden=false;$("#lessonStepLabel").textContent="TEST";$("#lessonStepCount").textContent="Part 2 of 2";$("#testResult").hidden=true;$("#submitTest").hidden=false;$("#testQuestions").innerHTML=(tests[active.id]||generatedCategoryTests[active.id]||codingTests[active.id]||generatedTest(active)).map((q,i)=>`<div class="test-question"><h4>${i+1}. ${q[0]}</h4>${q[1].map((a,j)=>`<button class="test-option ${testAnswers[i]===j?"selected":""}" data-q="${i}" data-a="${j}" type="button">${String.fromCharCode(65+j)}. ${a}</button>`).join("")}</div>`).join("");document.querySelectorAll(".test-option").forEach(b=>b.addEventListener("click",()=>{testAnswers[+b.dataset.q]=+b.dataset.a;showTestStage();}));}
+let learningPages=[],learningPageIndex=0;
+function safeLessonText(value){return String(value??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function buildLearningPages(){
+ const sections=(active.body||"<p>Review the lesson overview.</p>").split(/(?=<h[23][^>]*>)/i).filter(part=>part.trim());
+ learningPages=sections.map((html,index)=>({label:index===0?"Lesson overview":(html.match(/<h[23][^>]*>([\s\S]*?)<\/h[23]>/i)?.[1]||"Lesson section").replace(/<[^>]+>/g,"").trim(),html}));
+ const bank=tests[active.id]||generatedCategoryTests[active.id]||codingTests[active.id]||generatedTest(active);
+ const cards=bank.map((q,index)=>'<article class="lesson-review-card"><h3>Test skill '+(index+1)+': '+safeLessonText(q[0])+'</h3><p>Identify the concept being tested. Use the definitions, steps, and examples from the lesson to decide which idea fits and why the other choices do not.</p><div class="lesson-review-answer">Key idea: '+safeLessonText(q[1]?.[q[2]]||"Review the lesson")+'</div><p><strong>Study check:</strong> Explain this idea in your own words, then create a new example to prove you understand it.</p></article>').join("");
+ learningPages.push({label:"Test review",html:'<h3>Prepare for the test</h3><p>This page reviews the actual skills and concepts asked about in this lesson test. Make sure you can explain each idea and apply it to a new example.</p>'+cards+'<div class="example"><strong>Ready check:</strong> Understand the reasoning, not only the answer.</div>'});
+}
+function renderLearningPage(){
+ const page=learningPages[learningPageIndex];$("#lessonBody").innerHTML=page?.html||"";
+ $("#lessonPageStatus").textContent="Page "+(learningPageIndex+1)+" of "+learningPages.length+" · "+(page?.label||"Lesson");
+ $("#lessonPrev").disabled=learningPageIndex===0;$("#lessonNext").disabled=learningPageIndex===learningPages.length-1;
+ $("#lessonNext").textContent=learningPageIndex===learningPages.length-1?"Last page":"Next page →";
+ $("#startTest").textContent=learningPageIndex===learningPages.length-1?"Start the test →":"Continue to next page →";
+}
+function showLearningStage(){ $("#learningStage").hidden=false;$("#testStage").hidden=true;$("#lessonStepLabel").textContent="LEARN";$("#lessonStepCount").textContent="Part 1 of "+learningPages.length;renderLearningPage();}function showTestStage(){ $("#submitTest").disabled=false;$("#submitTest").textContent="Submit test";$("#learningStage").hidden=true;$("#testStage").hidden=false;$("#lessonStepLabel").textContent="TEST";$("#lessonStepCount").textContent="Part 2 of 2";$("#testResult").hidden=true;$("#submitTest").hidden=false;$("#testQuestions").innerHTML=(tests[active.id]||generatedCategoryTests[active.id]||codingTests[active.id]||generatedTest(active)).map((q,i)=>`<div class="test-question"><h4>${i+1}. ${q[0]}</h4>${q[1].map((a,j)=>`<button class="test-option ${testAnswers[i]===j?"selected":""}" data-q="${i}" data-a="${j}" type="button">${String.fromCharCode(65+j)}. ${a}</button>`).join("")}</div>`).join("");document.querySelectorAll(".test-option").forEach(b=>b.addEventListener("click",()=>{testAnswers[+b.dataset.q]=+b.dataset.a;showTestStage();}));}
 function openLesson(id){
  active=lessons.find(l=>l.id===id);testAnswers={};
  $("#modalSubject").textContent=active.subject.toUpperCase();$("#lessonTitle").textContent=active.title;$("#lessonMeta").textContent=`${active.level} · ${active.time} · Read the lesson, then take the test`;
- $("#lessonBody").innerHTML=active.body;showLearningStage();$("#modal").classList.add("show");document.body.style.overflow="hidden";
+ buildLearningPages();learningPageIndex=0;showLearningStage();$("#modal").classList.add("show");document.body.style.overflow="hidden";
 }
-$("#startTest").addEventListener("click",showTestStage);
+$("#lessonPrev").addEventListener("click",()=>{if(learningPageIndex>0){learningPageIndex--;showLearningStage();}});\n$("#lessonNext").addEventListener("click",()=>{if(learningPageIndex<learningPages.length-1){learningPageIndex++;showLearningStage();}});\n$("#startTest").addEventListener("click",()=>{if(learningPageIndex<learningPages.length-1){learningPageIndex=learningPages.length-1;showLearningStage();}else showTestStage();});
 $("#backToLesson").addEventListener("click",showLearningStage);
 $("#submitTest").addEventListener("click",()=>{
  const bank=tests[active.id]||generatedCategoryTests[active.id]||codingTests[active.id]||generatedTest(active),score=bank.filter((q,i)=>testAnswers[i]===q[2]).length;
