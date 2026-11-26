@@ -669,6 +669,30 @@ body.dark .home-overview{background:var(--paper)}body.dark .home-subject-card,bo
   color:#fff!important;
   -webkit-text-fill-color:#fff!important;
 }
+
+/* Keep the lesson search controls at the top of the sidebar. */
+.library-sidebar{
+  display:flex!important;
+  flex-direction:column!important;
+}
+.library-sidebar > .search-label{
+  order:-100!important;
+  margin-top:0!important;
+}
+.library-sidebar > #search{
+  order:-99!important;
+  margin-bottom:18px!important;
+}
+
+/* Center the Quill footer tagline horizontally. */
+footer{
+  display:flex!important;
+  justify-content:center!important;
+  align-items:center!important;
+  width:100%!important;
+  text-align:center!important;
+  box-sizing:border-box!important;
+}
 </style>
 </head>
 <body>
@@ -1766,26 +1790,3 @@ if("IntersectionObserver" in window){const learnObserver=new IntersectionObserve
 </script>
 </body>
 </html>
-
-/* Force the lesson search controls to the very top of the sidebar. */
-.library-sidebar{
-  display:flex!important;
-  flex-direction:column!important;
-}
-.library-sidebar > .search-label{
-  order:-100!important;
-  margin-top:0!important;
-}
-.library-sidebar > #search{
-  order:-99!important;
-  margin-bottom:18px!important;
-}
-.library-sidebar > .sidebar-label:not(.search-label),
-.library-sidebar > .subject-choice,
-.library-sidebar > .category-panel,
-.library-sidebar > .sidebar-divider,
-.library-sidebar > #grade,
-.library-sidebar > #gradeLabel,
-.library-sidebar > .sidebar-progress{
-  order:0!important;
-}
