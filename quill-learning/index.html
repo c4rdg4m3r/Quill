@@ -1737,7 +1737,7 @@ function openLesson(id){
 }
 $("#lessonPrev").addEventListener("click",()=>{if(learningPageIndex>0){learningPageIndex--;showLearningStage();}});
 $("#lessonNext").addEventListener("click",()=>{if(learningPageIndex<learningPages.length-1){learningPageIndex++;showLearningStage();}});
-$("#startTest").addEventListener("click",()=>{if(learningPageIndex<learningPages.length-1){learningPageIndex=learningPages.length-1;showLearningStage();}else showTestStage();});
+$("#startTest").addEventListener("click",()=>{if(learningPageIndex<learningPages.length-1){learningPageIndex++;showLearningStage();}else showTestStage();});
 $("#backToLesson").addEventListener("click",showLearningStage);
 $("#submitTest").addEventListener("click",()=>{
  const bank=tests[active.id]||generatedCategoryTests[active.id]||codingTests[active.id]||generatedTest(active),score=bank.filter((q,i)=>testAnswers[i]===q[2]).length;
