@@ -566,6 +566,13 @@ html,body{min-height:100%;margin:0}
   width:100%!important;
   text-align:center!important;
 }
+
+/* Redesigned subject sidebar and lesson workspace */
+.library-top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin:12px 0 22px}.library-top h2{font:800 26px Manrope;margin:7px 0 5px;letter-spacing:-.8px}.library-top p{margin:0;color:var(--muted);font-size:14px}.difficulty-switch{display:flex;gap:7px;padding:5px;background:var(--paper);border:1px solid var(--line);border-radius:14px}.difficulty-button{border:0;background:transparent;color:var(--muted);padding:10px 16px;border-radius:10px;font-size:13px;font-weight:700;white-space:nowrap}.difficulty-button.active{background:var(--deep);color:#fff;box-shadow:0 3px 9px rgba(35,75,53,.14)}.library-layout{display:grid;grid-template-columns:270px minmax(0,1fr);gap:24px;align-items:start}.library-sidebar{position:sticky;top:96px;background:var(--paper);border:1px solid var(--line);border-radius:19px;padding:19px;box-shadow:var(--shadow);min-width:0}.sidebar-label{display:block;font-size:10px;font-weight:800;letter-spacing:1.25px;color:var(--muted);margin:4px 0 9px}.subject-choice{width:100%;display:flex;align-items:center;gap:12px;padding:12px;border:1px solid transparent;border-radius:12px;background:transparent;color:var(--ink);text-align:left;font-weight:700;margin:3px 0}.subject-choice span:first-child{width:29px;height:29px;border-radius:9px;background:var(--blue);display:grid;place-items:center;color:var(--deep);font-size:17px}.subject-choice[data-subject="Science"] span:first-child{background:var(--sage)}.subject-choice.active{background:var(--sage);border-color:var(--line);color:var(--deep)}.category-panel{margin-top:19px}.sidebar-select,.sidebar-search{width:100%;min-width:0;border:1px solid var(--line);border-radius:11px;padding:11px 10px;background:var(--bg);color:var(--ink);font-size:12px;outline:none}.sidebar-select:focus,.sidebar-search:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--sage)}.sidebar-divider{height:1px;background:var(--line);margin:20px 0}.search-label{margin-top:17px}.sidebar-progress{display:grid;grid-template-columns:1fr auto;gap:4px 10px;margin-top:22px;padding:13px;background:var(--bg);border-radius:12px}.sidebar-progress span{font-size:9px;font-weight:800;letter-spacing:1px;color:var(--muted);align-self:center}.sidebar-progress strong{font:800 15px Manrope;color:var(--deep)}.sidebar-progress small{grid-column:1/-1;color:var(--muted);font-size:11px}.lesson-results{min-width:0}.results-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:4px 0 17px;padding:0 0 14px;border-bottom:1px solid var(--line)}.results-heading h3{font:700 19px Manrope;margin:4px 0 0}.results-heading .subject-library-heading{margin:0}.results-count{font-size:12px;color:var(--muted);white-space:nowrap}.lesson-results #lessons{display:flex!important;flex-direction:column!important;align-items:stretch;width:100%;min-width:0;gap:0}.lesson-results .grade-section .grid{grid-template-columns:repeat(2,minmax(0,1fr))}.lesson-results .grade-section{margin-top:0}.lesson-results .card{min-height:215px}.filters{display:none!important}
+body.dark .library-sidebar,body.dark .difficulty-switch{background:var(--paper)}body.dark .difficulty-button.active{background:#547b68}body.dark .subject-choice.active{background:#293c31;color:#cce0d1}body.dark .sidebar-select,body.dark .sidebar-search{background:#171e1a;color:var(--ink)}
+@media(max-width:900px){.library-layout{grid-template-columns:230px minmax(0,1fr);gap:16px}.library-sidebar{padding:15px}.lesson-results .grade-section .grid{grid-template-columns:1fr}.library-top{align-items:flex-start;flex-direction:column}.difficulty-switch{width:100%}.difficulty-button{flex:1}}
+@media(max-width:650px){.library-layout{grid-template-columns:1fr}.library-sidebar{position:static}.lesson-results .grade-section .grid{grid-template-columns:1fr}.results-heading{align-items:flex-start;flex-direction:column}.difficulty-switch{overflow:auto}.difficulty-button{padding:10px 9px}.library-top h2{font-size:23px}}
+
 </style>
 </head>
 <body>
@@ -580,12 +587,49 @@ html,body{min-height:100%;margin:0}
     <div class="hero-art" aria-hidden="true"><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-spark spark-one">✳</div><div class="art-spark spark-two">+</div><div class="art-disc"><span>IDEAS</span><strong>∞</strong><small>IN MOTION</small></div><div class="art-sticker">STAY<br>CURIOUS</div><div class="art-grid"></div></div>
   </section>
   <section id="learn" class="learning-library">
-    <div class="section-head"><div><div class="eyebrow">LEARNING LIBRARY</div><h2>Find something to learn</h2><p>Choose a subject, narrow your grade, or search for a topic.</p></div></div>
-    <div class="lesson-controls">
-      <div class="filters" id="subjectFilters" aria-label="Choose a subject"><button type="button" class="pill active" data-subject="Math" aria-pressed="true">Mathematics</button><button type="button" class="pill" data-subject="Science" aria-pressed="false">Science</button><button type="button" class="pill" data-subject="Number Sense" aria-pressed="false">Number Sense</button></div>
-      <div class="toolbar"><div class="grade-filter"><label for="grade">SELECT A GRADE</label><select class="select" id="grade" aria-label="Select the grade you want to view"><option value="all">All grades</option><option value="1">1st Grade</option><option value="2">2nd Grade</option><option value="3">3rd Grade</option><option value="4">4th Grade</option><option value="5">5th Grade</option><option value="6">6th Grade</option><option value="7">7th Grade</option><option value="8">8th Grade</option><option value="9">9th Grade</option><option value="10">10th Grade</option><option value="11">11th Grade</option><option value="12">12th Grade</option></select></div><input class="search" id="search" placeholder="Search lessons..." aria-label="Search lessons"></div>
+    <div class="library-top">
+      <div><div class="eyebrow">LEARNING LIBRARY</div><h2>Explore your next lesson</h2><p>Pick a subject and category, then choose a lesson.</p></div>
+      <div class="difficulty-switch" id="difficultySwitch" aria-label="Lesson difficulty">
+        <button type="button" class="difficulty-button active" data-difficulty="On Level" aria-pressed="true">On Level</button>
+        <button type="button" class="difficulty-button" data-difficulty="Advanced" aria-pressed="false">Advanced</button>
+        <button type="button" class="difficulty-button" data-difficulty="AP/GT" aria-pressed="false">AP/GT</button>
+      </div>
     </div>
-    <div class="subject-library-heading" id="subjectLibraryHeading" aria-live="polite">MATHEMATICS LESSONS</div><div class="grid" id="lessons"></div>
+    <div class="library-layout">
+      <aside class="library-sidebar" aria-label="Lesson categories">
+        <div class="sidebar-label">SUBJECT</div>
+        <button type="button" class="subject-choice active" id="sidebarMath" data-subject="Math"><span>∑</span><span>Mathematics</span></button>
+        <button type="button" class="subject-choice" id="sidebarScience" data-subject="Science"><span>⚛</span><span>Science</span></button>
+        <div id="mathCategoryPanel" class="category-panel">
+          <label class="sidebar-label" for="mathCategory">MATHEMATICS CATEGORY</label>
+          <select class="sidebar-select" id="mathCategory">
+            <option value="all">All Mathematics</option>
+            <option value="General Math">General Math (Regular Math)</option>
+            <optgroup label="Pure Mathematics">
+              <option value="Arithmetic">Arithmetic</option><option value="Algebra">Algebra (Elementary, Linear, Abstract)</option><option value="Geometry">Geometry (Euclidean, Non-Euclidean, Analytic)</option><option value="Trigonometry">Trigonometry</option><option value="Calculus">Calculus (Differential, Integral)</option><option value="Mathematical Analysis">Mathematical Analysis (Real, Complex)</option><option value="Differential Equations">Differential Equations</option><option value="Number Theory">Number Theory</option><option value="Topology">Topology</option><option value="Set Theory">Set Theory</option><option value="Mathematical Logic">Mathematical Logic</option>
+            </optgroup>
+            <optgroup label="Applied Mathematics">
+              <option value="Probability">Probability</option><option value="Statistics">Statistics</option><option value="Discrete Mathematics">Discrete Mathematics</option><option value="Combinatorics">Combinatorics</option><option value="Graph Theory">Graph Theory</option><option value="Game Theory">Game Theory</option><option value="Optimization">Optimization (Operations Research)</option><option value="Numerical Analysis">Numerical Analysis</option><option value="Cryptography">Cryptography</option><option value="Information Theory">Information Theory</option><option value="Mathematical Physics">Mathematical Physics</option><option value="Actuarial Science">Actuarial Science / Financial Mathematics</option>
+            </optgroup>
+          </select>
+        </div>
+        <div id="scienceCategoryPanel" class="category-panel" hidden>
+          <label class="sidebar-label" for="scienceCategory">SCIENCE CATEGORY</label>
+          <select class="sidebar-select" id="scienceCategory">
+            <option value="all">All Science</option><option value="General Science">General Science (Regular Science)</option><option value="Biology">Biology</option><option value="Physics">Physics</option><option value="Chemistry">Chemistry</option><option value="Earth Science">Earth Science</option><option value="Astronomy">Astronomy</option><option value="Astrophysics">Astrophysics</option><option value="Psychology">Psychology</option><option value="Sociology">Sociology</option><option value="Geography">Geography</option><option value="Engineering">Engineering</option>
+          </select>
+        </div>
+        <div class="sidebar-divider"></div>
+        <label class="sidebar-label" for="grade">GRADE LEVEL</label>
+        <select class="sidebar-select" id="grade"><option value="all">All grades</option><option value="1">1st Grade</option><option value="2">2nd Grade</option><option value="3">3rd Grade</option><option value="4">4th Grade</option><option value="5">5th Grade</option><option value="6">6th Grade</option><option value="7">7th Grade</option><option value="8">8th Grade</option><option value="9">9th Grade</option><option value="10">10th Grade</option><option value="11">11th Grade</option><option value="12">12th Grade</option></select>
+        <label class="sidebar-label search-label" for="search">SEARCH LESSONS</label><input class="search sidebar-search" id="search" placeholder="Search topics..." aria-label="Search lessons">
+        <div class="sidebar-progress"><span>YOUR PROGRESS</span><strong id="sidebarProgressCount">0 / 0</strong><small>lessons completed</small></div>
+      </aside>
+      <div class="lesson-results">
+        <div class="results-heading"><div><div class="subject-library-heading" id="subjectLibraryHeading" aria-live="polite">MATHEMATICS LESSONS</div><h3 id="resultsTitle">All Mathematics</h3></div><span class="results-count" id="resultsCount">Loading lessons</span></div>
+        <div class="grid" id="lessons"></div>
+      </div>
+    </div>
   </section>
   <section class="progress-panel" id="progress"><div><h3>Your learning, your pace</h3><p>Lessons you complete here are tracked on this device.</p></div><div><div class="progress-count" id="progressCount">0 / 0</div><p>lessons completed</p></div></section>
 </main>
@@ -1278,55 +1322,77 @@ const lessons = [
  {id:517,title:"Halve Even Numbers to Divide",subject:"Number Sense",grade:"5",level:"5th Grade",time:"6 min",desc:"Use repeated halving to divide by 2, 4, or 8.",body:"<p>Division by powers of 2 can be done by taking halves.</p><h3>Example: 144 ÷ 8</h3><p>Half 144 to get 72. Half 72 to get 36. Half 36 to get 18. So 144 ÷ 8 = 18.</p><div class=\"example\"><strong>Remember:</strong> ÷ 8 means halve three times; ÷ 4 means halve twice.</div><p>Choose numbers where each half is easy to work with.</p>"},
  {id:518,title:"Estimate Products with Rounding",subject:"Number Sense",grade:"6",level:"6th Grade",time:"6 min",desc:"Round factors to estimate multiplication before calculating.",body:"<p>Rounding factors gives a quick estimate of a product.</p><h3>Example: 19 × 31</h3><p>Round 19 to 20 and 31 to 30. Then 20 × 30 = 600. The exact product, 589, is close to 600.</p><div class=\"example\"><strong>Use it to check:</strong> If you calculate 19 × 31 and get 5,890, you know something went wrong.</div><p>An estimate is a reasonableness check, not always the exact answer.</p>"}
 ];
-let subject="Math",active=null,testAnswers={};
-const subjectLibraries={Math:lessons.filter(l=>l.subject==="Math"),Science:lessons.filter(l=>l.subject==="Science"),"Number Sense":lessons.filter(l=>l.subject==="Number Sense")};
-function generatedTest(lesson){const topic=lesson.title;return [[`What is the best first step when learning about ${topic}?`,[`Identify its key ideas and terms`,"Skip examples and memorize random facts","Ignore how the ideas connect"],0],[`Which approach best checks your understanding of ${topic}?`,["Repeat the title without explaining it","Explain the idea in your own words and use an example","Avoid trying a new example"],1],[`If a part of ${topic} is confusing, what should you do?`,["Give up on the whole topic","Choose an answer at random","Review the key idea and work through another example"],2]];}
-
-const $=s=>document.querySelector(s);
-let savedDone=[];try{const parsedDone=JSON.parse(safeStorage.getItem("stillroom-done")||"[]");if(Array.isArray(parsedDone))savedDone=parsedDone;}catch(error){}const done=new Set(savedDone);
+let subject="Math",active=null,testAnswers={},difficulty="On Level";
+const subjectLibraries={Math:lessons.filter(l=>l.subject==="Math"||l.subject==="Number Sense"),Science:lessons.filter(l=>l.subject==="Science")};
+function mathCategory(l){
+ const t=(l.title+" "+l.desc).toLowerCase();
+ if(/number sense|mental math|arithmetic|addition|subtraction|multiplication|division|place value|fraction|decimal|rounding|counting/.test(t))return "Arithmetic";
+ if(/trigon|sine|cosine|tangent|unit circle/.test(t))return "Trigonometry";
+ if(/calculus|derivative|integral/.test(t))return "Calculus";
+ if(/differential equation/.test(t))return "Differential Equations";
+ if(/real analysis|complex analysis|limit and continuity/.test(t))return "Mathematical Analysis";
+ if(/algebra|equation|polynomial|matrix|linear function|variable/.test(t))return "Algebra";
+ if(/geometry|shape|triangle|circle|angle|perimeter|area|volume|coordinate plane/.test(t))return "Geometry";
+ if(/number theory|prime number|divisib|factor|multiple/.test(t))return "Number Theory";
+ if(/probability/.test(t))return "Probability";
+ if(/statistic|regression|data|inference/.test(t))return "Statistics";
+ if(/discrete math/.test(t))return "Discrete Mathematics";
+ if(/combinator/.test(t))return "Combinatorics";
+ if(/graph theory/.test(t))return "Graph Theory";
+ if(/game theory/.test(t))return "Game Theory";
+ if(/optim|operations research/.test(t))return "Optimization";
+ if(/numerical analysis/.test(t))return "Numerical Analysis";
+ if(/cryptograph/.test(t))return "Cryptography";
+ if(/information theory/.test(t))return "Information Theory";
+ if(/mathematical physics/.test(t))return "Mathematical Physics";
+ if(/actuarial|financial math/.test(t))return "Actuarial Science";
+ if(/topolog/.test(t))return "Topology";
+ if(/set theory/.test(t))return "Set Theory";
+ if(/logic|proof/.test(t))return "Mathematical Logic";
+ return "General Math";
+}
+function scienceCategory(l){
+ const t=(l.title+" "+l.desc+" "+l.body).toLowerCase();
+ if(/astronom|solar system|planet|galaxy|star|cosmolog|universe|orbit/.test(t))return "Astronomy";
+ if(/astrophys|quantum model|black hole|relativity|cosmic/.test(t))return "Astrophysics";
+ if(/psycholog|behavior|cognition|memory|emotion/.test(t))return "Psychology";
+ if(/sociolog|societ|culture|population studies/.test(t))return "Sociology";
+ if(/geograph|continent|map|landform|region/.test(t))return "Geography";
+ if(/engineer|design process|mechanism|structure|technology/.test(t))return "Engineering";
+ if(/chemical|chemistry|atom|molecule|element|compound|reaction|periodic|acid|base|organic chemistry|electrochemistry/.test(t))return "Chemistry";
+ if(/force|motion|energy|electric|magnet|light|sound|gravity|wave|circuit|physics/.test(t))return "Physics";
+ if(/plant|animal|cell|dna|genetic|organism|ecosystem|human body|heart|brain|evolution|immunity|biology|nervous system|endocrine/.test(t))return "Biology";
+ if(/earth|rock|mineral|volcano|earthquake|erosion|weathering|soil|fossil|climate|weather|water cycle|ocean|river/.test(t))return "Earth Science";
+ return "General Science";
+}
 function render(){
- const grade=$("#grade").value,term=$("#search").value.toLowerCase();
- const grades=Array.from({length:12},(_,i)=>{const n=String(i+1),suffix=n==="1"?"st":n==="2"?"nd":n==="3"?"rd":"th";return [n,`${n}${suffix} Grade`,`Grade ${n}`]});
+ const selectedGrade=$("#grade").value,term=$("#search").value.toLowerCase();
+ const gradeOffset=difficulty==="Advanced"?1:difficulty==="AP/GT"?2:0;
  const activeLibrary=subjectLibraries[subject]||subjectLibraries.Math;
- const matching=activeLibrary.filter(l=>(grade==="all"||l.grade===grade)&&(`${l.title} ${l.desc} ${l.subject} ${l.level}`).toLowerCase().includes(term));
- $("#subjectLibraryHeading").textContent=subject==="Math"?"MATHEMATICS LESSONS":subject==="Science"?"SCIENCE LESSONS":"NUMBER SENSE · MENTAL MATH LESSONS";
+ const category=subject==="Science"?$("#scienceCategory").value:$("#mathCategory").value;
+ const matching=activeLibrary.filter(l=>{
+  const categoryMatch=category==="all"||(subject==="Science"?scienceCategory(l):mathCategory(l))===category;
+  let gradeMatch=true;
+  if(selectedGrade!=="all")gradeMatch=Number(l.grade)===Math.min(12,Number(selectedGrade)+gradeOffset);
+  else if(difficulty==="Advanced")gradeMatch=Number(l.grade)>=6;
+  else if(difficulty==="AP/GT")gradeMatch=Number(l.grade)>=9;
+  return categoryMatch&&gradeMatch&&(`${l.title} ${l.desc} ${l.subject} ${l.level}`).toLowerCase().includes(term);
+ });
+ const grades=Array.from({length:12},(_,i)=>{const n=String(i+1),suffix=n==="1"?"st":n==="2"?"nd":n==="3"?"rd":"th";return [n,`${n}${suffix} Grade`,`Grade ${n}`];});
+ $("#subjectLibraryHeading").textContent=subject==="Math"?"MATHEMATICS": "SCIENCE";
+ $("#resultsTitle").textContent=category==="all"?(subject==="Math"?"All Mathematics":"All Science"):category;
+ $("#resultsCount").textContent=`${matching.length} lessons`;
  const lessonIcon=l=>{
   const t=(l.title+" "+l.desc).toLowerCase();
-  const rules=[
-   [/fraction|numerator|denominator|mixed number/,"½","Fractions"],
-   [/decimal|tenths|hundredths|thousandths/,"🔟","Decimals"],
-   [/percent|percentage/,"%","Percentages"],
-   [/geometry|shape|polygon|triangle|quadrilateral|circle|angle|perimeter|area|volume|surface area/,"📐","Geometry"],
-   [/time|clock|minute|hour|calendar/,"🕒","Time"],
-   [/money|coin|dollar|change|budget/,"🪙","Money"],
-   [/measurement|length|weight|mass|capacity|unit|convert/,"📏","Measurement"],
-   [/graph|coordinate|plot|data|statistic|probability/,"📊","Data and graphs"],
-   [/equation|algebra|variable|expression|inequalit|function|polynomial/,"𝒙","Algebra"],
-   [/multiply|multiplication|product|times table/,"✖","Multiplication"],
-   [/divid|quotient/,"➗","Division"],
-   [/subtract|difference/,"➖","Subtraction"],
-   [/add|addition|sum|plus/,"➕","Addition"],
-   [/fraction|number line|place value|round|compare number|count|skip count|pattern/,"🔢","Numbers"],
-   [/planet|solar system|space|star|moon|galaxy|orbit|universe/,"🪐","Space"],
-   [/weather|climate|season|cloud|storm|precipitation|temperature/,"🌦️","Weather"],
-   [/plant|flower|seed|photosynthesis|root|leaf|forest/,"🌱","Plants"],
-   [/animal|habitat|ecosystem|food chain|adaptation|organism/,"🦋","Life science"],
-   [/human body|body system|heart|brain|skeleton|digest|circulat|respirat/,"🫀","Human body"],
-   [/cell|dna|genetic|heredit/,"🧬","Cells and genetics"],
-   [/water cycle|water|ocean|river|ice|matter|solid|liquid|gas/,"💧","Water and matter"],
-   [/rock|mineral|earth|volcano|earthquake|erosion|weathering|soil|fossil/,"🌋","Earth science"],
-   [/force|motion|energy|electric|magnet|light|sound|gravity|wave|circuit/,"⚡","Physics"],
-   [/chemical|atom|molecule|element|compound|reaction|periodic|acid|base/,"⚗️","Chemistry"],
-   [/experiment|scientific method|observation|hypothesis|investigat/,"🔬","Experiments"]
-  ];
-  const found=rules.find(([pattern])=>pattern.test(t));
-  if(found)return {symbol:found[1],label:found[2]};
-  return l.subject==="Math"?{symbol:"🧮",label:"Mathematics"}:{symbol:"🔬",label:"Science"};
+  const rules=[[/fraction|numerator|denominator|mixed number/,"½","Fractions"],[/decimal|tenths|hundredths|thousandths/,"🔟","Decimals"],[/percent|percentage/,"%","Percentages"],[/geometry|shape|polygon|triangle|quadrilateral|circle|angle|perimeter|area|volume|surface area/,"📐","Geometry"],[/time|clock|minute|hour|calendar/,"🕒","Time"],[/money|coin|dollar|change|budget/,"🪙","Money"],[/measurement|length|weight|mass|capacity|unit|convert/,"📏","Measurement"],[/graph|coordinate|plot|data|statistic|probability/,"📊","Data and graphs"],[/equation|algebra|variable|expression|inequalit|function|polynomial/,"𝒙","Algebra"],[/multiply|multiplication|product|times table/,"✖","Multiplication"],[/divid|quotient/,"➗","Division"],[/subtract|difference/,"➖","Subtraction"],[/add|addition|sum|plus/,"➕","Addition"],[/fraction|number line|place value|round|compare number|count|skip count|pattern/,"🔢","Numbers"],[/planet|solar system|space|star|moon|galaxy|orbit|universe/,"🪐","Space"],[/weather|climate|season|cloud|storm|precipitation|temperature/,"🌦️","Weather"],[/plant|flower|seed|photosynthesis|root|leaf|forest/,"🌱","Plants"],[/animal|habitat|ecosystem|food chain|adaptation|organism/,"🦋","Life science"],[/human body|body system|heart|brain|skeleton|digest|circulat|respirat/,"🫀","Human body"],[/cell|dna|genetic|heredit/,"🧬","Cells and genetics"],[/water cycle|water|ocean|river|ice|matter|solid|liquid|gas/,"💧","Water and matter"],[/rock|mineral|earth|volcano|earthquake|erosion|weathering|soil|fossil/,"🌋","Earth science"],[/force|motion|energy|electric|magnet|light|sound|gravity|wave|circuit/,"⚡","Physics"],[/chemical|atom|molecule|element|compound|reaction|periodic|acid|base/,"⚗️","Chemistry"],[/experiment|scientific method|observation|hypothesis|investigat/,"🔬","Experiments"]];
+  const found=rules.find(([pattern])=>pattern.test(t));if(found)return {symbol:found[1],label:found[2]};
+  return l.subject==="Science"?{symbol:"🔬",label:"Science"}:{symbol:"🧮",label:"Mathematics"};
  };
- const card=l=>{const icon=lessonIcon(l);return `<article class="card">${done.has(l.id)?'<span class="card-complete" aria-label="Completed" title="Completed">✓</span>':""}<div class="card-top"><div class="subject-icon ${l.subject.toLowerCase()}" role="img" aria-label="${icon.label}" title="${icon.label}">${icon.symbol}</div><span class="level">${l.level}</span></div><h3>${l.title}</h3><p>${l.desc}</p><div class="card-foot"><span>${l.subject} · ${l.time}</span><button class="open" data-id="${l.id}">${done.has(l.id)?"Review":"Start lesson"} →</button></div></article>`;};
+ const card=l=>{const icon=lessonIcon(l);return `<article class="card">${done.has(l.id)?'<span class="card-complete" aria-label="Completed" title="Completed">✓</span>':""}<div class="card-top"><div class="subject-icon ${l.subject.toLowerCase().replace(" ","")}" role="img" aria-label="${icon.label}" title="${icon.label}">${icon.symbol}</div><span class="level">${l.level} · ${difficulty}</span></div><h3>${l.title}</h3><p>${l.desc}</p><div class="card-foot"><span>${l.subject} · ${l.time}</span><button class="open" data-id="${l.id}">${done.has(l.id)?"Review":"Start lesson"} →</button></div></article>`;};
  const sections=grades.map(([key,label,range])=>{const items=matching.filter(l=>l.grade===key);return items.length?`<section class="grade-section"><div class="grade-section-head"><div><h3>${label}</h3><p>${range}</p></div><span class="grade-total">${items.length} lessons</span></div><div class="grid">${items.map(card).join("")}</div></section>`:""}).join("");
- $("#lessons").innerHTML=sections||`<div class="empty">No lessons match those filters. Try another grade or search term.</div>`;
+ $("#lessons").innerHTML=sections||`<div class="empty">No lessons match these filters yet. Try another category, grade, or difficulty.</div>`;
  $("#progressCount").textContent=`${done.size} / ${lessons.length}`;
+ $("#sidebarProgressCount").textContent=`${done.size} / ${lessons.length}`;
 }
 const tests = {
 490:[["What is 8 + 5 using make ten?",["12","13","14"],1],["What does 8 need to reach 10?",["1","2","3"],1],["What is 9 + 4?",["12","13","14"],1]],
@@ -1408,6 +1474,10 @@ $("#modal").addEventListener("click",e=>{if(e.target.id==="modal")close()});
 
 $("#grade").addEventListener("change",render);$("#search").addEventListener("input",render);
 $("#subjectFilters").addEventListener("click",event=>{const button=event.target.closest("button[data-subject]");if(!button)return;subject=["Math","Science","Number Sense"].includes(button.dataset.subject)?button.dataset.subject:"Math";$("#subjectFilters").querySelectorAll("button[data-subject]").forEach(item=>{const selected=item.dataset.subject===subject;item.classList.toggle("active",selected);item.setAttribute("aria-pressed",String(selected));});render();});
+$("#sidebarMath").addEventListener("click",()=>{subject="Math";$("#mathCategoryPanel").hidden=false;$("#scienceCategoryPanel").hidden=true;$("#sidebarMath").classList.add("active");$("#sidebarScience").classList.remove("active");render();});
+$("#sidebarScience").addEventListener("click",()=>{subject="Science";$("#mathCategoryPanel").hidden=true;$("#scienceCategoryPanel").hidden=false;$("#sidebarScience").classList.add("active");$("#sidebarMath").classList.remove("active");render();});
+$("#mathCategory").addEventListener("change",render);$("#scienceCategory").addEventListener("change",render);
+$("#difficultySwitch").addEventListener("click",event=>{const button=event.target.closest("button[data-difficulty]");if(!button)return;difficulty=button.dataset.difficulty;$("#difficultySwitch").querySelectorAll("button").forEach(item=>{const selected=item===button;item.classList.toggle("active",selected);item.setAttribute("aria-pressed",String(selected));});render();});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){close();closeProfile();}});
 render();
 </script>
