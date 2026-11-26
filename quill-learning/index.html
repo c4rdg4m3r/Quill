@@ -163,6 +163,16 @@ body{--green:var(--user-green,#547b68);--deep:var(--user-deep,#365b4a);--sage:va
 body.dark .setting-input,body.dark .color-picker{background:#151a18;color:var(--ink)}
 @media(max-width:560px){.account-display-name{display:none}.settings-panel{right:0;bottom:64px}}
 
+
+/* Make every theme-dependent control follow the selected accent, including dark mode. */
+.pill.active{background:var(--deep)!important;border-color:var(--deep)!important}
+.open,.primary{background:var(--deep)!important}
+.open:hover,.primary:hover{filter:brightness(.92)}
+body.dark .pill.active{background:var(--deep)!important;border-color:var(--deep)!important}
+body.dark .primary{background:var(--deep)!important}
+body.dark .open{background:var(--sage)!important;color:var(--green)!important}
+body.dark .settings-button{border-color:var(--line)}
+
 </style>
 </head>
 <body>
@@ -229,6 +239,7 @@ body.dark .setting-input,body.dark .color-picker{background:#151a18;color:var(--
 const themeKey="quill-theme";
 function applyTheme(theme){
  document.body.classList.toggle("dark",theme==="dark");
+ if(typeof applyAccent==="function")applyAccent(localStorage.getItem("quill-accent")||"#365b4a");
  document.getElementById("themeColor").setAttribute("content",theme==="dark"?"#151a18":"#f5f7f4");
  document.getElementById("lightTheme").classList.toggle("active",theme!=="dark");
  document.getElementById("darkTheme").classList.toggle("active",theme==="dark");
@@ -257,6 +268,10 @@ function applyAccent(color){
  document.documentElement.style.setProperty("--user-deep",deep);
  document.documentElement.style.setProperty("--user-sage",sage);
  document.documentElement.style.setProperty("--user-sage-dark",hexMix(color,"#202724",.72));
+ /* Set the active theme tokens directly on body so earlier dark-theme rules cannot override them. */
+ document.body.style.setProperty("--green",green);
+ document.body.style.setProperty("--deep",deep);
+ document.body.style.setProperty("--sage",document.body.classList.contains("dark")?hexMix(color,"#202724",.72):sage);
  document.getElementById("customAccent").value=color;
  document.querySelectorAll(".color-swatch").forEach(b=>b.classList.toggle("active",palettes[b.dataset.color]?.deep.toLowerCase()===color.toLowerCase()));
 }
