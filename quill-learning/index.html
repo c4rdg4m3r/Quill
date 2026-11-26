@@ -903,6 +903,7 @@ body.dark #lessons .card .level{
         <button type="button" class="subject-choice active" id="sidebarMath" data-subject="Math"><span>∑</span><span>Mathematics</span></button>
         <button type="button" class="subject-choice" id="sidebarScience" data-subject="Science"><span>⚛</span><span>Science</span></button>
         <button type="button" class="subject-choice" id="sidebarCoding" data-subject="Coding"><span>⌘</span><span>Coding</span></button>
+<button type="button" class="subject-choice" id="sidebarHistory" data-subject="History"><span>⌛</span><span>History</span></button>
         <div id="mathCategoryPanel" class="category-panel">
           <label class="sidebar-label" for="mathCategory">MATHEMATICS CATEGORY</label>
           <select class="sidebar-select" id="mathCategory">
@@ -939,6 +940,26 @@ body.dark #lessons .card .level{
           <div class="category-list" id="codingCategoryList" aria-label="Coding paths"></div>
           <p class="coding-hint">Choose a path to explore its specializations, languages, and lessons.</p>
         </div>
+<div id="historyCategoryPanel" class="category-panel" hidden>
+<label class="sidebar-label" for="historyCategory">HISTORY FIELD</label>
+<select class="sidebar-select" id="historyCategory">
+<option value="all">All History</option>
+<optgroup label="By Human Activity">
+<option value="Political History">Political History</option><option value="Military History">Military History</option><option value="Diplomatic History">Diplomatic History</option><option value="Economic History">Economic History</option><option value="Social History">Social History</option><option value="Cultural History">Cultural History</option><option value="Intellectual History">Intellectual History (History of Ideas)</option><option value="Religious History">Religious History</option><option value="Legal History">Legal History</option>
+</optgroup>
+<optgroup label="By Group or Identity">
+<option value="Women’s and Gender History">Women’s and Gender History</option><option value="Ethnic and Racial History">Ethnic and Racial History</option><option value="Labor History">Labor History</option><option value="LGBTQ+ History">LGBTQ+ History</option>
+</optgroup>
+<optgroup label="By Time Period">
+<option value="Prehistory">Prehistory</option><option value="Ancient History">Ancient History</option><option value="Post-Classical / Medieval History">Post-Classical / Medieval History</option><option value="Early Modern History">Early Modern History</option><option value="Modern History">Modern History</option>
+</optgroup>
+<optgroup label="By Scale and Geography">
+<option value="World / Global History">World / Global History</option><option value="Regional and National History">Regional and National History</option><option value="Local History">Local History</option><option value="Microhistory">Microhistory</option><option value="Big History">Big History</option>
+</optgroup>
+<optgroup label="Interdisciplinary & Specialized Branches">
+<option value="Environmental History">Environmental History</option><option value="History of Science and Technology">History of Science and Technology</option><option value="Art and Architectural History">Art and Architectural History</option><option value="Maritime History">Maritime History</option><option value="Oral History">Oral History</option><option value="Public History">Public History</option><option value="Digital History">Digital History</option><option value="Historiography">Historiography</option>
+</optgroup></select>
+<div class="category-list" id="historyCategoryList" aria-label="History fields"></div></div>
         <div class="sidebar-divider"></div>
         <label class="sidebar-label" id="gradeLabel" for="grade">GRADE LEVEL</label>
         <select class="sidebar-select" id="grade"><option value="all">All grades</option><option value="1">1st Grade</option><option value="2">2nd Grade</option><option value="3">3rd Grade</option><option value="4">4th Grade</option><option value="5">5th Grade</option><option value="6">6th Grade</option><option value="7">7th Grade</option><option value="8">8th Grade</option><option value="9">9th Grade</option><option value="10">10th Grade</option><option value="11">11th Grade</option><option value="12">12th Grade</option></select>
@@ -1748,6 +1769,12 @@ for(const [path,info] of Object.entries(codingPaths)){
 
 let subject="Math",active=null,testAnswers={},difficulty="On Level";
 const subjectLibraries={Math:lessons.filter(l=>l.subject==="Math"||l.subject==="Number Sense"),Science:lessons.filter(l=>l.subject==="Science"),Coding:lessons.filter(l=>l.subject==="Coding")};
+subjectLibraries.History=[];
+const historyDescriptions={"Political History":"Governments, leaders, laws, elections, political movements, and power.","Military History":"Armed conflicts, military institutions, strategy, battles, and the effects of warfare.","Diplomatic History":"Relations between nations, treaties, alliances, negotiations, and foreign policy.","Economic History":"Trade, markets, labor, money, industrialization, and how wealth is distributed.","Social History":"Everyday lives, families, communities, class systems, and ordinary people.","Cultural History":"Traditions, arts, literature, entertainment, beliefs, and shared identities.","Intellectual History":"How ideas, philosophies, and ideologies develop and spread.","Religious History":"The origins, teachings, institutions, and social influence of religions.","Legal History":"The development of laws, courts, constitutions, and ideas about justice.","Women’s and Gender History":"Women’s roles, rights, experiences, and changing ideas about gender.","Ethnic and Racial History":"The histories, migrations, contributions, discrimination, and heritage of racial and ethnic groups.","Labor History":"Workers, working conditions, labor movements, unions, and strikes.","LGBTQ+ History":"LGBTQ+ communities, historical experiences, social attitudes, and civil-rights movements.","Prehistory":"Human evolution, early migrations, ancient tools, and societies before written records.","Ancient History":"Early civilizations including Mesopotamia, Egypt, Greece, Rome, China, and the Maya.","Post-Classical / Medieval History":"Medieval societies, empires, trade networks, belief systems, and feudalism.","Early Modern History":"The Renaissance, global exploration, scientific change, and the Enlightenment.","Modern History":"Industrialization, world wars, the Cold War, decolonization, and the digital era.","World / Global History":"Large-scale patterns and connections crossing borders around the world.","Regional and National History":"The histories of particular regions, continents, civilizations, and countries.","Local History":"The development of towns, cities, counties, and individual communities.","Microhistory":"A close study of one person, family, event, or community to reveal wider historical context.","Big History":"The broad story from the origins of the universe and Earth through human societies.","Environmental History":"How people and the natural world influence each other, including climate and resources.","History of Science and Technology":"Scientific discoveries, medical advances, inventions, and their effects.","Art and Architectural History":"Visual art, monuments, buildings, and design in historical contexts.","Maritime History":"Human connections with oceans, ships, navigation, sea trade, and naval history.","Oral History":"Collecting and preserving historical knowledge through interviews.","Public History":"Sharing history through museums, archives, monuments, documentaries, and preservation.","Digital History":"Using digital archives, computing, mapping, and data tools to research and present history.","Historiography":"How history is written and interpreted, including historians’ methods and changing perspectives."};
+function historyGuideMarkup(category){
+ const entries=Object.entries(historyDescriptions).filter(([name])=>category==="all"||name===category);
+ return '<div class="grid history-guide-grid">'+entries.map(([name,description])=>'<article class="card history-field-card"><div class="card-top"><div class="subject-icon">⌛</div><span class="level">HISTORY FIELD</span></div><h3>'+name+'</h3><p>'+description+'</p></article>').join("")+'</div>';
+}
 function mathCategory(l){
  if(l.category)return l.category;
  const t=(l.title+" "+l.desc).toLowerCase();
@@ -1795,7 +1822,7 @@ function render(){
  const selectedGrade=$("#grade").value,term=$("#search").value.toLowerCase();
  const gradeOffset=difficulty==="Advanced"?1:difficulty==="AP/GT"?2:0;
  const activeLibrary=subjectLibraries[subject]||subjectLibraries.Math;
- const category=subject==="Science"?$("#scienceCategory").value:subject==="Coding"?$("#codingCategory").value:$("#mathCategory").value;
+ const category=subject==="Science"?$("#scienceCategory").value:subject==="Coding"?$("#codingCategory").value:subject==="History"?$("#historyCategory").value:$("#mathCategory").value;
  const matching=activeLibrary.filter(l=>{
   const categoryMatch=category==="all"||(subject==="Science"?scienceCategory(l):subject==="Coding"?l.category:mathCategory(l))===category;
   let gradeMatch=true;
@@ -1805,8 +1832,8 @@ function render(){
   return categoryMatch&&gradeMatch&&(`${l.title} ${l.desc} ${l.subject} ${l.level}`).toLowerCase().includes(term);
  });
  const grades=Array.from({length:12},(_,i)=>{const n=String(i+1),suffix=n==="1"?"st":n==="2"?"nd":n==="3"?"rd":"th";return [n,`${n}${suffix} Grade`,`Grade ${n}`];});
- $("#subjectLibraryHeading").textContent=subject==="Math"?"MATHEMATICS":subject==="Science"?"SCIENCE":"CODING";
- $("#resultsTitle").textContent=category==="all"?(subject==="Math"?"All Mathematics":subject==="Science"?"All Science":"All Coding"):category;
+ $("#subjectLibraryHeading").textContent=subject==="Math"?"MATHEMATICS":subject==="Science"?"SCIENCE":subject==="Coding"?"CODING":"HISTORY";
+ $("#resultsTitle").textContent=category==="all"?(subject==="Math"?"All Mathematics":subject==="Science"?"All Science":subject==="Coding"?"All Coding":"Explore History"):category;
  $("#resultsCount").textContent=`${matching.length} lessons`;
  const lessonIcon=l=>{
   const t=(l.title+" "+l.desc).toLowerCase();
@@ -1815,7 +1842,7 @@ function render(){
   return l.subject==="Science"?{symbol:"🔬",label:"Science"}:{symbol:"🧮",label:"Mathematics"};
  };
  const card=l=>{const icon=lessonIcon(l);return `<article class="card">${done.has(l.id)?'<span class="card-complete" aria-label="Completed" title="Completed">✓</span>':""}<div class="card-top"><div class="subject-icon ${l.subject.toLowerCase().replace(" ","")}" role="img" aria-label="${icon.label}" title="${icon.label}">${icon.symbol}</div><span class="level">${l.level} · ${difficulty}</span></div><h3>${l.title}</h3><p>${l.desc}</p><div class="card-foot"><span>${l.subject} · ${l.time}</span><button class="open" data-id="${l.id}">${done.has(l.id)?"Review":"Start lesson"} →</button></div></article>`;};
- const sections=subject==="Coding"?`<div class="grid">${matching.map(card).join("")}</div>`:grades.map(([key,label,range])=>{const items=matching.filter(l=>l.grade===key);return items.length?`<section class="grade-section"><div class="grade-section-head"><div><h3>${label}</h3><p>${range}</p></div><span class="grade-total">${items.length} lessons</span></div><div class="grid">${items.map(card).join("")}</div></section>`:""}).join("");
+ const sections=subject==="History"?historyGuideMarkup(category):subject==="Coding"?`<div class="grid">${matching.map(card).join("")}</div>`:grades.map(([key,label,range])=>{const items=matching.filter(l=>l.grade===key);return items.length?`<section class="grade-section"><div class="grade-section-head"><div><h3>${label}</h3><p>${range}</p></div><span class="grade-total">${items.length} lessons</span></div><div class="grid">${items.map(card).join("")}</div></section>`:""}).join("");
  $("#lessons").innerHTML=sections||`<div class="empty">No lessons match these filters yet. Try another category, grade, or difficulty.</div>`;
  $("#progressCount").textContent=`${done.size} / ${lessons.length}`;
  $("#sidebarProgressCount").textContent=`${done.size} / ${lessons.length}`;
@@ -1931,9 +1958,18 @@ $("#modal").addEventListener("click",e=>{if(e.target.id==="modal")close()});
 
 $("#grade").addEventListener("change",render);$("#search").addEventListener("input",render);
 // Subject selection is handled by the dedicated left sidebar buttons.
-$("#sidebarMath").addEventListener("click",()=>{subject="Math";$("#mathCategoryPanel").hidden=false;$("#scienceCategoryPanel").hidden=true;$("#codingCategoryPanel").hidden=true;$("#grade").parentElement;$("#sidebarMath").classList.add("active");$("#sidebarScience").classList.remove("active");$("#sidebarCoding").classList.remove("active");$("#grade").hidden=false;$("#gradeLabel").hidden=false;render();});
-$("#sidebarScience").addEventListener("click",()=>{subject="Science";$("#mathCategoryPanel").hidden=true;$("#scienceCategoryPanel").hidden=false;$("#codingCategoryPanel").hidden=true;$("#sidebarScience").classList.add("active");$("#sidebarMath").classList.remove("active");$("#sidebarCoding").classList.remove("active");$("#grade").hidden=false;$("#gradeLabel").hidden=false;render();});
-$("#sidebarCoding").addEventListener("click",()=>{subject="Coding";$("#mathCategoryPanel").hidden=true;$("#scienceCategoryPanel").hidden=true;$("#codingCategoryPanel").hidden=false;$("#sidebarCoding").classList.add("active");$("#sidebarMath").classList.remove("active");$("#sidebarScience").classList.remove("active");$("#grade").hidden=true;$("#gradeLabel").hidden=true;render();});
+function activateSubject(next){
+ subject=next;
+ ["math","science","coding","history"].forEach(name=>$("#"+name+"CategoryPanel").hidden=name!==next.toLowerCase());
+ ["Math","Science","Coding","History"].forEach(name=>$("#sidebar"+name).classList.toggle("active",name===next));
+ const usesGrade=next==="Math"||next==="Science";
+ $("#grade").hidden=!usesGrade;$("#gradeLabel").hidden=!usesGrade;
+ render();
+}
+$("#sidebarMath").addEventListener("click",()=>activateSubject("Math"));
+$("#sidebarScience").addEventListener("click",()=>activateSubject("Science"));
+$("#sidebarCoding").addEventListener("click",()=>activateSubject("Coding"));
+$("#sidebarHistory").addEventListener("click",()=>activateSubject("History"));
 function buildCategoryList(selectId,listId){
  const select=$(`#${selectId}`),list=$(`#${listId}`);
  const addButton=(option)=>{const button=document.createElement("button");button.type="button";button.className="category-link";button.dataset.value=option.value;button.textContent=option.textContent;button.addEventListener("click",()=>{select.value=option.value;render();});list.appendChild(button);};
@@ -1943,12 +1979,12 @@ function buildCategoryList(selectId,listId){
  });
 }
 function syncCategoryLists(){
- [["mathCategory","mathCategoryList"],["scienceCategory","scienceCategoryList"],["codingCategory","codingCategoryList"]].forEach(([selectId,listId])=>{
+ [["mathCategory","mathCategoryList"],["scienceCategory","scienceCategoryList"],["codingCategory","codingCategoryList"],["historyCategory","historyCategoryList"]].forEach(([selectId,listId])=>{
   const select=$(`#${selectId}`),list=$(`#${listId}`);
   if(!select||!list)return;
   list.querySelectorAll(".category-link").forEach(button=>{const selected=button.dataset.value===select.value;button.classList.toggle("active",selected);button.setAttribute("aria-pressed",String(selected));});
  });
- [["Math","sidebarMath"],["Science","sidebarScience"],["Coding","sidebarCoding"]].forEach(([name,id])=>{
+ [["Math","sidebarMath"],["Science","sidebarScience"],["Coding","sidebarCoding"],["History","sidebarHistory"]].forEach(([name,id])=>{
   const button=$(`#${id}`),selected=subject===name;
   button.classList.toggle("active",selected);
   button.setAttribute("aria-pressed",String(selected));
@@ -1957,6 +1993,7 @@ function syncCategoryLists(){
 buildCategoryList("mathCategory","mathCategoryList");
 buildCategoryList("scienceCategory","scienceCategoryList");
 buildCategoryList("codingCategory","codingCategoryList");
+buildCategoryList("historyCategory","historyCategoryList");
 function updateHomeSummary(){
  const entries=[["Math","homeMathCount","homeMathDone"],["Science","homeScienceCount","homeScienceDone"],["Coding","homeCodingCount","homeCodingDone"]];
  let total=0;
@@ -1973,12 +2010,12 @@ function updateHomeSummary(){
 }
 const originalRender=render;
 render=function(){originalRender();syncCategoryLists();updateHomeSummary();};
-$("#mathCategory").addEventListener("change",render);$("#scienceCategory").addEventListener("change",render);$("#codingCategory").addEventListener("change",render);
+$("#mathCategory").addEventListener("change",render);$("#scienceCategory").addEventListener("change",render);$("#codingCategory").addEventListener("change",render);$("#historyCategory").addEventListener("change",render);
 $("#difficultySwitch").addEventListener("click",event=>{const button=event.target.closest("button[data-difficulty]");if(!button)return;difficulty=button.dataset.difficulty;$("#difficultySwitch").querySelectorAll("button").forEach(item=>{const selected=item===button;item.classList.toggle("active",selected);item.setAttribute("aria-pressed",String(selected));});render();});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){close();closeProfile();}});
 render();
 document.querySelectorAll("[data-home-subject]").forEach(button=>button.addEventListener("click",()=>{
- const target=document.getElementById(button.dataset.homeSubject==="Math"?"sidebarMath":button.dataset.homeSubject==="Science"?"sidebarScience":"sidebarCoding");
+ const target=document.getElementById(button.dataset.homeSubject==="Math"?"sidebarMath":button.dataset.homeSubject==="Science"?"sidebarScience":button.dataset.homeSubject==="Coding"?"sidebarCoding":"sidebarHistory");
  if(target){target.click();document.getElementById("learn").scrollIntoView({behavior:"smooth",block:"start"});}
 }));
 if("IntersectionObserver" in window){const learnObserver=new IntersectionObserver(entries=>{document.body.classList.toggle("learning-active",entries.some(entry=>entry.isIntersecting));},{threshold:0.01});learnObserver.observe(document.getElementById("learn"));}
