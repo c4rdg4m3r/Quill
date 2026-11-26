@@ -607,9 +607,34 @@ body.dark .library-sidebar,body.dark .difficulty-switch{background:var(--paper)}
 body.dark .home-overview{background:var(--paper)}body.dark .home-subject-card,body.dark .home-stat,body.dark .home-how-grid>div{background:#1a211d}
 @media(max-width:800px){.home-subject-grid{grid-template-columns:1fr 1fr}.home-how-grid{grid-template-columns:1fr}.home-subject-card p{min-height:0}}
 @media(max-width:560px){.home-overview{padding:20px 15px}.home-stats{grid-template-columns:1fr}.home-subject-grid{grid-template-columns:1fr}.home-section-heading{align-items:start;flex-direction:column}.hero{grid-template-columns:1fr}.home-subject-card p{min-height:0}}
-/* Keep the full-height lesson rail out of the way while on the Home page. */
-.library-sidebar{visibility:hidden;transform:translateX(-105%);transition:transform .22s ease,visibility .22s ease}
-body.learning-active .library-sidebar{visibility:visible;transform:translateX(0)}
+/* The navigation rail stays visible across Home, lessons, and progress. */
+.library-sidebar{visibility:visible!important;transform:translateX(0)!important;}
+
+/* Persistent left rail and centered learning content */
+@media(min-width:651px){
+ .app>.wrap{max-width:none;width:calc(100% - 268px);margin:0 0 0 268px;padding:42px clamp(22px,3vw,48px) 80px;}
+ .topbar{padding-left:296px;padding-right:clamp(22px,3vw,48px);}
+ .learning-library{width:100%;margin-left:0;padding:0 24px;}
+ .library-top{margin-left:0;}
+ .library-layout{display:block!important;width:100%;}
+ .lesson-results{width:100%!important;max-width:1320px;margin:0 auto!important;padding:0 12px;}
+ .results-heading{max-width:100%;}
+ .grade-section{width:100%;}
+ .grade-section .grid{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));justify-items:center;}
+ .grade-section .card{width:100%;max-width:390px;}
+ #lessons>.grid{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));justify-items:center;}
+ #lessons>.grid>.card{width:100%;max-width:390px;}
+}
+@media(max-width:650px){
+ .app>.wrap{max-width:none;width:calc(100% - 204px);margin:0 0 0 204px;padding:26px 12px 60px;}
+ .topbar{padding-left:220px;padding-right:12px;}
+ .learning-library{width:100%;margin-left:0;padding:0 8px;}
+ .library-top{margin-left:0;}
+ .library-layout{display:block!important;width:100%;}
+ .lesson-results{width:100%!important;max-width:none;margin:0 auto!important;padding:0 4px;}
+ .grade-section .grid,#lessons>.grid{grid-template-columns:minmax(0,1fr);justify-items:center;}
+ .grade-section .card,#lessons>.grid>.card{width:100%;max-width:390px;}
+}
 </style>
 </head>
 <body>
