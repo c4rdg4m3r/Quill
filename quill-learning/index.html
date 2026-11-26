@@ -645,6 +645,20 @@ body.dark .home-overview{background:var(--paper)}body.dark .home-subject-card,bo
 @media(max-width:650px){
  .grade-section .card,#lessons>.grid>.card{max-width:none!important;width:100%!important;}
 }
+
+/* Sidebar text must remain white in every theme and interaction state. */
+.library-sidebar,
+.library-sidebar :is(.sidebar-label,.subject-choice,.subject-choice span,.category-group-label,.category-link,.category-link:hover,.category-link:focus,.category-link.active,.coding-hint,.sidebar-progress,.sidebar-progress span,.sidebar-progress strong,.sidebar-progress small,.sidebar-select,.sidebar-search){
+  color:#fff!important;
+}
+.library-sidebar .subject-choice.active,
+.library-sidebar .category-link,
+.library-sidebar .category-link:hover,
+.library-sidebar .category-link:focus,
+.library-sidebar .category-link.active{
+  color:#fff!important;
+}
+
 </style>
 </head>
 <body>
