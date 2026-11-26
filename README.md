@@ -2,27 +2,20 @@
 
 A calm, responsive learning website for mathematics and science across elementary, middle, and high school grades.
 
-## Deploy on Render
+## Website source
 
-The website is currently packaged in `quill-learning-website.zip`. Render extracts it during the build and publishes the `quill-learning/` folder.
+The complete static website lives in `quill-learning/`. The main page is `quill-learning/index.html`. Source files are edited directly in the repository; no ZIP extraction is needed.
 
-### Render settings
+## Render deployment
 
-- **Repository:** `c4rdg4m3r/Quill`
-- **Branch:** `main`
-- **Root Directory:** leave blank
-- **Build Command:** `unzip -o quill-learning-website.zip -d .`
-- **Publish Directory:** `quill-learning`
-
-The included `render.yaml` contains these settings for Render Blueprint deployments.
+The included `render.yaml` publishes `quill-learning/` as a static site. Connect this repository to Render using the `main` branch. Future pushes to `main` will redeploy automatically when the Render service is connected to this repository.
 
 ## Features
 
 - Math and science lessons for elementary, middle, and high school
-- Grade and subject filters
-- Lesson search
+- Grade and subject filters, plus lesson search
 - Short explanations and quick-check quizzes
-- Progress saved in the visitor's browser using local storage
-- Light and dark theme settings
+- Progress saved in the visitor's browser
+- Bottom-right settings control with persistent light and dark themes
 
-No environment variables or backend services are required. Progress and theme preference are stored separately in each visitor's browser.
+No backend or environment variables are required.
