@@ -711,6 +711,7 @@ body.dark .home-overview{background:var(--paper)}body.dark .home-subject-card,bo
     </div>
     <div class="library-layout">
       <aside class="library-sidebar" aria-label="Lesson categories">
+        <label class="sidebar-label search-label" for="search">SEARCH LESSONS</label><input class="search sidebar-search" id="search" placeholder="Search topics..." aria-label="Search lessons">
         <div class="sidebar-label">SUBJECT</div>
         <button type="button" class="subject-choice active" id="sidebarMath" data-subject="Math"><span>∑</span><span>Mathematics</span></button>
         <button type="button" class="subject-choice" id="sidebarScience" data-subject="Science"><span>⚛</span><span>Science</span></button>
@@ -754,7 +755,6 @@ body.dark .home-overview{background:var(--paper)}body.dark .home-subject-card,bo
         <div class="sidebar-divider"></div>
         <label class="sidebar-label" id="gradeLabel" for="grade">GRADE LEVEL</label>
         <select class="sidebar-select" id="grade"><option value="all">All grades</option><option value="1">1st Grade</option><option value="2">2nd Grade</option><option value="3">3rd Grade</option><option value="4">4th Grade</option><option value="5">5th Grade</option><option value="6">6th Grade</option><option value="7">7th Grade</option><option value="8">8th Grade</option><option value="9">9th Grade</option><option value="10">10th Grade</option><option value="11">11th Grade</option><option value="12">12th Grade</option></select>
-        <label class="sidebar-label search-label" for="search">SEARCH LESSONS</label><input class="search sidebar-search" id="search" placeholder="Search topics..." aria-label="Search lessons">
         <div class="sidebar-progress"><span>YOUR PROGRESS</span><strong id="sidebarProgressCount">0 / 0</strong><small>lessons completed</small></div>
       </aside>
       <div class="lesson-results">
