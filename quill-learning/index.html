@@ -236,21 +236,22 @@ body.dark .settings-button{border-color:var(--line)}
   </article>
 </div>
 <script>
+const safeStorage={getItem(key){try{return window.safeStorage.getItem(key)}catch(error){return null}},setItem(key,value){try{window.safeStorage.setItem(key,value);return true}catch(error){return false}},removeItem(key){try{window.safeStorage.removeItem(key)}catch(error){}}};
 const themeKey="quill-theme";
 function applyTheme(theme){
  document.body.classList.toggle("dark",theme==="dark");
- if(typeof applyAccent==="function")applyAccent(localStorage.getItem("quill-accent")||"#365b4a");
+ if(typeof applyAccent==="function")applyAccent(safeStorage.getItem("quill-accent")||"#365b4a");
  document.getElementById("themeColor").setAttribute("content",theme==="dark"?"#151a18":"#f5f7f4");
  document.getElementById("lightTheme").classList.toggle("active",theme!=="dark");
  document.getElementById("darkTheme").classList.toggle("active",theme==="dark");
  document.getElementById("lightCheck").textContent=theme!=="dark"?"✓":"";
  document.getElementById("darkCheck").textContent=theme==="dark"?"✓":"";
 }
-applyTheme(localStorage.getItem(themeKey)||"light");
+applyTheme(safeStorage.getItem(themeKey)||"light");
 const settingsPanel=document.getElementById("settingsPanel"),settingsButton=document.getElementById("settingsButton");
 settingsButton.addEventListener("click",()=>{const open=settingsPanel.classList.toggle("open");settingsButton.setAttribute("aria-expanded",String(open));});
-document.getElementById("lightTheme").addEventListener("click",()=>{localStorage.setItem(themeKey,"light");applyTheme("light");});
-document.getElementById("darkTheme").addEventListener("click",()=>{localStorage.setItem(themeKey,"dark");applyTheme("dark");});
+document.getElementById("lightTheme").addEventListener("click",()=>{safeStorage.setItem(themeKey,"light");applyTheme("light");});
+document.getElementById("darkTheme").addEventListener("click",()=>{safeStorage.setItem(themeKey,"dark");applyTheme("dark");});
 document.addEventListener("click",e=>{if(!e.target.closest(".settings-wrap")){settingsPanel.classList.remove("open");settingsButton.setAttribute("aria-expanded","false");}});
 
 const profileKeys={name:"quill-account-name",avatar:"quill-account-avatar",color:"quill-accent"};
@@ -279,34 +280,34 @@ function setAvatar(data){
  const nodes=[document.getElementById("profileAvatar"),document.getElementById("avatarPreview")];
  nodes.forEach(node=>{node.innerHTML="";if(data){const img=document.createElement("img");img.src=data;img.alt="Profile picture";node.appendChild(img);}else{node.textContent=(document.getElementById("accountName").value.trim()[0]||"L").toUpperCase();}});
 }
-const savedName=localStorage.getItem(profileKeys.name)||"Learner";
+const savedName=safeStorage.getItem(profileKeys.name)||"Learner";
 document.getElementById("accountName").value=savedName;
 document.getElementById("accountDisplayName").textContent=savedName;
-const savedAvatar=localStorage.getItem(profileKeys.avatar);
+const savedAvatar=safeStorage.getItem(profileKeys.avatar);
 if(savedAvatar)setAvatar(savedAvatar);else setAvatar("");
-const savedColor=localStorage.getItem(profileKeys.color)||palettes.sage.deep;
+const savedColor=safeStorage.getItem(profileKeys.color)||palettes.sage.deep;
 applyAccent(savedColor);
 document.getElementById("accountName").addEventListener("input",e=>{
  const name=e.target.value.trim()||"Learner";
- localStorage.setItem(profileKeys.name,name);
+ safeStorage.setItem(profileKeys.name,name);
  document.getElementById("accountDisplayName").textContent=name;
- if(!localStorage.getItem(profileKeys.avatar))setAvatar("");
+ if(!safeStorage.getItem(profileKeys.avatar))setAvatar("");
 });
 document.getElementById("avatarUpload").addEventListener("change",e=>{
  const file=e.target.files?.[0];if(!file)return;
  if(!file.type.startsWith("image/")){alert("Please choose an image file.");e.target.value="";return;}
  if(file.size>3*1024*1024){alert("Please choose an image smaller than 3 MB.");e.target.value="";return;}
  const reader=new FileReader();
- reader.onload=()=>{try{localStorage.setItem(profileKeys.avatar,reader.result);setAvatar(reader.result);}catch(err){alert("This image could not be saved. Try a smaller image.");}};
+ reader.onload=()=>{try{safeStorage.setItem(profileKeys.avatar,reader.result);setAvatar(reader.result);}catch(err){alert("This image could not be saved. Try a smaller image.");}};
  reader.readAsDataURL(file);
 });
 document.querySelectorAll(".color-swatch").forEach(button=>button.addEventListener("click",()=>{
- const color=palettes[button.dataset.color].deep;localStorage.setItem(profileKeys.color,color);applyAccent(color);
+ const color=palettes[button.dataset.color].deep;safeStorage.setItem(profileKeys.color,color);applyAccent(color);
 }));
-document.getElementById("customAccent").addEventListener("input",e=>{localStorage.setItem(profileKeys.color,e.target.value);applyAccent(e.target.value);});
+document.getElementById("customAccent").addEventListener("input",e=>{safeStorage.setItem(profileKeys.color,e.target.value);applyAccent(e.target.value);});
 document.getElementById("settingsClose").addEventListener("click",()=>{settingsPanel.classList.remove("open");settingsButton.setAttribute("aria-expanded","false");});
 document.getElementById("resetSettings").addEventListener("click",()=>{
- localStorage.removeItem(profileKeys.name);localStorage.removeItem(profileKeys.avatar);localStorage.removeItem(profileKeys.color);
+ safeStorage.removeItem(profileKeys.name);safeStorage.removeItem(profileKeys.avatar);safeStorage.removeItem(profileKeys.color);
  document.getElementById("accountName").value="Learner";document.getElementById("accountDisplayName").textContent="Learner";
  document.getElementById("avatarUpload").value="";setAvatar("");applyAccent(palettes.sage.deep);
 });
@@ -331,13 +332,13 @@ const lessons = [
 ];
 let subject="all",active=null,testAnswers={};
 const $=s=>document.querySelector(s);
-const done=new Set(JSON.parse(localStorage.getItem("stillroom-done")||"[]"));
+let savedDone=[];try{const parsedDone=JSON.parse(safeStorage.getItem("stillroom-done")||"[]");if(Array.isArray(parsedDone))savedDone=parsedDone;}catch(error){}const done=new Set(savedDone);
 function render(){
  const grade=$("#grade").value,term=$("#search").value.toLowerCase();
  const list=lessons.filter(l=>(subject==="all"||l.subject===subject)&&(grade==="all"||l.grade===grade)&&(`${l.title} ${l.desc} ${l.subject} ${l.level}`).toLowerCase().includes(term));
  $("#lessons").innerHTML=list.length?list.map(l=>`<article class="card"><div class="card-top"><div class="subject-icon ${l.subject.toLowerCase()}">${l.subject==="Math"?"∑":"☘"}</div><span class="level">${l.level}</span></div><h3>${l.title}</h3><p>${l.desc}</p><div class="card-foot"><span>${l.subject} · ${l.time}${done.has(l.id)?" · ✓ Completed":""}</span><button class="open" data-id="${l.id}">${done.has(l.id)?"Review":"Start lesson"} →</button></div></article>`).join(""):`<div class="empty">No lessons match those filters. Try another grade or search term.</div>`;
  $("#progressCount").textContent=`${done.size} / ${lessons.length}`;
- document.querySelectorAll(".open").forEach(b=>b.addEventListener("click",()=>openLesson(+b.dataset.id)));
+
 }
 const tests = {
 1:[["A fraction has a denominator of 8. What does the 8 tell you? ",["How many parts are being counted","How many equal parts make the whole","How many wholes there are"],1],["Which fraction is equivalent to 1/2?",["2/4","1/3","3/5"],0],["A chocolate bar has 6 equal pieces. You eat 2. What fraction did you eat?",["2/6","6/2","2/3"],0]],
@@ -356,6 +357,7 @@ const tests = {
 14:[["What unit measures electric current?",["Volts","Amperes","Ohms"],1],["Using V = I × R, what is V if I = 2 A and R = 5 Ω?",["2 V","7 V","10 V"],2],["What happens in an open circuit?",["The path is broken","Current always doubles","Resistance becomes zero"],0]],
 15:[["What does climate describe?",["Weather at one instant","Long-term weather patterns","Only today's wind"],1],["Which type of energy does Earth's surface emit?",["Infrared radiation","Sound waves","Visible light only"],0],["Which is a greenhouse gas?",["Carbon dioxide","Argon only","Helium"],0]]
 };
+$("#lessons").addEventListener("click",event=>{const button=event.target.closest("button[data-id]");if(button)openLesson(Number(button.dataset.id));});
 function showLearningStage(){ $("#learningStage").hidden=false;$("#testStage").hidden=true;$("#lessonStepLabel").textContent="LEARN";$("#lessonStepCount").textContent="Part 1 of 2"; }
 function showTestStage(){ $("#submitTest").disabled=false;$("#submitTest").textContent="Submit test";$("#learningStage").hidden=true;$("#testStage").hidden=false;$("#lessonStepLabel").textContent="TEST";$("#lessonStepCount").textContent="Part 2 of 2";$("#testResult").hidden=true;$("#submitTest").hidden=false;$("#testQuestions").innerHTML=tests[active.id].map((q,i)=>`<div class="test-question"><h4>${i+1}. ${q[0]}</h4>${q[1].map((a,j)=>`<button class="test-option ${testAnswers[i]===j?"selected":""}" data-q="${i}" data-a="${j}" type="button">${String.fromCharCode(65+j)}. ${a}</button>`).join("")}</div>`).join("");document.querySelectorAll(".test-option").forEach(b=>b.addEventListener("click",()=>{testAnswers[+b.dataset.q]=+b.dataset.a;showTestStage();}));}
 function openLesson(id){
@@ -369,7 +371,7 @@ $("#submitTest").addEventListener("click",()=>{
  const bank=tests[active.id],score=bank.filter((q,i)=>testAnswers[i]===q[2]).length;
  const passed=score>=2;
  $("#testResult").hidden=false;$("#testResult").innerHTML=`<strong>${score} / 3 correct</strong><p>${passed?"You passed! This lesson has been added to your completed lessons.":"Not quite yet. Review the lesson and try the test again — you need 2 out of 3 correct."}</p>`;
- if(passed){done.add(active.id);localStorage.setItem("stillroom-done",JSON.stringify([...done]));render();}
+ if(passed){done.add(active.id);safeStorage.setItem("stillroom-done",JSON.stringify([...done]));render();}
  $("#submitTest").textContent=passed?"Lesson completed ✓":"Try again";
  if(passed)$("#submitTest").disabled=true;
 });
