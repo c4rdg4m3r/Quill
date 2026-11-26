@@ -817,6 +817,22 @@ body.dark .card .subject-icon,body.dark .card .level{
 #home .hero-art .art-orbit{border-color:color-mix(in srgb,var(--accent) 70%,transparent)!important}
 #home .hero-art .art-orbit.orbit-two{border-color:color-mix(in srgb,#fff 70%,transparent)!important}
 
+
+/* Keep lesson grade labels readable against every user-selected accent. */
+#lessons .card .level{
+ color:var(--ink)!important;
+ background:color-mix(in srgb,var(--accent) 18%,var(--paper))!important;
+ border:1px solid color-mix(in srgb,var(--accent) 32%,var(--line))!important;
+ font-weight:700!important;
+ opacity:1!important;
+ text-shadow:none!important;
+}
+body.dark #lessons .card .level{
+ color:#fff!important;
+ background:color-mix(in srgb,var(--accent) 34%,#202724)!important;
+ border-color:color-mix(in srgb,var(--accent) 58%,#46534b)!important;
+}
+
 </style>
 </head>
 <body>
