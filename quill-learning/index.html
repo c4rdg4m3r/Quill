@@ -582,6 +582,21 @@ body.dark .library-sidebar,body.dark .difficulty-switch{background:var(--paper)}
 .category-list{max-height:none;overflow:visible;padding:0;}
 @media(max-width:900px){.library-layout{grid-template-columns:235px minmax(0,1fr);gap:18px;}}
 @media(max-width:650px){.learning-library{width:100%;margin-left:0;padding:0;}.library-layout{grid-template-columns:1fr;}.library-sidebar{position:static;max-height:none;overflow:visible;}.category-list{max-height:300px;overflow-y:auto;}}
+
+/* Full-height lesson navigation: fixed from the top to the bottom of the viewport. */
+@media(min-width:0px){
+  .learning-library{width:100%;margin-left:0;padding:0 28px 0 0;}
+  .library-top{margin-left:296px;}
+  .library-layout{display:block!important;width:100%;}
+  .library-sidebar{position:fixed!important;left:0!important;top:0!important;bottom:0!important;width:268px!important;max-height:none!important;height:100vh!important;overflow-y:auto!important;overscroll-behavior:contain;align-self:stretch;z-index:1000;border-radius:0 18px 18px 0!important;border-left:0!important;border-top:0!important;border-bottom:0!important;padding:26px 18px 30px!important;box-shadow:5px 0 22px rgba(0,0,0,.09)!important;}
+  .lesson-results{margin-left:296px!important;width:calc(100% - 296px)!important;min-width:0;}
+}
+@media(max-width:650px){
+  .learning-library{width:100%;margin-left:0;padding:0 12px 0 0;}
+  .library-top{margin-left:224px;}
+  .library-sidebar{width:204px!important;padding:18px 12px 24px!important;}
+  .lesson-results{margin-left:220px!important;width:calc(100% - 220px)!important;}
+}
 </style>
 </head>
 <body>
@@ -1619,9 +1634,15 @@ function buildCategoryList(selectId,listId){
  });
 }
 function syncCategoryLists(){
- [["mathCategory","mathCategoryList"],["scienceCategory","scienceCategoryList"]].forEach(([selectId,listId])=>{
+ [["mathCategory","mathCategoryList"],["scienceCategory","scienceCategoryList"],["codingCategory","codingCategoryList"]].forEach(([selectId,listId])=>{
   const select=$(`#${selectId}`),list=$(`#${listId}`);
+  if(!select||!list)return;
   list.querySelectorAll(".category-link").forEach(button=>{const selected=button.dataset.value===select.value;button.classList.toggle("active",selected);button.setAttribute("aria-pressed",String(selected));});
+ });
+ [["Math","sidebarMath"],["Science","sidebarScience"],["Coding","sidebarCoding"]].forEach(([name,id])=>{
+  const button=$(`#${id}`),selected=subject===name;
+  button.classList.toggle("active",selected);
+  button.setAttribute("aria-pressed",String(selected));
  });
 }
 buildCategoryList("mathCategory","mathCategoryList");
